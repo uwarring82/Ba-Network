@@ -140,7 +140,6 @@ This work addresses the critical challenge of atmospheric phase noise in quantum
 2. **Environmental bookkeeping** provides deterministic phase noise suppression
 3. **Multi-timescale optimization** enables both quantum memory and gate operations
 
-```
 
 ## 📜 License
 
