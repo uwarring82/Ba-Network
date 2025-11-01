@@ -140,35 +140,14 @@ This work addresses the critical challenge of atmospheric phase noise in quantum
 2. **Environmental bookkeeping** provides deterministic phase noise suppression
 3. **Multi-timescale optimization** enables both quantum memory and gate operations
 
-## 📄 Citation
-
-If you use this code or data in your research, please cite:
-
-```bibtex
-@article{wu2025atmospheric,
-  title={Atmospheric Metrology for Quantum Networks},
-  author={Wu, Wei and Schätz, Tobias and Warring, Ulrich},
-  journal={Physical Review A},
-  year={2025},
-  doi={10.1103/PhysRevA.XXX}
-}
 ```
 
 ## 📜 License
 
 This project is dual-licensed under:
 
-- **Code**: MIT License - See [LICENSE-CODE](LICENSE-CODE) for details
-- **Data**: Creative Commons Attribution 4.0 International (CC BY 4.0) - See [LICENSE-DATA](LICENSE-DATA) for details
-
-## 🤝 Contributing
-
-We welcome contributions! Please feel free to submit issues, fork the repository, and create pull requests for any improvements.
-
-## 📞 Contact
-
-- **Wei Wu**: wei.wu@physik.uni-freiburg.de
-- **Project Website**: [Quantum Metrology Group](https://www.quantum.uni-freiburg.de)
+- **Code**: MIT License - See [LICENSE-CODE](LICENSE) for details
+- **Data**: Creative Commons Attribution 4.0 International (CC BY 4.0) - See [LICENSE-DATA](LICENSE-CC-BY-4.0.txt) for details
 
 ## 🔗 Related Resources
 
