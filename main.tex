@@ -30,7 +30,7 @@ Quantum networks utilizing atomic transitions, such as the \SI{1762}{\nano\meter
 %% if we want to sell this paper in a higher level, the real-time compensation is very necessary to check, otherwise it might leave readers a impression of overselling...
 \end{abstract}
 
-\pacs{42.50.-p, 42.25.Bs, 07.60.Ly, 03.67.Hk}
+% \pacs{42.50.-p, 42.25.Bs, 07.60.Ly, 03.67.Hk}
 
 \maketitle
 
@@ -40,7 +40,7 @@ Realizing scalable quantum networks represents a critical milestone for secure q
 
 Existing atmospheric refractivity models, while well-characterized for telecommunications wavelengths \cite{ciddor1996refractive, mathar2007refractive}, provide only extrapolated estimates at quantum-critical wavelengths like \SI{1762}{\nano\meter}. Particularly near water vapor absorption features, standard models may significantly underestimate humidity sensitivity due to unaccounted dispersion effects \cite{ptashnik2012water,kochanov2016hitran,gordon2022hitran2020}. This wavelength-specific uncertainty directly impacts the feasibility of environmental compensation strategies for quantum networking.
 
-Here, we demonstrate that precision metrology enables effective suppression of atmospheric phase noise through physical-model-based compensation. Using quantum-referenced interferometry traceable to a single trapped ion, we establish the definitive refractive index coefficients for air at \SI{1762}{\nano\meter} with part-per-billion precision. Our results reveal a systematic enhancement in humidity sensitivity attributable to Kramers-Kronig dispersion near water vapor resonances.
+Here, we demonstrate that precision metrology enables effective suppression of atmospheric phase noise through physical-model-based compensation. Using quantum-referenced interferometry traceable to a single trapped ion, we establish the definitive refractive index coefficients for air at \SI{1762}{\nano\meter} with part-per-billion precision. Our results reveal a systematic enhancement in humidity sensitivity attributable to Kramers-Kronig dispersion near water vapor resonances\cite{kramers1928diffusion}.
 
 Applying these experimentally determined coefficients to independent field data, we achieve \SI{80.97}{\percent} phase noise reduction over 15-day datasets and identify distinct suppression regimes optimized for quantum memory and gate operations, which provides the essential transfer function between environmental parameters and quantum phase stability, establishing environmental bookkeeping as a viable strategy for robust quantum network operation \cite{predehl2012920}.
 
@@ -51,7 +51,7 @@ The compensation approach presented herein utilizes offline feed-forward subtrac
 \includegraphics[width=0.45\textwidth]{figures/fig1_nc.eps}
 \caption{
 Quantum-traceable metrology architecture for precision refractometry at the \SI{1762}{\nano\meter} barium-ion transition wavelength. 
-\textbf{(Blue)} Laboratory-based quantum references: a GPS-disciplined oscillator provides a universal timebase, a single trapped Ba$^+$ ion stabilizes the \SI{1762}{\nano\meter} probe laser, and a Rb reference stabilizes the \SI{780}{\nano\meter} reference laser. 
+\textbf{(Blue)} Laboratory-based quantum references: a GPS-disciplined oscillator provides a universal \SI{10}{\mega\hertz} timebase, a single trapped $^{138}$Ba$^+$ ion stabilizes the \SI{1762}{\nano\meter} probe laser, and a $^{87}$Rb reference stabilizes the \SI{780}{\nano\meter} reference laser, with systematic uncertainties at the levels of $10^{-13}$ and $10^{-10}$, respectively. 
 \textbf{(Red)} Field-deployable sensor node: a dual-wavelength interferometer with co-located environmental sensors ($T$, $H$, $P$) measures refractive index changes under realistic outdoor conditions. 
 \textbf{(Yellow)} Central analysis unit: processes the validation dataset to establish precise environmental-phase relationships. 
 This integrated system bridges quantum-grade stability and field deployment, enabling the part-per-billion precision ($\delta n \sim 1 \times 10^{-9}$) demonstrated in this work.
@@ -232,7 +232,7 @@ Mathar \cite{mathar2007refractive} & $-1.653 \times 10^{-8}$ & $\SI{-1.27e-9}{}$
 
 \begin{figure*}
 \centering
-\includegraphics[width=0.9\textwidth]{figures/combined_figure.png}
+\includegraphics[width=0.8\textwidth]{figures/combined_figure.png}
 \caption{
 Multi-scale phase noise characterization and suppression efficacy for quantum applications. 
 \textbf{(a)} Long-term (\SI{15}{\day}) phase stability using the full validation dataset: time-domain performance showing environmental noise mitigation, with gray shaded region indicating the fault-tolerant threshold. 
