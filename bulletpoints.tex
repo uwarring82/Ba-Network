@@ -18,8 +18,8 @@
 
 \subsection{Innovation Rationale}
 \begin{itemize}
-    \item \textbf{Core Concept}: Quantum-network-compatible atmospheric monitoring requires unprecedented refractive index precision ($\delta n \sim 10^{-9}$) at quantum-critical wavelengths
-    \item \textbf{Technical Innovation}: Modified NIST LM10 design optimized for:
+    \item \textbf{Core Concept}: Quantum-network-compatible atmospheric monitoring requires high refractive index precision ($\delta n \sim 10^{-9}$) at quantum-critical wavelengths
+    \item \textbf{Technical Innovation}: Modified NIST LM10 design \cite{fox1999reliable} optimized for:
     \begin{itemize}
         \item Dual-wavelength operation
         \item Metropolitan-scale optical path difference
@@ -40,16 +40,14 @@
 
 \section{Experimental Setup}
 
+% proper references, more descriptive details of your setup and chose methods, and try again a new draft for figure three that illustrates important analysis details and results.
+
 \subsection{Interferometer System}
 \begin{itemize}
     \item \textbf{Core Design}: Dual-wavelength Michelson interferometer
     \item \textbf{Optical Path Difference}: \SI{4.2}{\meter} (representative of metropolitan-scale quantum links)
     \item \textbf{Vibration Isolation}: Air-floated mirror stage (\SI{120}{\centi\meter} travel) minimizes vibrational noise
-    \item \textbf{Detection System}: 
-    \begin{itemize}
-        \item Si photodiode for \SI{780}{\nano\meter} reference beam
-        \item InGaAs photodiode for \SI{1762}{\nano\meter} probe beam
-    \end{itemize}
+    \item \textbf{Detection System}: Si photodiode for \SI{780}{\nano\meter} and InGaAs photodiode for \SI{1762}{\nano\meter}
     \item \textbf{Electronics}: Hewlett Packard 53131A frequency counter, two channels, 10 digits/s resolution, \SI{225}{\mega\hertz} bandwidth
 \end{itemize}
 
@@ -60,7 +58,7 @@
     \item Stabilized via saturation absorption spectroscopy on the $5S_{1/2} \rightarrow 5P_{3/2}$ transition of $^{87}\text{Rb}$
     \item \textbf{Uncertainty \& Stability Analysis:}
     \begin{itemize}
-        \item Frequency stability: \SI{\sim100}{\kilo\hertz} linewidth (homodyne measurement)
+        \item Frequency stability: \SI{\sim100}{\kilo\hertz} linewidth (homodyne measurement\cite{ludvigsen1998laser})
         \item Short-term (10 s): contributes $\delta n \sim 10^{-10}$ to refractive index uncertainty
         \item Medium-term (10 hours): potential slow drift contributes $\delta n \sim 10^{-9}$ (measured with Highfinesse wavemeter)
         \item Long-term (10 days): negligible with periodic recalibration
@@ -69,7 +67,7 @@
 
 \subsubsection{Ba$^+$ Laser (\SI{1762}{\nano\meter} Probe)}
 \begin{itemize}
-    \item Primary reference: single trapped $^{138}\text{Ba}^+$ ion, stabilized to the $6S_{1/2} \rightarrow 5D_{5/2}$ electric quadrupole transition
+    \item Primary reference: single trapped $^{138}\text{Ba}^+$ ion in Paul trap with Doppler cooling, stabilized to the $6S_{1/2} \rightarrow 5D_{5/2}$ electric quadrupole transition
     \item Short-term stability provided by a ULE cavity; systematic uncertainties $<$ \num{1e-13}
     \item \textbf{Uncertainty \& Stability Analysis:}
     \begin{itemize}
@@ -107,7 +105,7 @@
         \item Allan deviation: \SI{2.03e-11} (10 s), \SI{3.09e-12} (100 s), \SI{8.69e-13} (1000 s), \SI{7.81e-13} (10000 s)
         \item Short-term (10 s): contributes $\delta n \sim 10^{-11}$ (negligible)
         \item Medium/Long-term: contributes $\delta n \sim 10^{-13}$ (negligible)
-        \item Excellent long-term stability enables precise time-series correlation
+        \item Good long-term stability enables precise time-series correlation
     \end{itemize}
 \end{itemize}
 
@@ -145,8 +143,8 @@
 
 \subsubsection{Calculation Method}
 \begin{itemize}
-    \item $$n_{1762} = \frac{n_{780}}{\text{Ratio}} \frac{f_{780}}{f_{1762}}$$, where Ratio = $N_{780}/N_{1762}$ (fringe counts ratio)
-    \item $n_{780}$ computed from environmental parameters using Ciddor equation
+    \item $$n_{1762} = \frac{n_{780}(T,H,P)}{\text{Ratio}} \frac{f_{780}}{f_{1762}}$$, where Ratio = $N_{780}/N_{1762}$ (fringe counts ratio)
+    \item $n_{780}$ computed from environmental parameters using Ciddor equation \cite{ciddor1996refractive}
 \end{itemize}
 
 \subsubsection{Regression Analysis}
@@ -158,7 +156,7 @@
 
 \subsubsection{Statistical Validation}
 \begin{itemize}
-    \item HAC (Heteroskedasticity and Autocorrelation Consistent) standard errors applied (lag = \numrange{18}{37})
+    \item HAC (Heteroskedasticity and Autocorrelation Consistent)\cite{andrews1991heteroskedasticity} standard errors applied (lag = \numrange{18}{37})
     \item Block bootstrap validation (\num{2000} samples, block length = \num{58}) confirmed robustness
     \item Residual diagnostics: Durbin-Watson = \num{1.130}, Breusch-Godfrey LM = \num{29734.5} ($p < \num{0.001}$)
 \end{itemize}
@@ -183,15 +181,15 @@
 \subsubsection{Experimental vs. Theoretical Models}
 \begin{itemize}
     \item Measured $\partial n/\partial H = \SI{-1.780e-8}{\per\percent}$
-    \item Ciddor: \SI{-1.537e-8}{\per\percent} (\SI{+15.8}{\percent} discrepancy)
-    \item Edlén: \SI{-1.526e-8}{\per\percent} (\SI{+16.6}{\percent} discrepancy)
-    \item Mathar: \SI{-1.653e-8}{\per\percent} (\SI{+7.7}{\percent} discrepancy)
+    \item Ciddor\cite{ciddor1996refractive}: \SI{-1.537e-8}{\per\percent} (\SI{+15.8}{\percent} difference)
+    \item Edlén\cite{edlen1966refractive}: \SI{-1.526e-8}{\per\percent} (\SI{+16.6}{\percent} difference)
+    \item Mathar\cite{mathar2007refractive}: \SI{-1.653e-8}{\per\percent} (\SI{+7.7}{\percent} difference)
 \end{itemize}
 
 \subsubsection{Physical Mechanism}
 \begin{itemize}
-    \item Proximity to H$_2$O absorption lines at \SI{1761.0405}{\nano\meter} and \SI{1762.4852}{\nano\meter}
-    \item Kramers-Kronig dispersion calculation: predicts \SI{+15.3}{\percent} enhancement over Ciddor
+    \item Proximity to H$_2$O absorption lines at \SI{1761.0405}{\nano\meter} and \SI{1762.4852}{\nano\meter} \cite{kochanov2016hitran}
+    \item Kramers-Kronig dispersion calculation\cite{perakis2016vibrational}: predicts \SI{+15.3}{\percent} enhancement over Ciddor model
     \item Theoretical $\alpha_H^{\text{theory}} = \SI{-1.772e-8}{\per\percent}$ (within \SI{0.5}{\percent} of experiment)
 \end{itemize}
 
@@ -202,7 +200,7 @@
     \item Phase noise reduction: \SI{80.97}{\percent}
     \item Phase standard deviation: \SI{17.938}{\radian} → \SI{3.414}{\radian} (\num{5.3}× improvement)
     \item Autocorrelation time: \SI{5668}{\second} → \SI{302}{\second}
-    \item QEC threshold compliance: \SI{1.2}{\percent} → \SI{9.7}{\percent} of operational time
+    \item QEC threshold \cite{preskill1998reliable,fowler2012surface, terhal2015quantum} compliance: \SI{1.2}{\percent} → \SI{9.7}{\percent} of operational time
 \end{itemize}
 
 \subsubsection{Short-term Performance (\SI{12}{\hour})}
@@ -240,13 +238,32 @@ GPS Timing & \num{e-11} & \num{e-13} & \num{e-13} \\
 \end{tabular}
 \end{table}
 
+\begin{table}[ht]
+\centering
+\caption{Uncertainty budget for refractive index measurement}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Uncertainty source} & \textbf{Affected Parameter} & \textbf{Magnitude} & \textbf{Method} \\
+\midrule
+Finite sample \& serial correlation & All coefficients & \num{5.71e-10} & HAC \& Bootstrap \\
+Temperature calibration & $\alpha_{T}$ & \num{1.77e-10} & EIV Monte Carlo \\
+Humidity calibration & $\alpha_{H}$ & \num{1.81e-10} & EIV Monte Carlo \\
+Pressure calibration & $\alpha_{P}$ & \num{1.10e-12} & EIV Monte Carlo \\
+\SI{780}{\nano\meter} Frequency & $\lambda_{780}$ & \num{2.60e-9} & Analytical \\
+\SI{1762}{\nano\meter} Frequency & $\lambda_{1762}$ & \num{5.87e-13} & Analytical \\
+Ciddor equation & $n_{780}$ & \num{5.00e-8} & Literature \\
+Spatial / temporal mismatch & Residual variance & \num{2.11e-7} & Residual analysis \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \subsection{Key Findings and Recommendations}
 \begin{itemize}
     \item The BME280 environmental sensor uncertainty (\num{2.12e-7}) dominates the refractive index error budget across all time scales
     \item $^{138}\text{Ba}^+$ laser stability ($<$\SI{1}{\kilo\hertz}) enables the demonstrated \num{1.2e-9} residual precision
-    \item GPS timing stability provides excellent long-term synchronization with negligible impact
-    \item \textbf{Improvement Pathway}: Focus on higher-precision environmental sensors to reduce the dominant error source to $10^{-8}$ level
-    \item \textbf{Quantum Network Readiness}: System demonstrates sufficient stability for metropolitan-scale quantum communication applications
+    \item GPS timing stability provides good long-term synchronization with negligible impact
+    \item Improvement Pathway: Focus on higher-precision environmental sensors to reduce the dominant error source to $10^{-8}$ level
+    \item Quantum Network Readiness: System shows sufficient stability for metropolitan-scale quantum communication applications
 \end{itemize}
 
 % Figures section remains unchanged from your original document
@@ -255,7 +272,8 @@ GPS Timing & \num{e-11} & \num{e-13} & \num{e-13} \\
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.8\textwidth]{figures/fig1_nc.eps}
+\includegraphics[width=0.8\textwidth]{figures/figure1_without_spectroscopy.eps}
+% \includegraphics[width=0.8\textwidth]{figures/fig1_nc.eps}
 \caption{
 Quantum-traceable metrology architecture for precision refractometry at the \SI{1762}{\nano\meter} barium-ion transition wavelength. 
 \textbf{(Blue)} Laboratory-based quantum references: a GPS-disciplined oscillator provides a universal timebase, a single trapped Ba$^+$ ion stabilizes the \SI{1762}{\nano\meter} probe laser, and a Rb reference stabilizes the \SI{780}{\nano\meter} reference laser. 
@@ -269,31 +287,28 @@ This integrated system bridges quantum-grade stability and field deployment, ena
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.8\textwidth]{figures/fig2_new.pdf}
-\caption{
-Environmental dynamics and their correlations with refractive index at \SI{1762}{\nano\meter}, illustrated using a \SI{14}{\hour} subset of the training dataset.
-\textbf{(a--c)} Synchronous \SI{14}{\hour} time-series measurements from the training dataset of atmospheric temperature (\SIrange{33}{34.5}{\celsius}), relative humidity (\SIrange{26}{31}{\percent}), and pressure (\SIrange{982}{986}{\hecto\pascal}) from the training dataset.
-\textbf{(d)} Corresponding refractive index variations measured at \SI{1762}{\nano\meter}, expressed as $(n-1.0002)\times 10^{5}$, showing coherent temporal dynamics with environmental parameters.
-\textbf{(e--g)} Quantitative correlation analysis between each environmental parameter and the resulting refractive index change. Phase noise exhibits a strong linear dependence on temperature ($R^{2} = 0.828$) and pressure ($R^{2} = 0.751$). The humidity-phase relationship, however, displays a characteristic non-linear pattern, deviating significantly from simple linear modeling.
-\textbf{(h)} Self-correlation analysis of refractive index measurements, confirming measurement consistency ($R^{2} = 1.000$) and providing a validation baseline for environmental correlation studies.}
+\caption{\textbf{Raw data segments for refractive index model analysis and their distinct correlations with measured refractive index values at \SI{1762}{\nano\meter}.}
+\textbf{(a--d)} Synchronous \SI{14}{\hour} time-series measurements from the training dataset of the counts ratio of the interference patterns, atmospheric temperature (\SIrange{30.5}{31.7}{\celsius}), relative humidity (\SIrange{25}{28}{\percent}), and pressure (\SIrange{987}{990}{\hecto\pascal}) from the training dataset.
+}
 \label{fig:environmental_dynamics}
 \end{figure}
 
-
-
-
-\includegraphics[width=0.8\textwidth]{figures/fig2_alt.pdf}
-
-
-{Alternatively, figure 2 only concludes the raw data, but here it's bringing new difficulty to describe the linear relationship with the ambient parameters.}
-
-
+% \begin{figure}[ht]
+% \centering
+% \includegraphics[width=0.8\textwidth]{figures/fig3_humidity_discrepancy.pdf}
+% \caption{
+% Systematic discrepancy in humidity sensitivity and its physical origin at \SI{1762}{\nano\meter}.
+% \textbf{(a)} Comparison of the experimentally derived humidity sensitivity coefficient with predictions from established empirical models. A significant enhancement is identified, while excellent agreement ($<\SI{1}{\percent}$ deviation) is found for temperature and pressure coefficients.
+% \textbf{(b)} Spectral analysis showing water vapor absorption features in the vicinity of the quantum-critical wavelength. The \SI{1762}{\nano\meter} transition lies between two strong absorption peaks at \SI{1761.0405}{\nano\meter} and \SI{1762.4852}{\nano\meter}, creating ideal conditions for Kramers-Kronig enhanced dispersion. Our first-principles calculation, performed over the full spectral range from \SI{1}{\micro\meter} to \SI{50}{\micro\meter}, explains the observed \SI{15.3}{\percent} increase in humidity sensitivity compared to the Ciddor model, or other standard atmospheric models.
+% }
+% \label{fig:humidity_discrepancy}
+% \end{figure}
+\newpage
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.8\textwidth]{figures/fig3_humidity_discrepancy.pdf}
+\includegraphics[width=0.8\textwidth]{figures/figure3_deviation.pdf}
 \caption{
-Systematic discrepancy in humidity sensitivity and its physical origin at \SI{1762}{\nano\meter}.
-\textbf{(a)} Comparison of the experimentally derived humidity sensitivity coefficient with predictions from established empirical models. A significant enhancement is identified, while excellent agreement ($<\SI{1}{\percent}$ deviation) is found for temperature and pressure coefficients.
-\textbf{(b)} Spectral analysis showing water vapor absorption features in the vicinity of the quantum-critical wavelength. The \SI{1762}{\nano\meter} transition lies between two strong absorption peaks at \SI{1761.0405}{\nano\meter} and \SI{1762.4852}{\nano\meter}, creating ideal conditions for Kramers-Kronig enhanced dispersion. Our first-principles calculation, performed over the full spectral range from \SI{1}{\micro\meter} to \SI{50}{\micro\meter}, explains the observed \SI{15.3}{\percent} increase in humidity sensitivity compared to the Ciddor model, or other standard atmospheric models.
+\textbf{Comparison of refractive index predictions between our empirical model and the Mathar standard model.} Main panel: Measured versus predicted refractive indices at \SI{1762}{\nano\meter}. Our model (red hexbin density plot) shows closer alignment with the perfect prediction line (gold dashed) compared to the Mathar model (black scatter points, 1000-point random subsample). The color intensity in the hexbin represents data density. (a) Left inset: Residual distribution for our model, showing errors centered near zero. (b) Right inset: Residual distribution for the Mathar model, exhibiting systematic bias and broader spread. The \SI{15.3}{\percent} enhanced humidity sensitivity identified in our analysis accounts for the observed discrepancy. Standard models (Ciddor, Edlén) are not shown as their valid wavelength range ends at \SI{1760}{\nano\meter}, below our measurement wavelength.
 }
 \label{fig:humidity_discrepancy}
 \end{figure}
@@ -313,5 +328,77 @@ Key performance metrics: Long-term noise reduction of \SI{80.97}{\percent} ($\si
 }
 \label{fig:timeseries_comparison}
 \end{figure}
+
+\newpage
+
+\section{Statistical Methodology and Detailed Results}
+\subsection{Regression Framework and Model Specification}
+
+The core statistical analysis employed a multivariate linear regression model to quantify the relationship between refractive index $n$ and environmental parameters:
+\begin{equation}
+    n=\alpha_{0}+\alpha_{T}T+\alpha_{H}H+\alpha_{P}P
+\end{equation}
+
+The ordinary least squares (OLS) regression achieved exceptional fit quality:
+
+\begin{itemize}
+    \item Coefficient of determination: $R^{2}$ = \num{0.996}
+    \item Adjusted $R^{2}$ = \num{0.996}
+    \item F-statistic: \num{7.530e6} (p$<$\num{0.001})
+    \item Residual standard error: $\sigma_{n}$ = \num{1.2e-9}
+\end{itemize}
+
+\subsection{Comprehensive Uncertainty Budget}
+
+\subsection{Regression Coefficient Estimates}
+
+\subsection{Diagnostic Test Results}
+\subsubsection{Autocorrelation Analysis}
+The Durbin-Watson statistic of \num{1.130} (p $<$ 0.001) indicated significant positive serial correlation, necessitating the use of HAC standard errors. The Breusch-Godfrey test confirmed this finding (LM = \num{29734.478}, p $<$ 0.001).
+
+\subsubsection{Heteroscedasticity Testing}
+The Breusch-Pagan test revealed significant heteroscedasticity (LM = \num{6252.781}, p $<$ 0.001), further justifying the use of robust variance estimation.
+
+\subsubsection{Multicollinearity Assessment}
+Variance Inflation Factors (VIF) indicated acceptable levels of multicollinearity:
+
+$$\mathrm{VIF}_\mathrm{temperature} = 1.82$$
+$$\mathrm{VIF}_\mathrm{humidity} = 2.01$$
+$$\mathrm{VIF}_\mathrm{pressure} = 1.19$$
+
+All VIF values below 5 suggest that multicollinearity does not substantially affect coefficient estimates.
+
+\subsubsection{Normality Assessment}
+The Jarque-Bera test statistic of \num{2825.856} (p $<$ 0.001) indicated deviations from normality, primarily due to the extremely large sample size (N = \num{89106}) rather than substantive model misspecification.
+
+\subsection{Bootstrap Validation Results}
+The block bootstrap analysis with optimal block length of 58 (derived from integrated autocorrelation time $\tau$ = \num{14.62}) yielded:
+
+\begin{itemize}
+    \item \num{2000} bootstrap samples for robust inference
+    \item Symmetric coefficient distributions around OLS estimates
+    \item Confirmation of statistical significance for all coefficients
+\end{itemize}
+
+\subsection{Errors-in-Variables Correction}
+Monte Carlo simulation with 2,000 iterations quantified the impact of measurement error in environmental sensors:
+
+$$\Delta\alpha_{T} = 1.77 \times 10^{-10}$$
+$$\Delta\alpha_{H} = 1.81 \times 10^{-10}$$
+$$\Delta\alpha_{P} = 1.10 \times 10^{-10}$$
+
+These corrections were negligible compared to the statistical uncertainty, confirming the adequacy of our sensor calibration.
+
+\subsection{Conclusion on Statistical Robustness}
+The statistical analysis demonstrates:
+\begin{itemize}
+    \item Coefficient estimates are robust to temporal dependencies and heteroscedasticity
+    \item Uncertainty estimates are conservative and account for all significant error sources
+    \item The linear model provides an good fit to the experimental data
+    \item Results are statistically significant and physically meaningful
+\end{itemize}
+The exceptional precision in coefficient determination ($\delta\alpha\approx 10^{-10}$) represents state-of-the-art performance in precision refractometry, while the systematic limitations in absolute refractive index determination ($\delta n_{sys} \approx 2.12 \times 10^{-7}$) are well-characterized and understood.
+
+\bibliography{reference}
 
 \end{document}

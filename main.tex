@@ -72,13 +72,11 @@ A centralized data acquisition system records synchronized measurements from all
 
 \begin{figure}
 \centering
-\includegraphics[width=0.48\textwidth]{figures/fig2_new.pdf}
-\caption{
-Environmental dynamics and their distinct correlations with measured refractive index at \SI{1762}{\nano\meter}.
-\textbf{(a--c)} Synchronous \SI{14}{\hour} time-series measurements from the training dataset of atmospheric temperature (\SIrange{33}{34.5}{\celsius}), relative humidity (\SIrange{26}{31}{\percent}), and pressure (\SIrange{982}{986}{\hecto\pascal}) from the training dataset.
-\textbf{(d)} Corresponding refractive index variations measured at \SI{1762}{\nano\meter}, expressed as $(n-1.0002)\times 10^{5}$, showing coherent temporal dynamics with environmental parameters.
-\textbf{(e--g)} Quantitative correlation analysis between each environmental parameter and the resulting refractive index change. Phase noise exhibits a strong linear dependence on temperature ($R^{2} = 0.828$) and pressure ($R^{2} = 0.751$). The humidity-phase relationship, however, displays a characteristic non-linear pattern, deviating significantly from simple linear modeling.
-\textbf{(h)} Self-correlation analysis of refractive index measurements, confirming measurement consistency ($R^{2} = 1.000$) and providing a validation baseline for environmental correlation studies.}
+\includegraphics[width=0.45\textwidth]{figures/fig2_new.pdf}
+\caption{Raw data segments for refractive index model analysis and their distinct correlations with measured refractive index values at \SI{1762}{\nano\meter}.
+\textbf{(a--d)} Synchronous \SI{14}{\hour} time-series measurements from the training dataset of the counts ratio of the interference patterns, atmospheric temperature (\SIrange{30.5}{31.7}{\celsius}), relative humidity (\SIrange{25}{28}{\percent}), and pressure (\SIrange{987}{990}{\hecto\pascal}) from the training dataset.
+% \textbf{(e--h)} Quantitative correlation analysis between each parameter and the resulting refractive index change. Phase noise exhibits a strong linear dependence on temperature ($R^{2} = 0.828$) and pressure ($R^{2} = 0.751$). The humidity-phase relationship, however, displays a characteristic non-linear pattern, deviating significantly from simple linear modeling.
+}
 \label{fig:environmental_dynamics}
 \end{figure}
 %% here we need a table to illuminate the nonlinear fit result of the humdity dependence, otherwise one may get confused, if you realise it is non-linear, why not fit it with non-linear models?
@@ -172,11 +170,11 @@ For short-term dynamics over \SI{12}{\hour}, critical for quantum gate operation
 
 \begin{figure}
 \centering
-\includegraphics[width=0.45\textwidth]{figures/fig3_humidity_discrepancy.pdf}
+% \includegraphics[width=0.45\textwidth]{figures/fig3_humidity_discrepancy.pdf}
+\includegraphics[width=0.45\textwidth]{figures/figure3_deviation.pdf}
 \caption{
-Systematic discrepancy in humidity sensitivity and its physical origin at \SI{1762}{\nano\meter}.
-\textbf{(a)} Comparison of the experimentally derived humidity sensitivity coefficient with predictions from established empirical models. A significant enhancement as shown in Tab.~\ref{tab:model_comparison} is identified, while excellent agreement ($<\SI{1}{\percent}$ deviation) is found for temperature and pressure coefficients.
-\textbf{(b)} Spectral analysis showing water vapor absorption features in the vicinity of the quantum-critical wavelength. The \SI{1762}{\nano\meter} transition lies between two strong absorption peaks at \SI{1761.0405}{\nano\meter} and \SI{1762.4852}{\nano\meter}, creating ideal conditions for Kramers-Kronig enhanced dispersion. Our first-principles calculation, performed over the full spectral range from \SI{1}{\micro\meter} to \SI{50}{\micro\meter}, explains the observed \SI{15.3}{\percent} increase in humidity sensitivity compared to the Ciddor model, or other standard atmospheric models detailed in Tab.~\ref{tab:model_comparison}.
+Comparison of the experimentally derived environment sensitivity coefficient with predictions from established empirical models. A significant enhancement in humidity as shown in Tab.~\ref{tab:model_comparison} is identified, while satisfying agreement ($<\SI{1}{\percent}$ deviation) is found for temperature and pressure coefficients.
+Spectral analysis showing water vapor absorption features in the vicinity of the quantum-critical wavelength. The \SI{1762}{\nano\meter} transition lies between two strong absorption peaks at \SI{1761.0405}{\nano\meter} and \SI{1762.4852}{\nano\meter}, creating ideal conditions for Kramers-Kronig enhanced dispersion. Our first-principles calculation, performed over the full spectral range from \SI{1}{\micro\meter} to \SI{50}{\micro\meter}, explains the observed \SI{15.3}{\percent} increase in humidity sensitivity compared to the Ciddor model, or other standard atmospheric models detailed in Tab.~\ref{tab:model_comparison}.
 }
 \label{fig:humidity_discrepancy}
 \end{figure}
@@ -189,6 +187,7 @@ Comprehensive Regression Analysis Results for the Refractive Index of Air at \SI
 \begin{tabular}{lcccc}
 Parameter & Coefficient & {95\% CI} \\
 \colrule
+Intercept ($\alpha_0$) & $1.000027$ & $[1.000026, 1.000028]$ \\
 Temperature ($\alpha_T$) & $-8.940 \times 10^{-7}$ & $[-8.942, -8.938] \times 10^{-7}$ \\
 Humidity ($\alpha_H$) & $-1.780 \times 10^{-8}$ & $[-1.796, -1.764] \times 10^{-8}$ \\
 Pressure ($\alpha_P$) & $2.569 \times 10^{-7}$ & $[2.557, 2.581] \times 10^{-7}$ \\
@@ -282,7 +281,7 @@ The primary frequency reference for the \SI{1762}{\nano\meter} laser was a singl
 
 \subsection{Interferometer and Sensor Details}
 
-The interferometric sensor was based on a modified commercial wavelength meter (NIST LM10 design principle), configured for dual-wavelength operation. The optical path difference of \SI{4.2}{\meter} was maintained in a temperature-stabilized enclosure. Environmental monitoring utilized the following calibrated sensors: temperature (PT100, \SI{0.015}{\celsius} uncertainty), relative humidity (capacitive sensor, \SI{0.004}{\percent} uncertainty), and pressure (piezoresistive sensor, \SI{0.025}{\hecto\pascal} uncertainty). All sensors were co-located within \SI{10}{\centi\meter} of the interferometer beam path.
+The interferometric sensor was based on a modified commercial wavelength meter (NIST LM10 design principle), configured for dual-wavelength operation \cite{fox1999reliable}. The optical path difference of \SI{4.2}{\meter} was maintained in a temperature-stabilized enclosure. Environmental monitoring utilized the following calibrated sensors: temperature (PT100, \SI{0.015}{\celsius} uncertainty), relative humidity (capacitive sensor, \SI{0.004}{\percent} uncertainty), and pressure (piezoresistive sensor, \SI{0.025}{\hecto\pascal} uncertainty). All sensors were co-located within \SI{10}{\centi\meter} of the interferometer beam path.
 
 \subsection{Data Acquisition and Processing}
 
@@ -293,7 +292,15 @@ Synchronized data streams were recorded at \SI{1}{\hertz} for environmental para
 
 \subsection{Regression Analysis with HAC Correction}
 
-The multivariate regression model for refractive index determination exhibited significant residual autocorrelation (Durbin-Watson statistic = 1.130) and heteroskedasticity. We implemented the Newey-West heteroskedasticity and autocorrelation consistent (HAC) covariance matrix estimator with an optimal bandwidth of L = 37 lags, determined using data-dependent methods. Figure~\ref{fig:residual_diagnostics} shows the residual diagnostics that justify the HAC approach for reliable inference.
+To quantify the dependence of n on T, H, and P, we applied a multivariate linear regression model to the full dataset. The model takes the form:
+
+\begin{equation}
+    n = \alpha_{0} + \alpha_{T}T + \alpha_{H}H + \alpha_{P}P
+\end{equation}
+
+where $\alpha_{0}$ is the intercept, $\alpha_{T}$, $\alpha_{H}$, and $\alpha_{P}$ are the regression coefficients for temperature, humidity, and pressure respectively.
+
+The regression model exhibits significant residual autocorrelation (Durbin-Watson statistic = 1.130) and heteroskedasticity. We implemented the Newey-West heteroskedasticity and autocorrelation consistent (HAC) covariance matrix estimator with an optimal bandwidth of L = 37 lags, determined using data-dependent methods. Figure~\ref{fig:residual_diagnostics} shows the residual diagnostics that justify the HAC approach for reliable inference.
 
 Block bootstrap validation with B = 2000 samples and an optimal block length of b = 58 observations (based on an integrated autocorrelation time of 14.62) provided independent confirmation of the coefficient uncertainties. Figure~\ref{fig:bootstrap_distributions} displays the narrow symmetric bootstrap sampling distributions, confirming robustness against temporal autocorrelation. Bootstrap standard errors agreed within 3\% of the HAC estimates.
 %
