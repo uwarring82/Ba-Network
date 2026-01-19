@@ -1,158 +1,152 @@
-# Atmospheric Metrology for Quantum Networks
+# Precision Refractive Index Measurement at 1762 nm
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.xxxxxxx.svg)](https://doi.org/10.5281/zenodo.xxxxxxx)
 
-This repository contains the complete dataset and analysis code for the research paper **"Atmospheric Metrology for Quantum Networks"**, which demonstrates precision environmental compensation for quantum networking applications using the 1762 nm transition of trapped barium ions.
+This repository contains the complete dataset and analysis code for the research paper **"Precision Refractive Index Measurement at 1762 nm"**, which demonstrates precision refractive index measurement using dual-wavelength interferometry traceable to quantum frequency standards.
 
 ## 📖 Abstract
 
-Quantum networks utilizing atomic transitions face critical challenges in realistic environments where atmospheric phase noise rapidly degrades quantum coherence. This work establishes a wavelength-specific metrological framework demonstrating that environmental compensation is essential for practical quantum networking. Using quantum-referenced interferometry traceable to a single trapped ion, we analyze 89,106 measurements to determine the refractive index coefficients of air at 1762 nm with part-per-billion precision.
+This work establishes a wavelength-specific metrological framework for precision refractive index measurement at 1762 nm. Using quantum-referenced interferometry traceable to a single trapped barium ion, we analyze 149,243 measurements to determine the refractive index coefficients of air with part-per-billion precision. The study identifies a 12.4% enhanced humidity sensitivity at 1762 nm relative to standard atmospheric models, consistent with Kramers-Kronig predictions near water absorption lines.
 
 ## 🚀 Key Features
 
-- **Precision Refractometry**: Experimental determination of refractive index coefficients for air at 1762 nm
-- **Environmental Compensation**: Physics-based phase noise suppression using environmental bookkeeping
-- **Multi-Timescale Analysis**: Performance evaluation across quantum memory (15-day) and quantum gate (12-hour) timescales
-- **Model Comparison**: Comprehensive comparison with established atmospheric models (Ciddor, Edlén, Mathar)
+- **Precision Refractometry**: Experimental determination of refractive index coefficients for air at 1762 nm with part-per-billion precision
+- **Quantum-Traceable Metrology**: Direct linkage to atomic frequency standards enables SI-traceable environmental monitoring
+- **Enhanced Humidity Sensitivity**: Identification of 12.4% enhanced humidity sensitivity at 1762 nm
+- **Model Validation**: Comprehensive comparison with established atmospheric models (Ciddor, Edlén, Mathar)
 - **Open Data**: Complete synchronized dataset of environmental parameters and interferometric measurements
 
 ## 📊 Dataset
 
 The dataset includes two main components:
 
-### Training Dataset (89,106 measurements)
-- Used for coefficient determination and model validation
+### Training Dataset (108,346 measurements)
+- Used for coefficient determination and model training
 - Covers temperature range: 15-35°C, humidity: 20-45%, pressure: 965-1000 hPa
 - Includes synchronized measurements of temperature, humidity, pressure, and dual-wavelength interferometric data
 
-### Validation Dataset (46,999 measurements)
-- Independent dataset for performance evaluation
-- 15-day continuous outdoor measurements
-- Used to demonstrate noise suppression efficacy
+### Validation Dataset (40,897 measurements)
+- Independent dataset for model validation
+- 15-day continuous measurements
+- Used to evaluate model performance on unseen data
 
 ### Data Format
-Each CSV file contains:
+Each processed CSV file contains:
 - `time`: UTC timestamp
 - `temperature`: Temperature in °C
 - `humidity`: Relative humidity in %
 - `pressure`: Atmospheric pressure in hPa  
+- `counts_ratio`: Interference pattern counts ratio
 - `n_1762`: Measured refractive index at 1762 nm
-- `phase_measured`: Uncompensated phase in radians
-- `phase_compensated`: Environmentally compensated phase
-
-## 🛠️ Installation & Usage
-
-### Prerequisites
-```bash
-pip install numpy pandas matplotlib scipy statsmodels seaborn
-```
-
-### Basic Usage
-```python
-import pandas as pd
-import numpy as np
-from analysis_functions import compare_refractive_index_models, plot_bootstrap_coefficient_distributions
-
-# Load dataset
-df = pd.read_csv('data/training_dataset.csv')
-
-# Compare refractive index models
-fig, stats = compare_refractive_index_models(wavelength=1762)
-
-# Plot bootstrap coefficient distributions
-fig, bootstrap_stats = plot_bootstrap_coefficient_distributions(results)
-```
-
-### Key Analysis Functions
-
-#### 1. Refractive Index Model Comparison
-```python
-from model_comparison import compare_refractive_index_models
-
-# Compare AcToMicS model with standard models
-fig, statistics = compare_refractive_index_models(
-    wavelength=1762,
-    save_path='model_comparison.pdf'
-)
-```
-
-#### 2. Phase Noise Compensation
-```python
-from phase_analysis import create_combined_figure
-
-# Create comprehensive 2x4 analysis figure
-fig, stats = create_combined_figure(
-    df_long_term=df_15day,
-    df_short_term=df_12hour,
-    coefficients=coefficients,
-    save_path='phase_analysis.pdf'
-)
-```
-
-#### 3. Statistical Analysis
-```python
-from regression_analysis import perform_regression, plot_diagnostics
-
-# Perform enhanced regression analysis
-results = perform_regression(df, n_bootstrap=2000)
-
-# Generate diagnostic plots
-plot_diagnostics(results, df)
-```
 
 ## 📈 Key Results
 
 ### Refractive Index Coefficients at 1762 nm
-| Parameter | Coefficient | 95% CI |
-|-----------|-------------|---------|
-| Temperature (αₜ) | -8.940 × 10⁻⁷ | [-8.942, -8.938] × 10⁻⁷ |
-| Humidity (αₕ) | -1.780 × 10⁻⁸ | [-1.796, -1.764] × 10⁻⁸ |
-| Pressure (αₚ) | 2.569 × 10⁻⁷ | [2.557, 2.581] × 10⁻⁷ |
+| Parameter | Coefficient | HAC Standard Error | Precision |
+|-----------|-------------|-------------------|-----------|
+| Temperature (αₜ) | -8.9033 × 10⁻⁷ °C⁻¹ | 3.0017 × 10⁻¹⁰ | 0.3 ppb/°C |
+| Humidity (αₕ) | -1.7281 × 10⁻⁸ %⁻¹ | 2.5558 × 10⁻¹⁰ | 0.26 ppb/% |
+| Pressure (αₚ) | +2.5910 × 10⁻⁷ hPa⁻¹ | 1.9696 × 10⁻¹⁰ | 0.2 ppb/hPa |
 
-### Noise Suppression Performance
-- **Long-term (15 days)**: 80.97% phase noise reduction (5.3× improvement)
-- **Short-term (12 hours)**: 60.20% phase noise reduction (2.5× improvement)
-- **Autocorrelation time**: Reduced from 5668s to 302s (long-term) and 560s to 1s (short-term)
+### Model Performance
+- **Model Fit**: R² = 0.997
+- **Residual Precision**: σₙ = 1.82 × 10⁻⁷
+- **Enhanced Humidity Sensitivity**: 12.4% relative to standard models
+- **Kramers-Kronig Prediction**: -1.780 × 10⁻⁸ %⁻¹ (vs. experimental -1.7281 × 10⁻⁸ %⁻¹)
+
+### Bootstrap Confidence Intervals (95%)
+- Temperature: [-8.907, -8.899] × 10⁻⁷ °C⁻¹
+- Humidity: [-1.761, -1.692] × 10⁻⁸ %⁻¹
+- Pressure: [2.588, 2.594] × 10⁻⁷ hPa⁻¹
 
 ## 📁 Repository Structure
 
 ```
+refractive_index_1762nm_v1.0/
+├── README.md                  
+├── LICENSE.txt                
+├── CITATION.cff              
 ├── data/
-│   ├── training_dataset.csv          # 89,106 measurements for model training
-│   ├── validation_dataset.csv        # 46,999 measurements for validation
-│   └── decimated_1min_dataset.csv    # 1-minute cadence version
-├── scripts/
-│   ├── model_comparison.py           # Refractive index model comparison
-│   ├── phase_analysis.py             # Phase noise compensation analysis
-│   ├── regression_analysis.py        # Statistical regression functions
-│   └── visualization.py              # Plotting utilities
-├── figures/                          # Generated analysis figures
-├── requirements.txt                  # Python dependencies
-└── README.md                         # This file
+│   ├── raw/
+│   │   ├── interferometer/
+│   │   │   └── counts_ratio_data_{date}.csv
+│   │   └── environmental/
+│   │       ├── humidity_data_{date}.csv
+│   │       ├── temperature_data_{date}.csv
+│   │       └── pressure_data_{date}.csv
+│   ├── processed/
+│   │   ├── training_data.csv
+│   │   └── validation_data.csv
+│   └── derived/
+│       ├── figures/
+│       │   ├── data_preview.pdf
+│       │   ├── deviation_validation.pdf
+│       │   └── kramers_kronig.pdf
+│       └── models/
+│           └── hitran
+│               ├── H2O.data
+│               └── H2O.header
+├── code/
+│   ├── data_processing/
+│   │   └── preprocess_data.ipynb
+│   ├── analysis/              
+│   │   ├── refractive_index_model.ipynb
+│   │   ├── model_validation.ipynb
+│   │   ├── regression_results.json
+│   │   └── kramers_kronig.ipynb
+│   └── models/              
+│       ├── hitran
+│       │   └── hapi.py
+│       ├── mathar
+│       │   └── Mathar2007.py
+│       └── nist
+│           └── refractive_index.py
+└── paper/                     
+    ├── manuscript.pdf         
+    └── bulletpoint_list.pdf   
 ```
 
 ## 🔬 Scientific Context
 
-This work addresses the critical challenge of atmospheric phase noise in quantum networks, particularly for the 1762 nm transition of trapped barium ions. The research demonstrates:
+This work addresses the critical need for wavelength-specific refractive index measurements, particularly at 1762 nm where standard atmospheric models show limitations. The research demonstrates:
 
-1. **Wavelength-specific metrology** is essential near molecular resonances
-2. **Environmental bookkeeping** provides deterministic phase noise suppression
-3. **Multi-timescale optimization** enables both quantum memory and gate operations
-
+1. **Part-per-billion precision** in environmental coefficient determination
+2. **Enhanced humidity sensitivity** near water absorption lines at 1762 nm
+3. **Quantum-traceable metrology** enabling SI-traceable atmospheric monitoring
+4. **Comprehensive validation** against independent datasets and theoretical predictions
 
 ## 📜 License
 
 This project is dual-licensed under:
 
-- **Code**: MIT License - See [LICENSE-CODE](LICENSE) for details
-- **Data**: Creative Commons Attribution 4.0 International (CC BY 4.0) - See [LICENSE-DATA](LICENSE-CC-BY-4.0.txt) for details
+- **Code**: MIT License - See [LICENSE](LICENSE) for details
+- **Data**: Creative Commons Attribution 4.0 International (CC BY 4.0) - See [LICENSE-CC-BY-4.0.txt](LICENSE-CC-BY-4.0.txt) for details
 
 ## 🔗 Related Resources
 
 - [Zenodo Data Repository](https://doi.org/10.5281/zenodo.xxxxxxx)
 - [Qsim Group in Freiburg](https://www.qsim.uni-freiburg.de)
 - [EU Quantum Flagship](https://qt.eu/)
+
+## 📝 Citation
+
+Please cite our paper and this dataset:
+
+```bibtex
+@article{wu2026precision,
+  title={Precision Refractive Index Measurement at 1762 nm},
+  author={Wu, Wei and Schaetz, Tobias and Warring, Ulrich},
+  journal={To be published},
+  year={2026},
+  doi={10.5281/zenodo.xxxxxxx}
+}
+```
+
+## 📧 Contact
+
+- Wei Wu: wei.wu@physik.uni-freiburg.de
+- Ulrich Warring: ulrich.warring@physik.uni-freiburg.de
 
 ---
 
