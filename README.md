@@ -63,7 +63,7 @@ Each processed CSV file contains:
 ## 📁 Repository Structure
 
 ```
-refractive_index_1762nm_v1.0/
+zenodo/
 ├── README.md                  
 ├── LICENSE.txt                
 ├── CITATION.cff              
