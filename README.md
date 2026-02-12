@@ -7,13 +7,13 @@ This repository contains the complete dataset and analysis code for the research
 
 ## 📖 Abstract
 
-This work establishes a wavelength-specific metrological framework for precision refractive index measurement at 1762 nm. Using quantum-referenced interferometry traceable to a single trapped barium ion, we analyze 149,243 measurements to determine the refractive index coefficients of air with part-per-billion precision. The study identifies a 12.4% enhanced humidity sensitivity at 1762 nm relative to standard atmospheric models, consistent with Kramers-Kronig predictions near water absorption lines.
+This work establishes a wavelength-specific metrological framework for precision refractive index measurement at 1762 nm. Using quantum-referenced interferometry traceable to a single trapped barium ion, we analyze 149,243 measurements to determine the refractive index coefficients of air with part-per-billion precision. The study identifies a 17.2% enhanced humidity sensitivity at 1762 nm relative to standard atmospheric models, consistent with Kramers-Kronig predictions near water absorption lines.
 
 ## 🚀 Key Features
 
-- **Precision Refractometry**: Experimental determination of refractive index coefficients for air at 1762 nm with part-per-billion precision
+- **Precision Refractometry**: Experimental determination of refractive index coefficients for air at 1762 nm with part-per-billion (ppb) precision
 - **Quantum-Traceable Metrology**: Direct linkage to atomic frequency standards enables SI-traceable environmental monitoring
-- **Enhanced Humidity Sensitivity**: Identification of 12.4% enhanced humidity sensitivity at 1762 nm
+- **Enhanced Humidity Sensitivity**: Identification of 17.2% enhanced humidity sensitivity at 1762 nm
 - **Model Validation**: Comprehensive comparison with established atmospheric models (Ciddor, Edlén, Mathar)
 - **Open Data**: Complete synchronized dataset of environmental parameters and interferometric measurements
 
