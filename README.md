@@ -19,17 +19,7 @@ This work establishes a wavelength-specific metrological framework for precision
 
 ## 📊 Dataset
 
-The dataset includes two main components:
-
-### Training Dataset (108,346 measurements)
-- Used for coefficient determination and model training
-- Covers temperature range: 15-35°C, humidity: 20-45%, pressure: 965-1000 hPa
-- Includes synchronized measurements of temperature, humidity, pressure, and dual-wavelength interferometric data
-
-### Validation Dataset (40,897 measurements)
-- Independent dataset for model validation
-- 15-day continuous measurements
-- Used to evaluate model performance on unseen data
+The dataset includes 145784 synchronized measurements from January to August 2025, which includes synchronized measurements of temperature, humidity, pressure, and dual-wavelength interferometric data.
 
 ### Data Format
 Each processed CSV file contains:
@@ -45,20 +35,20 @@ Each processed CSV file contains:
 ### Refractive Index Coefficients at 1762 nm
 | Parameter | Coefficient | HAC Standard Error | Precision |
 |-----------|-------------|-------------------|-----------|
-| Temperature (αₜ) | -8.9033 × 10⁻⁷ °C⁻¹ | 3.0017 × 10⁻¹⁰ | 0.3 ppb/°C |
-| Humidity (αₕ) | -1.7281 × 10⁻⁸ %⁻¹ | 2.5558 × 10⁻¹⁰ | 0.26 ppb/% |
-| Pressure (αₚ) | +2.5910 × 10⁻⁷ hPa⁻¹ | 1.9696 × 10⁻¹⁰ | 0.2 ppb/hPa |
+| Temperature (αₜ) | -8.8474 × 10⁻⁷ °C⁻¹ | 2.7967 × 10⁻¹⁰ | 0.28 ppb/°C |
+| Humidity (αₕ) | -1.3152 × 10⁻⁸ %⁻¹ | 2.2435 × 10⁻¹⁰ | 0.22 ppb/% |
+| Pressure (αₚ) | +2.5949 × 10⁻⁷ hPa⁻¹ | 1.8632 × 10⁻¹⁰ | 0.19 ppb/hPa |
 
 ### Model Performance
-- **Model Fit**: R² = 0.997
-- **Residual Precision**: σₙ = 1.82 × 10⁻⁷
-- **Enhanced Humidity Sensitivity**: 12.4% relative to standard models
-- **Kramers-Kronig Prediction**: -1.780 × 10⁻⁸ %⁻¹ (vs. experimental -1.7281 × 10⁻⁸ %⁻¹)
+- **Model Fit**: R² = 0.996
+- **Residual Precision**: σₙ = 1.837 × 10⁻⁷
+- **Enhanced Humidity Sensitivity**: 17.2% relative to standard models (v.s. Mathar@1762nm: -1.122 × 10⁻⁸ %⁻¹)
+- **Kramers-Kronig Prediction**: -1.4361 × 10⁻⁸ %⁻¹ (v.s. experimental -1.3152 × 10⁻⁸ %⁻¹)
 
 ### Bootstrap Confidence Intervals (95%)
-- Temperature: [-8.907, -8.899] × 10⁻⁷ °C⁻¹
-- Humidity: [-1.761, -1.692] × 10⁻⁸ %⁻¹
-- Pressure: [2.588, 2.594] × 10⁻⁷ hPa⁻¹
+- Temperature: [-8.8513, -8.8437] × 10⁻⁷ °C⁻¹
+- Humidity: [-1.3464, -1.2859] × 10⁻⁸ %⁻¹
+- Pressure: [2.5925, 2.5973] × 10⁻⁷ hPa⁻¹
 
 ## 📁 Repository Structure
 
@@ -102,9 +92,9 @@ zenodo/
 │       │   └── Mathar2007.py
 │       └── nist
 │           └── refractive_index.py
-└── paper/                     
-    ├── manuscript.pdf         
-    └── bulletpoint_list.pdf   
+└── manuscript/
+    ├── manuscript.tex                  
+    └── manuscript.pdf   
 ```
 
 ## 🔬 Scientific Context
@@ -128,20 +118,6 @@ This project is dual-licensed under:
 - [Zenodo Data Repository](https://doi.org/10.5281/zenodo.xxxxxxx)
 - [Qsim Group in Freiburg](https://www.qsim.uni-freiburg.de)
 - [EU Quantum Flagship](https://qt.eu/)
-
-## 📝 Citation
-
-Please cite our paper and this dataset:
-
-```bibtex
-@article{wu2026precision,
-  title={Precision Refractive Index Measurement at 1762 nm},
-  author={Wu, Wei and Schaetz, Tobias and Warring, Ulrich},
-  journal={To be published},
-  year={2026},
-  doi={10.5281/zenodo.xxxxxxx}
-}
-```
 
 ## 📧 Contact
 
