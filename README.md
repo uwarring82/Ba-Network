@@ -1,7 +1,7 @@
 # Precision Refractive Index Measurement at 1762 nm
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.xxxxxxx.svg)](https://doi.org/10.5281/zenodo.xxxxxxx)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18800166.svg)](https://doi.org/10.5281/zenodo.18800166)
 
 This repository contains the complete dataset and analysis code for the research paper **"Precision Refractive Index Measurement at 1762 nm"**, which demonstrates precision refractive index measurement using dual-wavelength interferometry traceable to quantum frequency standards.
 
