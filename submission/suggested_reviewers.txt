@@ -1,0 +1,18 @@
+1. Dr. Florian Pollinger
+    Affiliation: Physikalisch-Technische Bundesanstalt (PTB), Working Group 5.42 — Multiwavelength Interferometry for Geodetic Lengths, Braunschweig, Germany  
+    E-mail: florian.pollinger@ptb.de  
+    Role fit: precision refractometry / dimensional metrology / optical propagation
+2. Prof. Karan K. Mehta
+    Affiliation: School of Electrical and Computer Engineering, Cornell University, Ithaca, USA; Photonics and Quantum Electronics Group  
+    E-mail: karanmehta@cornell.edu  
+    Role fit: trapped-ion optical interfaces / integrated photonics / deployable quantum hardware
+3. Dr. Laura C. Sinclair
+    Affiliation: National Institute of Standards and Technology (NIST), Fiber Sources and Applications Group, Boulder, USA  
+    E-mail: laura.sinclair@nist.gov  
+    Role fit: free-space optical time/frequency transfer / optical links / atmospheric propagation
+4. Prof. Kelin Gao
+    Affiliation: Innovation Academy for Precision Measurement Science and Technology,
+                  Chinese Academy of Sciences, Wuhan, China
+    E-mail: klgao@wipm.ac.cn
+    Role fit: trapped-ion optical frequency standards / quantum logic spectroscopy /
+              absolute frequency referencing

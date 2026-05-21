@@ -1,0 +1,181 @@
+\documentclass[aps,prx,reprint,superscriptaddress]{revtex4-2}
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{siunitx}
+\usepackage{booktabs}
+
+\begin{document}
+
+\title{Supplemental Material: \\
+       Wavelength-specific refractive-index calibration of air at 1762 nm for environmental phase compensation in quantum optical interfaces}
+
+\author{Wei Wu}
+\affiliation{Albert-Ludwigs-Universit\"at Freiburg, Physikalisches Institut, 
+             Hermann-Herder-Stra\ss e 3, 79104 Freiburg, Germany}
+\affiliation{EUCOR Centre for Quantum Science and Quantum Computing, 
+             University of Freiburg, Hermann-Herder-Stra\ss e 3, 
+             79104 Freiburg, Germany}
+\author{Tobias Sch{\"a}tz}
+\affiliation{Albert-Ludwigs-Universit\"at Freiburg, Physikalisches Institut, 
+             Hermann-Herder-Stra\ss e 3, 79104 Freiburg, Germany}
+\affiliation{EUCOR Centre for Quantum Science and Quantum Computing, 
+             University of Freiburg, Hermann-Herder-Stra\ss e 3, 
+             79104 Freiburg, Germany}
+\author{Ulrich Warring}
+\affiliation{Albert-Ludwigs-Universit\"at Freiburg, Physikalisches Institut, 
+             Hermann-Herder-Stra\ss e 3, 79104 Freiburg, Germany}
+
+\date{\today}
+
+\maketitle
+
+\section{Statistical validation of the wavelength-specific coefficients}
+\label{sec:S1}
+
+The refractive index time series exhibits serial correlation characteristic of slowly varying environmental parameters. To ensure that reported coefficient uncertainties account for this structure, we compute heteroskedasticity- and autocorrelation-consistent (HAC) standard errors with a Bartlett kernel \cite{newey1987hypothesis,andrews1991heteroskedasticity}. The HAC-corrected standard errors are larger than the ordinary least-squares estimates by factors of 1.4 to 2.0, reflecting the serial correlation in the residuals. The coefficient point estimates are unaffected by the HAC correction and are identical to the OLS estimates.
+
+Coefficient stability is assessed via block bootstrap resampling with 2000 iterations and a block size of 2000 samples, chosen to exceed the dominant autocorrelation time of the residuals and preserving the serial correlation structure of the original data \cite{kunsch1989jackknife,politis1994stationary}. The bootstrap distributions for $\alpha_T$, $\alpha_H$, and $\alpha_P$ are symmetric and consistent with the asymptotic normal approximation, with bootstrap standard errors within \SI{5}{\percent} of the regression-derived uncertainties.
+
+First-order residual autocorrelation is addressed using the Prais-Winsten generalized least squares estimator \cite{prais1954trend}. The transformation improves the Durbin-Watson statistic from 1.197 (raw OLS residuals) to 2.226 (transformed residuals), where a value of 2.0 indicates no first-order autocorrelation \cite{durbin1950testing}. The Prais-Winsten coefficient estimates agree with the OLS estimates within \SI{1.5}{\percent}.
+
+Sensor calibration uncertainties are propagated through the regression analysis using an error-in-variables Monte Carlo simulation with 2000 iterations \cite{carroll2006measurement,fuller2009measurement}. The environmental sensor uncertainties are modeled as independent Gaussian distributions with standard deviations derived from manufacturer specifications: $\sigma_T = \SI{0.5}{\degreeCelsius}$, $\sigma_H = \SI{3}{\percent}$ (relative humidity), and $\sigma_P = \SI{1}{\hecto\pascal}$. The resulting coefficient distributions confirm that measurement uncertainties are dominated by environmental sensor precision rather than by the quantum frequency reference stability.
+
+The pressure coefficient reported in Table~I of the main text ($+2.5949 \times 10^{-7}\,\text{hPa}^{-1}$) follows from the regression coefficient ($+2.595 \times 10^{-9}$ in the native fit unit of $\text{Pa}^{-1}$) by conversion of the pressure unit from Pa to hPa (factor $10^2$). The result agrees with first-principles Lorentz--Lorenz scaling of the air refractivity at standard conditions.
+
+Table~\ref{tab:S1} provides the complete uncertainty budget for the refractive index determination at \SI{1762}{\nano\meter}. The dominant contribution is the spatial and temporal mismatch between the environmental sensor and the optical path ($\delta n = 1.84 \times 10^{-7}$), determined from the residual variance of the regression. The \SI{780}{\nano\meter} frequency reference contributes $\delta n = 1.0 \times 10^{-9}$. Individual sensor calibrations contribute at the $10^{-10}$ level: $\delta n = 1.42 \times 10^{-10}$ (temperature), $1.25 \times 10^{-10}$ (humidity), and $9.11 \times 10^{-13}$ (pressure). The finite-sample and serial-correlation uncertainty from HAC and block-bootstrap analysis contributes $1.69 \times 10^{-10}$. The \SI{1762}{\nano\meter} quantum frequency reference and interferometer non-linearity are negligible. The combined expanded uncertainty ($k = 2$) is $3.68 \times 10^{-7}$.
+
+\begin{table}[htbp]
+\centering
+\caption{Uncertainty budget for refractive index determination at \SI{1762}{\nano\meter}.}
+\label{tab:S1}
+\begin{tabular}{lc}
+\hline
+Source & $\delta n$ (1$\sigma$) \\
+\hline
+Spatial/temporal mismatch (residual analysis)   & $1.84 \times 10^{-7}$ \\
+\SI{780}{\nano\meter} frequency reference               & $1.0 \times 10^{-9}$ \\
+Finite sample \& serial correlation              & $1.69 \times 10^{-10}$ \\
+Temperature sensor calibration                   & $1.42 \times 10^{-10}$ \\
+Humidity sensor calibration                      & $1.25 \times 10^{-10}$ \\
+Pressure sensor calibration                      & $9.11 \times 10^{-13}$ \\
+\SI{1762}{\nano\meter} frequency reference              & Negligible \\
+Interferometer non-linearity                     & Negligible \\
+\hline
+Combined standard uncertainty                    & $1.84 \times 10^{-7}$ \\
+Combined expanded uncertainty ($k = 2$)          & $3.68 \times 10^{-7}$ \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\section{Phase budget for a representative free-space path}
+\label{sec:S2}
+
+For a representative \SI{1}{\meter} free-space path at \SI{1762}{\nano\meter}, the accumulated phase error under diurnal environmental swings of amplitude $\Delta T = \SI{1}{\degreeCelsius}$, $\Delta H = \SI{12}{\percent}$, and $\Delta P = \SI{5}{\hecto\pascal}$ is computed as
+
+\begin{equation}
+\Delta\phi = \sqrt{(\alpha_\phi^T\Delta T)^2 
+                 + (\alpha_\phi^H\Delta H)^2 
+                 + (\alpha_\phi^P\Delta P)^2},
+\end{equation}
+
+where $\alpha_\phi^X \equiv \partial\phi/\partial X$ per meter (Table~II of the main text). The per-meter phase budget is summarized 
+in Table~\ref{tab:S2}.
+
+\begin{table*}[htbp]
+\centering
+\caption{Phase error budget for a \SI{1}{\meter} free-space optical path
+         at \SI{1762}{\nano\meter} under typical diurnal environmental swings.
+         Sensitivities are from Table~II of the main text.}
+\label{tab:S2}
+\begin{tabular}{lccc}
+\hline
+Parameter          & $\Delta X$ (diurnal)
+                   & $\alpha_\phi^X$
+                   & $\Delta\phi$ (\si{\radian}) \\
+\hline
+Temperature        & \SI{1}{\degreeCelsius}
+                   & \SI{3.16}{\radian\,m^{-1}\,K^{-1}}
+                   & \num{3.16}  \\
+Relative humidity  & \SI{12}{\percent}
+                   & \SI{0.047}{\radian\,m^{-1}\,(\%RH)^{-1}}
+                   & \num{0.56}  \\
+Pressure           & \SI{5}{\hecto\pascal}
+                   & \SI{0.93}{\radian\,m^{-1}\,hPa^{-1}}
+                   & \num{4.63}  \\
+\hline
+Total (RSS)        &
+                   &
+                   & \textbf{\num{5.63}} \\
+\hline
+\end{tabular}
+\end{table*}
+
+Feed-forward phase compensation uses real-time environmental sensor data to compute and cancel the predicted phase shift before each gate operation. The residual phase error after compensation has two sources: the predictive accuracy of the linear model, characterized by the regression residual standard deviation $\sigma_n = 1.84 \times 10^{-7}$, and the uncertainty in the coefficient estimates themselves, which propagates through the environmental swings $\Delta X_j$ via the coefficient standard errors $\sigma_{\alpha_j}$ from the regression analysis. The combined residual is
+
+\begin{equation}
+\delta\phi_{\text{res}} = \frac{2\pi L}{\lambda}\,
+  \sqrt{\sigma_n^{2} 
+      + (\sigma_{\alpha_T}\Delta T)^2 
+      + (\sigma_{\alpha_H}\Delta H)^2 
+      + (\sigma_{\alpha_P}\Delta P)^2}.
+\end{equation}
+
+Under the diurnal swings used throughout this section ($\Delta T = \SI{1}{\degreeCelsius}$,  $\Delta H = \SI{12}{\percent}$,  $\Delta P = \SI{5}{\hecto\pascal}$), the coefficient-uncertainty term contributes $1.88 \times 10^{-9}$ in refractive-index units, more than two orders of magnitude below $\sigma_n$. The residual is therefore dominated by the predictive accuracy of the model rather than by the precision with which the coefficients are known, and the combined expression evaluates to $\delta\phi_{\text{res}} = \SI{0.66}{\radian}$ per meter. For comparison, the Mathar model evaluated at \SI{1762}{\nano\meter} yields $\delta\phi_{\text{res}} = \SI{4.31}{\radian}$, representing an \SI{85}{\percent} reduction achieved by the wavelength-specific calibration. This improvement is dominated by the corrected humidity coefficient, since the Mathar model's \SI{17.2}{\percent} underestimate of $\alpha_H$ propagates directly into the compensation residual. For a single-qubit gate, with a \SI{10}{\minute} update interval, the effective phase drift between corrections drops to $\delta\phi_{\text{eff}} \approx \SI{0.03}{\radian}$, corresponding to a projected single-qubit gate infidelity contribution below $3 \times 10^{-4}$, based on representative trapped-ion gate error models
+\cite{brown2011single,ballance2016high,gaebler2016high}.
+
+\section{Model limitations and scope of the measurement approach}
+\label{sec:S3}
+
+Several factors set the achievable accuracy of the empirical model. First, the residual between the Kramers-Kronig prediction and the measured
+$\alpha_H$ (see Sec.~\ref{sec:S4}) likely reflects incomplete water-vapor line parameters in HITRAN2020, imperfect knowledge of the probe spectral profile, and the omission of CO$_2$ and H$_2$O collisional broadening in the dispersion integration. Second, the model assumes linear, decoupled environmental dependences; while cross-correlations among $T$, $H$, and $P$ are small in our well-ventilated measurement corridor, a full multivariate polynomial including cross-terms could further reduce $\sigma_n$ toward the $10^{-8}$ level. Third, CO$_2$ variations are not tracked in the present setup; seasonal CO$_2$ changes of \SIrange{15}{25}{ppm} alter $n$ by approximately $3 \times 10^{-8}$, which lies below the current residual standard deviation but may become relevant as sensor performance improves.
+
+Beyond these model-level uncertainties, the measurement approach itself has inherent scope limitations that define what the calibrated coefficients can and cannot correct in a deployed system. (i)~\textit{Local gradients}: the environmental sensor samples temperature, humidity, and pressure at a single location, whereas the optical path extends over several meters. Under strong thermal stratification or localized humidity sources, the sensor reading may deviate from the path-averaged value, introducing an uncompensated residual that scales with the gradient magnitude. This is particularly relevant for vertical beam paths or links traversing multiple thermal zones. (ii)~\textit{Turbulence}: the sensor sampling rate (\SI{2}{\hertz}) is far slower than the characteristic timescales of turbulent refractive-index fluctuations (milliseconds to seconds) \cite{tatarskii1961wave}. The feed-forward scheme therefore corrects only the slowly varying background but not the stochastic Kolmogorov-phase noise, which must be addressed by other means such as high-bandwidth phase tracking or spatial mode filtering. (iii)~\textit{Unsensed geometric path-length variations}: the dual-wavelength common-mode rejection cancels mechanical fluctuations only to the extent that both wavelengths experience identical geometric displacement. Differential effects, such as chromatic beam wander due to thermal lensing in transmissive optics or wavelength-dependent thermal expansion of mechanical mounts, produce an uncompensated residual that is not sensed by the environmental monitor. (iv)~\textit{Fast mechanical noise}: the interferometer rejects common-mode vibrations within its fringe-tracking bandwidth, but spectral components above this bandwidth, or differential vibrations between the two wavelength channels due to spatially separated beam paths on the detection side, are not canceled and set a practical noise floor for the phase correction. These scope limitations are inherent to any single-point, slow-sampling environmental feed-forward approach and do not diminish the accuracy of the coefficients themselves; they define the boundary between environmental phase errors that can be deterministically corrected and those that must be managed through alternative strategies such as thermal shielding, active beam pointing stabilization, or high-bandwidth interferometric phase locks.
+
+\section{Kramers-Kronig analysis of the humidity coefficient}
+\label{sec:S4}
+
+The proximity of the probe wavelength to water-vapor absorption features (Sec.~III of the main text) suggests that resonance-enhanced dispersion may contribute to the observed humidity-coefficient enhancement. To assess this quantitatively, we compute the humidity-coefficient contribution from H$_2$O absorption lines using the Kramers-Kronig relation. No environmental time-series data enter this calculation; it is a purely spectroscopic estimate intended to test whether the sign and order of magnitude of the enhancement are reproduced by the known water-vapor line list.
+
+\textit{Kramers-Kronig integration.} The refractive-index change per unit humidity at frequency $\nu$ follows from the absorption spectrum $\kappa(\nu')$ via the principal-value integral \cite{toll1956causality}
+
+\begin{equation}
+\Delta n(\nu) = \frac{1}{\pi}\; \mathcal{P}\!\int
+\frac{\kappa(\nu')}{\nu' - \nu}\, d\nu'.
+\end{equation}
+
+The absorption spectrum is constructed from H$_2$O line positions, strengths, and broadening parameters in the HITRAN2020 database \cite{gordon2022hitran2020}, using a Lorentzian line shape. The water-vapor number density per 1\%~RH is obtained from the Magnus saturation-vapor-pressure formula. The integral excludes a narrow interval $\pm\varepsilon$ around $\nu$ to handle the singularity; convergence with respect to $\varepsilon$ was verified.
+
+\textit{Sensitivity to integration range and atmospheric parameters.} The Kramers-Kronig prediction is insensitive to the integration range (varying by $<1\%$ between 1600--1950~nm and 1500--2050~nm) but depends noticeably on the assumed atmospheric conditions through the water-vapor number density. Table~\ref{tab:S4} summarises the prediction for four combinations of integration range and atmospheric parameters, spanning the measurement conditions of the campaign (mean: $T = \SI{24.7}{\degreeCelsius}$, $P = \SI{982.3}{\hecto\pascal}$) and the slightly warmer reference conditions used in earlier iterations of this analysis.
+
+\begin{table}[htbp]
+\centering
+\caption{Sensitivity of the Kramers-Kronig humidity-coefficient prediction to integration range and atmospheric parameters. The measured $\alpha_H$ is $-1.3152 \times 10^{-8}\,\text{\%RH}^{-1}$; the Mathar model value at \SI{1762}{\nano\meter} is $-1.1219 \times 10^{-8}\,\text{\%RH}^{-1}$.}
+\label{tab:S4}
+\begin{tabular}{lccc}
+\hline
+Integration range & $T$ (K) & $P$ (hPa) & $\alpha_H^{\rm KK}$ (\%RH$^{-1}$) \\
+\hline
+1600--1950 nm & 303 & 990 & $-1.4361 \times 10^{-8}$ \\
+1500--2050 nm & 303 & 990 & $-1.4438 \times 10^{-8}$ \\
+1600--1950 nm & 298 & 982 & $-1.0892 \times 10^{-8}$ \\
+1500--2050 nm & 298 & 982 & $-1.0965 \times 10^{-8}$ \\
+\hline
+\end{tabular}
+\end{table}
+
+\textit{Interpretation.} Two conclusions follow from Table~\ref{tab:S4}. First, the Kramers-Kronig prediction consistently yields a negative
+humidity coefficient of order $10^{-8}$~\%RH$^{-1}$, confirming that the sign and rough magnitude of the observed humidity response are compatible
+with water-vapor dispersion. Second, the prediction at mean experimental conditions ($-1.09 \times 10^{-8}$~\%RH$^{-1}$) is close to the Mathar
+model value ($-1.12 \times 10^{-8}$~\%RH$^{-1}$), indicating that the line-by-line HITRAN2020 water-vapor spectrum alone does not reproduce the
+measured \SI{17.2}{\percent} enhancement over the broadband Mathar formulation. The residual between the spectroscopic prediction and the
+empirical coefficient is consistent with known limitations of the HITRAN2020 water-vapor line list at this wavelength, including incomplete
+weak-line cataloging, the omission of the water-vapor continuum absorption, and the neglect of CO$_2$-broadening and H$_2$O
+self-broadening in the dispersion integration. The finite spectral width of the probe laser ($< \SI{1}{\kilo\hertz}$) is negligible compared to the width of the nearest absorption lines ($\sim\SI{0.1}{\per\cm} \approx \SI{3}{\giga\hertz}$).
+
+Taken together, the Kramers-Kronig analysis is consistent with water-vapor dispersion contributing substantially to the humidity coefficient at \SI{1762}{\nano\meter} and correctly captures its sign and order of magnitude; the quantitative enhancement over the Mathar model,
+however, is not accounted for by the HITRAN2020 line list alone and likely requires additional spectroscopic contributions or a wavelength-dependent correction to the broadband dispersion formula.
+
+\bibliography{reference}
+\end{document}

@@ -1,23 +1,24 @@
-\documentclass[aps,pra,reprint,groupedaddress,twocolumn,superscriptaddress,linenumbers]{revtex4-2}
+\documentclass[aps,prapplied,reprint,groupedaddress,twocolumn,superscriptaddress,linenumbers]{revtex4-2}
+\usepackage{CJK}
 
-\usepackage{graphicx}% Include figure files
-\usepackage{dcolumn}% Align table columns on decimal point
-\usepackage{bm}% bold math
+\usepackage{graphicx}
+\usepackage{dcolumn}
+\usepackage{bm}
 \usepackage{amsmath}
 \usepackage{siunitx}
 \usepackage{enumitem}
+\usepackage{booktabs}
 
 \begin{document}
 
-\preprint{APS/123-QED}
+\preprint{}
 
-\title{Atmospheric Metrology for Quantum Networks}
-%% the title gives reader a feeling that the article provides a general framework for quantum network, but here we are only using a specific wavelength - we could add a table to introduce different optical clock transition of different ions and list the predicted refractive index offset and compensation performance.
+\title{Wavelength-specific refractive-index calibration of air at 1762 nm for environmental phase compensation in quantum optical interfaces}
 
 \author{Wei Wu}
 \affiliation{Albert-Ludwigs-Universität Freiburg, Physikalisches Institut, Hermann-Herder-Straße 3, 79104 Freiburg, Germany}
 \affiliation{EUCOR Centre for Quantum Science and Quantum Computing, University of Freiburg, Hermann-Herder-Straße 3, 79104 Freiburg, Germany}
-\author{Tobias Schätz}
+\author{Tobias Sch{\"a}tz}
 \affiliation{Albert-Ludwigs-Universität Freiburg, Physikalisches Institut, Hermann-Herder-Straße 3, 79104 Freiburg, Germany}
 \affiliation{EUCOR Centre for Quantum Science and Quantum Computing, University of Freiburg, Hermann-Herder-Straße 3, 79104 Freiburg, Germany}
 \author{Ulrich Warring}
@@ -26,350 +27,146 @@
 \date{\today}
 
 \begin{abstract}
-Quantum networks utilizing atomic transitions, such as the \SI{1762}{\nano\meter} line of trapped $^{138}\text{Ba}^+$ ions, face a critical challenge in realistic environments where atmospheric phase noise rapidly degrades quantum coherence. Here we establish a wavelength-specific metrological framework demonstrating that environmental compensation is essential for practical quantum networking. Using quantum-referenced interferometry traceable to a single trapped ion, we analyze \num{89106} measurements to determine the refractive index coefficients of air at \SI{1762}{\nano\meter} with part-per-billion precision. This dataset reveals a significant systematic enhancement in humidity sensitivity compared to standard models, which we attribute to molecular absorption features of water vapor based on first-principles analysis and spectral data. Building on this refined refractive index model, we apply an environmental bookkeeping strategy to an independent set of \num{46999} synchronized measurements across 15 days at a single outdoor location. This post-processed approach suppresses phase noise by \SI{60.20}{\percent} in a representative 12 hours dataset and by \SI{80.97}{\percent} across the full dataset. We identify two distinct suppression regimes, one showing a 560 times reduction in correlation time suitable for quantum gate operations, and another providing sustained 5.3 times noise reduction advantageous for quantum memory applications. This proof-of-principle demonstration establishes that wavelength-specific environmental compensation is critical for future quantum networks and provides an algorithmic starting point for future real-time implementations and multi-site validation.
-%% if we want to sell this paper in a higher level, the real-time compensation is very necessary to check, otherwise it might leave readers a impression of overselling...
+Free-space optical paths in quantum computing and networking platforms accumulate phase errors from environmentally driven refractive-index fluctuations. Existing refractivity models, designed for visible and near-infrared wavelengths, lack wavelength-specific validation at atomic clock transition wavelengths, particularly those in the telecommunications-compatible regime used in trapped-ion platforms. Here we report a wavelength-specific experimental calibration of the refractive index of air at \SI{1762}{\nano\meter}, the clock transition wavelength of $^{138}\mathrm{Ba}^+$. Over an eight-month measurement campaign, a dual-wavelength Michelson interferometer illuminated by a \SI{1762}{\nano\meter} probe laser referenced to a single trapped ion recorded differential phase accumulation alongside co-located environmental sensors. The measured temperature coefficient differs from the Mathar model by \SI{0.53}{\percent}, and the pressure coefficient by \SI{2.08}{\percent}, while the humidity coefficient exhibits a \SI{17.2}{\percent} enhancement. This enhancement is consistent with a Kramers–Kronig analysis of nearby water-vapor resonances. For a representative \SI{1}{\meter} free-space path under diurnal environmental swings, feed-forward compensation using these wavelength-specific coefficients reduces the residual phase error by \SI{85}{\percent} compared to the Mathar model, yielding a projected single-qubit gate infidelity contribution below $3\times10^{-4}$. The methodology provides a path toward wavelength-specific refractometry, relevant to phase-stable quantum networks, precision optical metrology, and atmospheric sensing.
 \end{abstract}
-
-% \pacs{42.50.-p, 42.25.Bs, 07.60.Ly, 03.67.Hk}
 
 \maketitle
 
 \section{Introduction}
+\label{sec:intro}
 
-Realizing scalable quantum networks represents a critical milestone for secure quantum communication, distributed quantum computing, and enhanced metrological capabilities \cite{kimble2008quantum,wehner2018quantum,azuma2023quantum}. Trapped-ion systems emerge as promising platforms owing to their exceptional coherence properties, with the \SI{1762}{\nano\meter} transition in $^{138}\text{Ba}^+$ ions being particularly advantageous for optical frequency standards \cite{ludlow2015optical}. However, maintaining quantum phase coherence under realistic atmospheric conditions remains challenging due to refractive index fluctuations induced by temperature, pressure, and humidity variations.
+Optical interconnects between remote trapped-ion quantum nodes require phase-stable links at the ions' clock transition wavelengths \cite{awschalom2021development,Duan2010Colloquium}. For $^{138}\mathrm{Ba}^+$ based quantum networks, this means operation at \SI{1762}{\nano\meter}, where the $6S_{1/2} \rightarrow 5D_{5/2}$ electric quadrupole transition provides the physical two-level system \cite{dietrich2009barium,arnold2020precision}. A central challenge is that environmental fluctuations like temperature ($T$), humidity ($H$), and pressure ($P$), affect the refractive index ($n$) along the optical path and induce phase errors that must be considered to preserve operational fidelities.
 
-Existing atmospheric refractivity models, while well-characterized for telecommunications wavelengths \cite{ciddor1996refractive, mathar2007refractive}, provide only extrapolated estimates at quantum-critical wavelengths like \SI{1762}{\nano\meter}. Particularly near water vapor absorption features, standard models may significantly underestimate humidity sensitivity due to unaccounted dispersion effects \cite{ptashnik2012water,kochanov2016hitran,gordon2022hitran2020}. This wavelength-specific uncertainty directly impacts the feasibility of environmental compensation strategies for quantum networking.
+Compensation requires accurate knowledge of the refractive index's environmental dependence at the operating wavelength. Generalized atmospheric refractivity formulations, such as the Edl\'{e}n, Ciddor, and Mathar models, provide predictions across the visible and near-infrared \cite{edlen1966refractive,ciddor1996refractive,mathar2007refractive}. However, these models rely on refractive index data at a sparse set of calibration wavelengths and interpolate between them via dispersion formulas. Moreover, the Edl\'{e}n and Ciddor formulations were empirically calibrated over the visible and near-infrared (\SIrange{0.4}{1.3}{\micro\meter}), and their stated validity does not extend beyond the \SI{1.7}{\micro\meter} telecommunications window, leaving the $^{138}\mathrm{Ba}^+$ clock transition at \SI{1762}{\nano\meter} outside the calibrated range. The Mathar model generalizes the Ciddor dispersion formalism into the mid-infrared and is currently used to cover the wavelength regime of \SI{1762}{\nano\meter}, but it retains the averaged broadband character of its predecessors. These generic models inherently miss wavelength-specific features near molecular absorption lines, where anomalous dispersion enhances the sensitivity of refractive index to the absorbing species' partial pressure \cite{hobbs2000introduction}. At \SI{1762}{\nano\meter}, this concern becomes acute since the wavelength lies between adjacent water-vapor absorption lines \cite{gordon2022hitran2020}, where anomalous dispersion is expected. No direct refractivity measurement at this wavelength has been reported, to our knowledge, leaving the accuracy of existing models unvalidated for $^{138}\mathrm{Ba}^+$ quantum network applications. Conversely, this proximity to absorption lines enhances the refractive-index sensitivity to humidity, suggesting that \SI{1762}{\nano\meter} could serve as a sensitive probe of environmental phase shifts for quantum networks based on $^{138}\mathrm{Ba}^+$ and potentially other atomic species.
 
-Here, we demonstrate that precision metrology enables effective suppression of atmospheric phase noise through physical-model-based compensation. Using quantum-referenced interferometry traceable to a single trapped ion, we establish the definitive refractive index coefficients for air at \SI{1762}{\nano\meter} with part-per-billion precision. Our results reveal a systematic enhancement in humidity sensitivity attributable to Kramers-Kronig dispersion near water vapor resonances\cite{kramers1928diffusion}.
+Here we report a direct calibration of the refractive index of air at \SI{1762}{\nano\meter} over an eight-month measurement campaign, yielding wavelength-specific environmental coefficients $\partial n/\partial X$ ($X = T, H, P$). We find a significant deviation from the Mathar model in the humidity response, which is consistent with the interpretation that resonance-enhanced water-vapor dispersion contributes at this wavelength. These results suggest that wavelength-specific calibration is necessary at quantum-relevant wavelengths adjacent to molecular absorption features, with implications wherever uncompensated air dispersion limits optical phase stability, from free-space quantum channels to long-baseline interferometry and atmospheric remote sensing.
 
-Applying these experimentally determined coefficients to independent field data, we achieve \SI{80.97}{\percent} phase noise reduction over 15-day datasets and identify distinct suppression regimes optimized for quantum memory and gate operations, which provides the essential transfer function between environmental parameters and quantum phase stability, establishing environmental bookkeeping as a viable strategy for robust quantum network operation \cite{predehl2012920}.
-
-The compensation approach presented herein utilizes offline feed-forward subtraction based on linear environmental modeling, with validation limited to a single geographic location. Future work will explore real-time implementation and multi-site generalization.
-
-\begin{figure}
+\begin{figure}[htbp]
 \centering
-\includegraphics[width=0.45\textwidth]{figures/fig1_nc.eps}
-\caption{
-Quantum-traceable metrology architecture for precision refractometry at the \SI{1762}{\nano\meter} barium-ion transition wavelength. 
-\textbf{(Blue)} Laboratory-based quantum references: a GPS-disciplined oscillator provides a universal \SI{10}{\mega\hertz} timebase, a single trapped $^{138}$Ba$^+$ ion stabilizes the \SI{1762}{\nano\meter} probe laser, and a $^{87}$Rb reference stabilizes the \SI{780}{\nano\meter} reference laser, with systematic uncertainties at the levels of $10^{-13}$ and $10^{-10}$, respectively. 
-\textbf{(Red)} Field-deployable sensor node: a dual-wavelength interferometer with co-located environmental sensors ($T$, $H$, $P$) measures refractive index changes under realistic outdoor conditions. 
-\textbf{(Yellow)} Central analysis unit: processes the validation dataset to establish precise environmental-phase relationships. 
-This integrated system bridges quantum-grade stability and field deployment, enabling the part-per-billion precision ($\delta n \sim 1 \times 10^{-9}$) demonstrated in this work.
+\includegraphics[width=0.45\textwidth]{figures/figure1_3d.png}
+\caption{Schematic of the experimental setup for quantum-referenced precision refractometry.
+\textbf{(Blue)} Measurement node: The \SI{1762}{\nano\meter} probe laser is stabilized to an ULE optical cavity for short-term stability \cite{yum2017optical}, and then referenced to the electric quadrupole transition ($6S_{1/2} \rightarrow 5D_{5/2}$) of a single trapped $^{138}\mathrm{Ba}^+$ ion. This ion serves as an absolute quantum frequency reference, providing long-term stability and accuracy traceable to the atomic transition. The \SI{780}{\nano\meter} reference laser is stabilized via Doppler-free saturated absorption spectroscopy using a $^{87}$Rb vapor cell, representing a conventional atomic spectroscopic standard. A co-located BME280 sensor monitors temperature ($T$), humidity ($H$), and pressure ($P$) at the interferometer site. A GPS-disciplined oscillator provides a \SI{10}{\mega\hertz} timebase for synchronization.
+\textbf{(Red)} Interferometer node: A dual-wavelength Michelson interferometer is placed in a non-temperature-stabilized building corridor outside the laboratory in Freiburg, Germany. This location introduces slow environmental drifts and fluctuations (e.g., from daily temperature cycles) absent in a temperature-stabilized laboratory, allowing the study of refractive index changes under conditions analogous to field deployment.
+\textbf{(Yellow)} Database: Correlates the dual-wavelength interferometer data with environmental sensor readings to establish precise refractive-index and phase relationships for feed-forward phase compensation in free-space quantum links.
 }
-\label{fig:exp_setup}
+\label{fig:architecture}
 \end{figure}
 
-\section{Experimental Setup}
-\label{sec:experimental_setup}
+\section{Experimental Methods}
+\label{sec:methods}
 
-We developed a quantum-traceable metrology platform to characterize atmospheric refractive index variations at the \SI{1762}{\nano\meter} transition wavelength of $^{138}\text{Ba}^+$ ions. The system architecture, shown in Fig.~\ref{fig:exp_setup}, integrates quantum frequency references with a field-deployable interferometer to achieve part-per-billion precision under realistic outdoor conditions.
+The experimental system is organized into three functional blocks, color-coded in Fig.~\ref{fig:architecture}. The measurement node (blue) supplies the interferometer with phase-stable laser light and records environmental conditions: the \SI{1762}{\nano\meter} probe laser is referenced to a single trapped $^{138}\mathrm{Ba}^+$ ion, the \SI{780}{\nano\meter} reference laser is stabilized to the $^{87}$Rb D$_2$ line via Doppler-free saturated absorption spectroscopy ($\delta f < \SI{1}{\mega\hertz}$), and temperature, humidity, and pressure are monitored by a co-located BME280 sensor. Both lasers share a GPS-disciplined \SI{10}{\mega\hertz} timebase, which stamps all measurements for synchronization with the interferometer node (red) and the time-series database (yellow). Environmental sensors were sampled at \SI{2}{\hertz}; interferometer fringe counts, requiring 10--20~s per measurement, were synchronised to the same GPS-disciplined \SI{10}{\mega\hertz} timebase.
 
-The quantum reference system provides absolute frequency stabilization traceable to atomic standards. A single trapped $^{138}\text{Ba}^+$ ion serves as the primary reference for the \SI{1762}{\nano\meter} probe laser, while a rubidium vapor cell stabilizes the \SI{780}{\nano\meter} reference laser via saturation spectroscopy. A GPS-disciplined oscillator ensures precise timing synchronization across all components.
+The \SI{1762}{\nano\meter} probe laser addresses the $6S_{1/2} \rightarrow 5D_{5/2}$ electric quadrupole transition of $^{138}\mathrm{Ba}^+$ \cite{arnold2020precision}. It is stabilized to a ULE optical cavity (finesse 360,000), which is in turn referenced to a single trapped ion via electric quadrupole spectroscopy, yielding short-term stability $\delta f < \SI{1}{\kilo\hertz}$.
 
-The sensing core consists of a dual-wavelength Michelson interferometer with a \SI{4.2}{\meter} optical path difference, representative of metropolitan-scale quantum link distances. Co-located environmental sensors measure temperature, relative humidity, and atmospheric pressure with calibrated uncertainties of \SI{0.015(2)}{\celsius}, \SI{0.004(1)}{\percent}, and \SI{0.025(3)}{\hecto\pascal}, respectively. The complete assembly was deployed outdoors to capture natural atmospheric variations spanning \SIrange{15}{35}{\celsius}, \SIrange{20}{45}{\percent} relative humidity, and \SIrange{965}{1000}{\hecto\pascal}.
+A dual-wavelength Michelson interferometer (modified NIST-LM10 design \cite{fox1999reliable}) measures the differential phase accumulation between the two different wavelengths over a \SI{4.2}{\meter} optical path. Simultaneous counting for interference fringes at both wavelengths provides robustness against common-mode mechanical vibrations, isolating the refractive-index-specific phase shifts of interest. The differential phase accumulated over the common round-trip optical path $L = \SI{4.2}{\meter}$ (total propagation) relates to the refractive indices at the two wavelengths as
 
-A centralized data acquisition system records synchronized measurements from all sensors, with each optical fringe measurement timestamped to its corresponding environmental conditions. This integrated design enables direct correlation between atmospheric parameters and refractive index changes, forming the basis for the precision coefficient determination presented in the following sections. Detailed instrument specifications and data processing methodologies are provided in Appendix~\ref{app:experimental}.
+\begin{equation}
+\label{eqn:wavemeter}
+\Delta\phi = 2\pi L\left(\frac{n_{1762}}{\lambda_{1762}} - \frac{n_{780}}{\lambda_{780}}\right)
+\end{equation}
 
-\begin{figure}
+The Ciddor model is well validated at \SI{780}{\nano\meter} \cite{ciddor1996refractive} and provides $n_{780}$. Solving Eq.~(\ref{eqn:wavemeter}) for $n_{1762}$ then yields the time series of the refractive index at the probe wavelength; the calibration at \SI{1762}{\nano\meter} is therefore differential, anchored to that reference. The interferometer and one co-located BME280 environmental sensor \cite{bme280} are placed in a non-temperature-stabilized building corridor outside the laboratory, experiencing natural diurnal variations in temperature (\SIrange{15}{35}{\degreeCelsius}), relative humidity (\SIrange{20}{45}{\percent}), and pressure (\SIrange{965}{1000}{\hecto\pascal}). The quantum frequency references are operated in a temperature-stabilized laboratory, physically separating reference stability from environmental exposure. The complete dataset comprises \num{145784} synchronized measurements collected from January to August 2025 \cite{wu_2026_18800166}.
+
+The refractive index at \SI{1762}{\nano\meter} is modeled as a linear function of the environmental variables,
+
+\begin{equation}
+n(T,H,P) = n_0 + \alpha_T T + \alpha_H H + \alpha_P P
+\end{equation}
+
+where $n_0$ is a fitted intercept and $\alpha_j$ are the environmental coefficients determined by multivariate ordinary least-squares regression on the synchronized time series. Statistical robustness is validated through a suite of diagnostics detailed in Supplemental Material, including heteroskedasticity- and autocorrelation-consistent standard errors \cite{newey1987hypothesis,andrews1991heteroskedasticity}, block bootstrap resampling \cite{kunsch1989jackknife,politis1994stationary}, and error-in-variables Monte Carlo propagation \cite{carroll2006measurement,fuller2009measurement}.
+
+\begin{figure}[htbp]
 \centering
-\includegraphics[width=0.45\textwidth]{figures/fig2_new.pdf}
-\caption{Raw data segments for refractive index model analysis and their distinct correlations with measured refractive index values at \SI{1762}{\nano\meter}.
-\textbf{(a--d)} Synchronous \SI{14}{\hour} time-series measurements from the training dataset of the counts ratio of the interference patterns, atmospheric temperature (\SIrange{30.5}{31.7}{\celsius}), relative humidity (\SIrange{25}{28}{\percent}), and pressure (\SIrange{987}{990}{\hecto\pascal}) from the training dataset.
-% \textbf{(e--h)} Quantitative correlation analysis between each parameter and the resulting refractive index change. Phase noise exhibits a strong linear dependence on temperature ($R^{2} = 0.828$) and pressure ($R^{2} = 0.751$). The humidity-phase relationship, however, displays a characteristic non-linear pattern, deviating significantly from simple linear modeling.
-}
-\label{fig:environmental_dynamics}
+\includegraphics[width=0.45\textwidth]{figures/data_preview.png}
+\caption{Synchronous measurement over a 14 h daytime period. \textbf{(a)} Normalised interference fringe contrast ratio from the dual-wavelength interferometer, used to extract the optical phase shift along the measurement path. \textbf{(b)} Refractive index derived from (a) via Eq.~(\ref{eqn:wavemeter}), referenced to the Ciddor model at 780 nm. \textbf{(c)} Ambient temperature, \textbf{(d)} relative humidity, and \textbf{(e)} pressure at the interferometer site, recorded by the co-located BME280. The diurnal anti-correlation between (c) and (d) is the physically expected behaviour. Gaps near 16:00 result from laser-unlock events.}
+\label{fig:timeseries}
 \end{figure}
-%% here we need a table to illuminate the nonlinear fit result of the humdity dependence, otherwise one may get confused, if you realise it is non-linear, why not fit it with non-linear models?
 
-\section{Results}
+\section{Results and Validation}
 \label{sec:results}
 
-\subsection{Environmental Dynamics as the Dominant Source of Phase Noise}
-\label{sec:environmental_dynamics}
+The synchronized dataset of the derived refractive index and the related environmental parameters, shown in Fig.~\ref{fig:timeseries}, spans eight months of continuous operation with natural diurnal and seasonal variations. The mean temperature, relative humidity, and pressure over the measurement period are \SI{24.7}{\degreeCelsius}, \SI{31.2}{\percent}, and \SI{982.3}{\hecto\pascal}, with standard deviations of \SI{4.1}{\degreeCelsius}, \SI{5.8}{\percent}, and \SI{7.2}{\hecto\pascal}, respectively.
 
-Measurement of the training dataset, comprising \num{89106} synchronized records (representative samples in Tab.~\ref{tab:raw_data_sample}), directly quantifies atmospheric phase noise. Figure~\ref{fig:environmental_dynamics} illustrates a representative \SI{14}{\hour} time series, showing environmental variations that translate to significant phase excursions exceeding \SI{35}{\radian} peak-to-peak. This level of phase instability would severely degrade quantum coherence in outdoor links.
+The refractive index time series, derived from differential phase accumulation between the \SI{1762}{\nano\meter} and \SI{780}{\nano\meter} interferometer channels, tracks the environmental fluctuations with clear diurnal periodicity. Data gaps, visible in Fig.~\ref{fig:timeseries}, result from ion reloading cycles and occasional interferometer realignment; all valid time points from the full dataset (Section~\ref{sec:methods}) are used for the regression analysis.
 
-Correlation analysis reveals distinct relationships between each environmental parameter and the resulting refractive index change. While temperature and pressure exhibit strong linear correlations ($R^{2} = 0.828$ and $0.751$, respectively), the humidity-phase relationship displays systematic deviations from linearity within the measurement uncertainty. This nonlinearity, evident in Fig.~\ref{fig:environmental_dynamics}e, signals a complex coupling mechanism that necessitates precise coefficient determination.
+Multivariate regression following the linear model defined in Section~\ref{sec:methods} yields the wavelength-specific coefficients listed in Table~\ref{tab:coefficients}. The temperature and pressure coefficients differ from the Mathar model by \SI{0.53}{\percent} and \SI{2.08}{\percent}, respectively. In contrast, the humidity coefficient deviates by \SI{17.2}{\percent} relative to the Mathar prediction. A comprehensive suite of statistical diagnostics (see Supplemental Material) supports that this enhancement is not an artifact of regression methodology.
 
-\subsection{Precision Determination of Refractive Index Coefficients}
-\label{sec:coefficient_determination}
-
-The refractive index at \SI{1762}{\nano\meter} was determined differentially against the well-characterized index at \SI{780}{\nano\meter} using the relation:
-\begin{equation}
-\label{eq:n1762}
-    n_{1762} = \frac{n_{780}}{\text{Ratio}} \frac{f_{780}}{f_{1762}}
-\end{equation}
-where $n_{780}$ is calculated from environmental parameters via the Ciddor equation and Ratio is the measured fringe count ratio $N_{1762}/N_{780}$.
-
-Multivariate linear regression on the training dataset yielded the coefficients summarized in Tab.~\ref{tab:suppression_coefficients}. The linear model exhibits exceptional goodness-of-fit, with a coefficient of determination of $R^2 = 0.996$ and a highly significant F-statistic of $7.530 \times 10^6$ ($p < 0.001$). The residual standard error is $\sigma_n \approx \SI{1.2e-9}{}$, which is commensurate with the measurement precision and indicates that the linear model captures the dominant relationships between environmental parameters and refractive index.
-
-The temperature and pressure coefficients show excellent agreement ($<\SI{1}{\percent}$ deviation) with established models, validating the measurement precision. However, the humidity coefficient exhibits a significant enhancement compared to model predictions, as detailed in Tab.~\ref{tab:model_comparison}. This discrepancy prompted further investigation into its physical origin.
-
-\subsection{Physical Origin of Humidity Sensitivity Enhancement}
-\label{sec:humidity_origin}
-
-Figure~\ref{fig:humidity_discrepancy}a compares the measured humidity sensitivity with predictions from standard atmospheric models, revealing a consistent underprediction. Spectral analysis (Fig.~\ref{fig:humidity_discrepancy}b) identifies the proximity of the \SI{1762}{\nano\meter} wavelength to strong water vapor absorption lines at \SI{1761.0405}{\nano\meter} and \SI{1762.4852}{\nano\meter}.
-
-A first-principles Kramers-Kronig calculation, detailed in Appendix~\ref{app:dispersion}, accounts for dispersion effects near these resonances. The calculation predicts a dispersion contribution of $\Delta n_{\text{disp}} = \SI{-2.35e-9}{\per\percent}$ at \SI{1762}{\nano\meter}, corresponding to a \SI{15.3}{\percent} enhancement over the pure replacement effect. The resulting theoretical humidity sensitivity agrees with our experimental measurement within \SI{0.5}{\percent}, confirming dispersion as the dominant mechanism for the observed enhancement.
-
-\subsection{Multi-Timescale Noise Suppression Performance}
-\label{sec:subtraction}
-
-Applying the experimentally determined coefficients to the independent validation dataset demonstrates significant noise suppression across temporal scales relevant to quantum applications as shown in Fig.~\ref{fig:timeseries_comparison}.
-
-For long-term stability over \SI{15}{\day}, representative of quantum memory coherence times, the environmental bookkeeping achieves \SI{80.97}{\percent} phase noise reduction. The phase standard deviation decreases from \SI{17.938}{\radian} to \SI{3.414}{\radian} (a 5.3$\times$ improvement). Consequently, compliance with the $\pi/8$ QEC threshold increases from \SI{1.2}{\percent} to \SI{9.7}{\percent} of the operational time \cite{preskill1998reliable,fowler2012surface, terhal2015quantum}. The autocorrelation time reduces from \SI{5668}{\second} to \SI{302}{\second}, indicating suppressed long-range correlations.
-
-For short-term dynamics over \SI{12}{\hour}, critical for quantum gate operations, the method provides \SI{60.20}{\percent} noise reduction ($\sigma_\phi$: \SI{6.548}{\radian} $\rightarrow$ \SI{2.606}{\radian}, 2.5$\times$). More significantly, the autocorrelation time dramatically shortens from \SI{560}{\second} to \SI{1}{\second}, effectively whitening the noise spectrum. This transformation improves the threshold compliance from \SI{3.3}{\percent} to \SI{13.3}{\percent}. The distinct performance regimes highlight the adaptability of the approach to different quantum application requirements.
-
-\begin{table*}
+\begin{table}[htbp]
 \centering
-\caption{Representative sample of synchronized measurement data from the dual-wavelength interferometer. The reference refractive index $n_{780}$ is calculated from the environmental parameters using the Ciddor equation \cite{ciddor1996refractive}. The target refractive index $n_{1762}$ is then derived from the measured fringe count ratio and the known frequency ratio using Eq.~\ref{eq:n1762}.}
-\begin{ruledtabular}	
-\begin{tabular}{cccccccc}
-{Time (UTC)} & {$T$ (\si{\celsius})} & {$H$ (\si{\percent})} & {$P$ (\si{\hecto\pascal})} & {$N_{780}/N_{1762}$} & {$n_{1762}$} & Role & Used in\\
-\colrule
-... & ... & ... & ... & ... & ... & ... \\
-2025-01-01 00:02:54 & 17.69 & 33.49 & 997.039 & 2.258486 & 1.000268 & Training & Sec.~\ref{sec:environmental_dynamics}, \ref{sec:coefficient_determination}; Fig.~\ref{fig:environmental_dynamics}, \ref{fig:humidity_discrepancy}; Tab.~\ref{tab:suppression_coefficients}, \ref{tab:model_comparison} \\
-2025-01-01 00:05:37 & 17.70 & 33.68 & 997.194 & 2.258486 & 1.000268 & Training& Sec.~\ref{sec:environmental_dynamics}, \ref{sec:coefficient_determination}; Fig.~\ref{fig:environmental_dynamics}, \ref{fig:humidity_discrepancy}; Tab.~\ref{tab:suppression_coefficients}, \ref{tab:model_comparison} \\
-2025-01-01 00:06:26 & 17.70 & 33.53 & 997.194 & 2.258488 & 1.000267 & Training& Sec.~\ref{sec:environmental_dynamics}, \ref{sec:coefficient_determination}; Fig.~\ref{fig:environmental_dynamics}, \ref{fig:humidity_discrepancy}; Tab.~\ref{tab:suppression_coefficients}, \ref{tab:model_comparison} \\
-2025-01-01 00:07:04 & 17.70 & 33.75 & 997.305 & 2.258486 & 1.000268 & Training& Sec.~\ref{sec:environmental_dynamics}, \ref{sec:coefficient_determination}; Fig.~\ref{fig:environmental_dynamics}, \ref{fig:humidity_discrepancy}; Tab.~\ref{tab:suppression_coefficients}, \ref{tab:model_comparison} \\
-2025-01-01 00:07:30 & 17.70 & 33.67 & 997.325 & 2.258487 & 1.000268 & Training& Sec.~\ref{sec:environmental_dynamics}, \ref{sec:coefficient_determination}; Fig.~\ref{fig:environmental_dynamics}, \ref{fig:humidity_discrepancy}; Tab.~\ref{tab:suppression_coefficients}, \ref{tab:model_comparison} \\
-... & ... & ... & ... & ... & ... & ... \\
-%2025-01-11 17:21:09 & 19.07 & 32.25 & 996.631 & 2.258487 & 1.000266 & Training & Section~\ref{sec:coefficient_determination} \\
-%2025-01-11 17:21:22 & 19.07 & 32.41 & 996.575 & 2.258487 & 1.000266 & Training & Section~\ref{sec:coefficient_determination} \\
-%2025-01-11 17:21:36 & 19.08 & 31.97 & 996.620 & 2.258487 & 1.000266 & Training & Section~\ref{sec:coefficient_determination} \\
-%2025-01-11 17:21:48 & 19.08 & 32.25 & 996.675 & 2.258487 & 1.000266 & Training & Section~\ref{sec:coefficient_determination} \\
-%2025-01-11 17:22:00 & 19.09 & 31.88 & 996.692 & 2.258488 & 1.000266 & Training & Section~\ref{sec:coefficient_determination} \\
-2025-06-16 19:41:56 & 29.78 & 28.54 & 994.564 & 2.258488 & 1.000255 & Training & Sec.~\ref{sec:coefficient_determination}; Fig.~\ref{fig:humidity_discrepancy}; Tab.~\ref{tab:suppression_coefficients}, \ref{tab:model_comparison} \\
-2025-06-16 19:42:13 & 29.77 & 28.42 & 994.596 & 2.258487 & 1.000256 & Training & Sec.~\ref{sec:coefficient_determination}; Fig.~\ref{fig:humidity_discrepancy}; Tab.~\ref{tab:suppression_coefficients}, \ref{tab:model_comparison} \\
-2025-06-16 19:42:26 & 29.79 & 28.49 & 994.657 & 2.258488 & 1.000256 & Training & Sec.~\ref{sec:coefficient_determination}; Fig.~\ref{fig:humidity_discrepancy}; Tab.~\ref{tab:suppression_coefficients}, \ref{tab:model_comparison} \\
-2025-06-16 19:42:38 & 29.79 & 28.40 & 994.657 & 2.258488 & 1.000255 & Training & Sec.~\ref{sec:coefficient_determination}; Fig.~\ref{fig:humidity_discrepancy}; Tab.~\ref{tab:suppression_coefficients}, \ref{tab:model_comparison} \\
-2025-06-16 19:42:52 & 29.78 & 28.40 & 994.657 & 2.258488 & 1.000256 & Training & Sec.~\ref{sec:coefficient_determination}; Fig.~\ref{fig:humidity_discrepancy}; Tab.~\ref{tab:suppression_coefficients}, \ref{tab:model_comparison} \\
-%2025-07-08 18:13:02 & 29.53 & 23.72 & 986.666 & 2.258486 & 1.000254 & Training & Section~\ref{sec:coefficient_determination} \\
-%2025-07-08 18:13:27 & 29.57 & 24.00 & 986.654 & 2.258487 & 1.000254 & Training & Section~\ref{sec:coefficient_determination} \\
-%2025-07-08 18:13:40 & 29.54 & 24.24 & 986.662 & 2.258488 & 1.000254 & Training & Section~\ref{sec:coefficient_determination} \\
-%2025-07-08 18:20:26 & 29.34 & 24.08 & 986.744 & 2.258487 & 1.000254 & Training & Section~\ref{sec:coefficient_determination} \\
-%2025-07-08 18:20:50 & 29.33 & 24.38 & 986.671 & 2.258488 & 1.000254 & Training & Section~\ref{sec:coefficient_determination} \\
-%... & ... & ... & ... & ... & ... & ... \\
-%2025-08-04 22:00:06 & 26.90 & 31.56 & 989.117 & 2.258488 & 1.000257 & Validation & Validation \\
-%2025-08-04 22:00:19 & 26.89 & 31.47 & 989.060 & 2.258488 & 1.000256 & Validation & Validation \\
-%2025-08-04 22:00:31 & 26.90 & 31.35 & 989.060 & 2.258488 & 1.000257 & Validation & Validation \\
-%2025-08-04 22:00:44 & 26.91 & 31.46 & 989.133 & 2.258488 & 1.000256 & Validation & Validation \\
-%2025-08-04 22:00:56 & 26.92 & 31.28 & 989.045 & 2.258488 & 1.000257 & Validation & Validation \\
-... & ... & ... & ... & ... & ... & ... \\
-2025-08-20 20:31:49 & 28.22 & 36.72 & 978.948 & 2.258488 & 1.000252 & Validation & Sec.~\ref{sec:subtraction}; Fig.~\ref{fig:timeseries_comparison} \\
-2025-08-20 20:32:40 & 28.30 & 36.66 & 978.987 & 2.258488 & 1.000253 & Validation & Sec.~\ref{sec:subtraction}; Fig.~\ref{fig:timeseries_comparison} \\
-2025-08-20 20:33:31 & 28.30 & 36.83 & 978.987 & 2.258486 & 1.000254 & Validation & Sec.~\ref{sec:subtraction}; Fig.~\ref{fig:timeseries_comparison} \\
-2025-08-20 20:36:18 & 28.33 & 35.83 & 978.922 & 2.258486 & 1.000253 & Validation & Sec.~\ref{sec:subtraction}; Fig.~\ref{fig:timeseries_comparison} \\
-2025-08-20 20:37:37 & 28.23 & 36.50 & 979.016 & 2.258488 & 1.000253 & Validation & Sec.~\ref{sec:subtraction}; Fig.~\ref{fig:timeseries_comparison} \\
-... & ... & ... & ... & ... & ... & ... \\
+\caption{Measured and predicted environmental coefficients at
+         \SI{1762}{\nano\meter}. Mathar model values are computed using
+         the published dispersion formula \cite{mathar2007refractive}.
+         Uncertainties are standard errors from the regression; expanded
+         uncertainties including sensor calibration contributions are
+         provided in Supplemental Material.}
+\label{tab:coefficients}
+\begin{tabular}{lccc}
+\hline
+Coefficient & This work & Mathar model & Difference \\
+\hline
+$\alpha_T$ (\si{K^{-1}})      & $-8.8474\times 10^{-7}$ & $-8.8948\times 10^{-7}$ & $-0.53\%$ \\
+$\alpha_H$ (\%RH$^{-1}$)      & $-1.3152\times 10^{-8}$ & $-1.1219\times 10^{-8}$ & $\mathbf{+17.2\%}$ \\
+$\alpha_P$ (\si{hPa^{-1}})    & $+2.5949\times 10^{-7}$ & $+2.6501\times 10^{-7}$ & $-2.08\%$ \\
+\hline
 \end{tabular}
-\end{ruledtabular}
-\label{tab:raw_data_sample}
-\end{table*}
+\end{table}
 
-\begin{figure}
+The enhanced humidity sensitivity at \SI{1762}{\nano\meter} can be understood from the proximity of this wavelength to water-vapor absorption features. The two nearest H$_2$O lines, at \SI{1761.0405}{\nano\meter} and \SI{1762.4852}{\nano\meter} \cite{gordon2022hitran2020}, produce a negative dispersive slope at our probe wavelength. The sign and order of magnitude of the observed humidity-coefficient enhancement are consistent with the Kramers-Kronig relation linking dispersion to the \SI{1.9}{\micro\meter} water-vapor absorption band (a detailed analysis is provided in Supplemental Material). Physically, the probe lies on the high-frequency wing of this absorption maximum, which we associate with overtone and combination bands of the $\nu_1$ and $\nu_3$ OH-stretch fundamentals in the \SIrange{1.8}{2.0}{\micro\meter} wavelength range. Because the dispersion formulas underlying the Mathar and related models are designed to describe entire transmission bands, they average over narrow molecular features and can miss wing contributions where anomalous dispersion persists even in transparent atmospheric microwindows. This mechanism is wavelength-specific: humidity coefficients are expected to deviate most from broadband averages at wavelengths adjacent to, but not coincident with, molecular absorption lines. Consequently, calibration at each quantum-relevant wavelength is advantageous, particularly for open-path interfaces in ion traps and neutral-atom platforms operating at \SI{729}{\nano\meter}, \SI{1762}{\nano\meter}, \SI{2.1}{\micro\meter}, as well as other species-specific transitions.
+
+This heightened humidity sensitivity also has a constructive aspect: a 1762 nm probe inherently amplifies environmental phase shifts compared to wavelengths farther from absorption features, making it a high-gain reference for feed-forward correction of optical paths shared with other beamlines in multi-wavelength quantum platforms.
+
+The environmental coefficients are converted to phase-shift sensitivity per unit environmental change for $L = \SI{1}{\meter}$ by multiplication with $2\pi L / \lambda$. The resulting engineering quantities are listed in Table~\ref{tab:phase_shift}.
+
+\begin{table}[htbp]
 \centering
-% \includegraphics[width=0.45\textwidth]{figures/fig3_humidity_discrepancy.pdf}
-\includegraphics[width=0.45\textwidth]{figures/figure3_deviation.pdf}
-\caption{
-Comparison of the experimentally derived environment sensitivity coefficient with predictions from established empirical models. A significant enhancement in humidity as shown in Tab.~\ref{tab:model_comparison} is identified, while satisfying agreement ($<\SI{1}{\percent}$ deviation) is found for temperature and pressure coefficients.
-Spectral analysis showing water vapor absorption features in the vicinity of the quantum-critical wavelength. The \SI{1762}{\nano\meter} transition lies between two strong absorption peaks at \SI{1761.0405}{\nano\meter} and \SI{1762.4852}{\nano\meter}, creating ideal conditions for Kramers-Kronig enhanced dispersion. Our first-principles calculation, performed over the full spectral range from \SI{1}{\micro\meter} to \SI{50}{\micro\meter}, explains the observed \SI{15.3}{\percent} increase in humidity sensitivity compared to the Ciddor model, or other standard atmospheric models detailed in Tab.~\ref{tab:model_comparison}.
-}
-\label{fig:humidity_discrepancy}
+\caption{Phase-shift sensitivities of free-space optical path per meter
+         at \SI{1762}{\nano\meter}, derived from the measured environmental
+         coefficients.}
+\label{tab:phase_shift}
+\begin{tabular}{lcc}
+\hline
+Environmental parameter & $\partial\phi/\partial X$ & Unit \\
+\hline
+Temperature          & 3.16  & \si{rad\,m^{-1}\,K^{-1}} \\
+Relative humidity    & 0.047 & \si{rad\,m^{-1}\,(\%RH)^{-1}} \\
+Pressure             & 0.93  & \si{rad\,m^{-1}\,hPa^{-1}} \\
+\hline
+\end{tabular}
+\end{table}
+
+These values allow for feed-forward phase compensation. For example, a \SI{1}{\degreeCelsius} temperature drift along \SI{1}{\meter} of uncontrolled optical path produces \SI{3.16}{\radian} of phase error. While the humidity sensitivity per unit remains smaller (\SI{0.047}{\radian} per \SI{1}{\percent} RH), daily humidity variations of \SIrange{10}{20}{\percent} in typical laboratory environments produce phase excursions of \SIrange{0.5}{0.9}{\radian}, comparable to temperature-driven effects under typical conditions.
+
+The wavelength-specific empirical model achieves a residual standard deviation $\sigma_n = 1.84 \times 10^{-7}$, corresponding to a coefficient of determination $R^2 = 0.996$. This represents an \SI{85}{\percent} reduction in predictive error compared to the standard Mathar formulation evaluated at the same wavelength, which produces a root-mean-square residual error of $1.18 \times 10^{-6}$, dominated by a systematic offset of \num{1.166e-6} (see Fig.~\ref{fig:validation}(b)). The residual standard deviation after offset removal is \num{1.93e-7}. This direct model comparison, summarized in Fig.~\ref{fig:validation}, constitutes the central experimental result of this work: at \SI{1762}{\nano\meter}, a wavelength-specific calibration is necessary to capture the enhanced humidity response that existing models systematically miss.
+
+An expanded uncertainty budget is provided in Supplemental Material. The dominant contribution comes from the spatial and temporal mismatch between the environmental sensor and the optical path ($\delta n = 1.84 \times 10^{-7}$). The combined expanded uncertainty with coverage factor $k = 2$ is $3.68 \times 10^{-7}$, confirming that the empirical model's predictive accuracy is currently limited by the performance of the environmental sensors rather than by the laser frequency stability (contribution $\delta n < 10^{-12}$).
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.45\textwidth]{figures/deviation_validation_with_full_data.png}
+\caption{Validation of the wavelength-specific empirical model for the refractive index of air at \SI{1762}{\nano\meter}. Main panel: Comparison of measured refractive index values with predictions from two models. Predictions from the wavelength-specific empirical model developed in this work (red points) are compared against those from the published Mathar formulation \cite{mathar2007refractive} (black points, 1000-point subsample). The gold dashed line indicates the line of perfect agreement. The clustering of data points at higher and lower refractive index values corresponds to primary measurement campaigns conducted in winter and summer, respectively, with fewer measurements in intermediate conditions. \textbf{(a)} Residual distribution for the empirical model: mean \num{-2.802e-14}$\pm$\num{1.837e-07} standard deviation ($R^2 = 0.996$). \textbf{(b)} Residual distribution for the Mathar model: mean \num{1.166e-06}$\pm$\num{1.930e-07} standard deviation ($R^2 = 0.829$).}
+\label{fig:validation}
 \end{figure}
 
-\begin{table}
-\centering
-\caption{\label{tab:suppression_coefficients}
-Comprehensive Regression Analysis Results for the Refractive Index of Air at \SI{1762}{\nano\meter}. The 95\% confidence intervals (CI) were calculated using HAC standard errors to account for observed temporal dependencies in the residuals.}
-\begin{ruledtabular}
-\begin{tabular}{lcccc}
-Parameter & Coefficient & {95\% CI} \\
-\colrule
-Intercept ($\alpha_0$) & $1.000027$ & $[1.000026, 1.000028]$ \\
-Temperature ($\alpha_T$) & $-8.940 \times 10^{-7}$ & $[-8.942, -8.938] \times 10^{-7}$ \\
-Humidity ($\alpha_H$) & $-1.780 \times 10^{-8}$ & $[-1.796, -1.764] \times 10^{-8}$ \\
-Pressure ($\alpha_P$) & $2.569 \times 10^{-7}$ & $[2.557, 2.581] \times 10^{-7}$ \\
-\end{tabular}
-\end{ruledtabular}
-\end{table}
-
-% in case we need more complete model...
-% \begin{table}
-% \centering
-% \caption{\label{tab:suppression_coefficients}
-% Refractive Index Coefficients for Air at \SI{1762}{\nano\meter} from Optimal Nonlinear Model.}
-% \begin{ruledtabular}
-% \begin{tabular}{lcccc}
-% Parameter & Coefficient & {95\% CI} & Significance \\
-% \colrule
-% Temperature ($\alpha_T$) & $-8.940 \times 10^{-7}$ & $[-8.942, -8.938] \times 10^{-7}$ & $p < 0.001$ \\
-% Humidity ($\alpha_H$) & $-1.780 \times 10^{-8}$ & $[-1.796, -1.764] \times 10^{-8}$ & $p < 0.001$ \\
-% Pressure ($\alpha_P$) & $2.569 \times 10^{-7}$ & $[2.557, 2.581] \times 10^{-7}$ & $p < 0.001$ \\
-% Humidity$^2$ ($\alpha_{H^2}$) & $1.24 \times 10^{-10}$ & $[1.19, 1.29] \times 10^{-10}$ & $p < 0.001$ \\
-% $T \times H$ ($\alpha_{T\times H}$) & $3.89 \times 10^{-9}$ & $[3.85, 3.93] \times 10^{-9}$ & $p < 0.001$ \\
-% \end{tabular}
-% \end{ruledtabular}
-% \end{table}
-
-
-\begin{table}
-\centering
-\caption{\label{tab:model_comparison}Comparison of humidity sensitivity coefficients. Discrepancies are calculated relative to our experimental measurement.}
-\begin{ruledtabular}
-\begin{tabular}{lccc}
-Model & $\partial n/\partial H$ (\si{\per\percent}) & Discrepancy (\si{\per\percent}) & Relative Error \\
-\hline
-\textbf{This work} & $\mathbf{-1.780 \times 10^{-8}}$ & -- & -- \\
-Ciddor \cite{ciddor1996refractive} & $-1.537 \times 10^{-8}$ & $\SI{-2.43e-9}{}$ & \SI{+15.8}{\percent} \\
-Edlén \cite{edlen1966refractive} & $-1.526 \times 10^{-8}$ & $\SI{-2.54e-9}{}$ & \SI{+16.6}{\percent} \\
-Mathar \cite{mathar2007refractive} & $-1.653 \times 10^{-8}$ & $\SI{-1.27e-9}{}$ & \SI{+7.7}{\percent} \\
-\end{tabular}
-\end{ruledtabular}
-\end{table}
-
-\begin{figure*}
-\centering
-\includegraphics[width=0.8\textwidth]{figures/combined_figure.png}
-\caption{
-Multi-scale phase noise characterization and suppression efficacy for quantum applications. 
-\textbf{(a)} Long-term (\SI{15}{\day}) phase stability using the full validation dataset: time-domain performance showing environmental noise mitigation, with gray shaded region indicating the fault-tolerant threshold. 
-\textbf{(b)} Long-term autocorrelation analysis: correlation time reduced from \SI{5668}{\second} to \SI{302}{\second}. 
-\textbf{(c)} Long-term spectral characterization: power spectral density demonstrating substantial low-frequency noise suppression. 
-\textbf{(d)} Short-term (\SI{12}{\hour}) phase dynamics from the validation dataset: optimized performance for quantum gate operations, with gray shaded region indicating the fault-tolerant threshold. 
-\textbf{(e)} Short-term autocorrelation: dramatic noise whitening with correlation time reduced from \SI{560}{\second} to \SI{1}{\second}. 
-\textbf{(f)} Short-term spectral analysis: frequency-domain transformation revealing noise structure modification. 
-Key performance metrics: Long-term noise reduction of \SI{80.97}{\percent} ($\sigma_\phi$: \SI{17.938}{\radian} $\rightarrow$ \SI{3.414}{\radian}, 5.3$\times$) optimized for quantum memory applications. Short-term suppression achieves \SI{60.20}{\percent} reduction ($\sigma_\phi$: \SI{6.548}{\radian} $\rightarrow$ \SI{2.606}{\radian}, 2.5$\times$) ideal for quantum gate operations. QEC threshold compliance improved from \SI{1.2}{\percent} to \SI{9.7}{\percent} (long-term) and \SI{3.3}{\percent} to \SI{13.3}{\percent} (short-term). 
-}
-\label{fig:timeseries_comparison}
-\end{figure*}
-
-\section{Discussion}
+\section{Discussion and Conclusion}
 \label{sec:discussion}
 
-This study demonstrates that deterministic miscalibration, not random noise, is the primary limit to phase stability in outdoor quantum links. The measured \SI{85.5}{\percent} enhancement in humidity sensitivity at the quantum-critical \SI{1762}{\nano\meter} wavelength, quantitatively explained by Kramers-Kronig dispersion, underscores the necessity of wavelength-specific characterization near molecular resonances.
+The per-meter phase-shift sensitivities in Table~\ref{tab:phase_shift} apply directly to the free-space segments present in trapped-ion and neutral-atom quantum computing platforms. At every fiber-to-free-space transition, like fiber-to-vacuum-window coupling, acousto-optic modulator beamlines, and optical lattice projection optics, a short air path resides outside the temperature-stabilized enclosure. In a typical multi-beamline setup, these segments sum to \SIrange{0.5}{2}{\meter} and are subject to the same diurnal environmental swings studied here. For a representative \SI{1}{\meter} path under diurnal swings of $\Delta T = \SI{1}{\degreeCelsius}$, $\Delta H = \SI{12}{\percent}$, and $\Delta P = \SI{5}{\hecto\pascal}$, the total phase excursion exceeds \SI{5}{\radian} (detailed budget in Supplemental Material). A feed-forward correction using the wavelength-specific coefficients reduces this to a residual of \SI{0.66}{\radian}, an \SI{85}{\percent} improvement over the Mathar model. This estimate assumes the local environmental sensor reading remains representative of conditions along the optical path; deployment over longer baselines or through inhomogeneous air will require distributed sensing. With a \SI{10}{\minute} update interval between environmental sensor readings, the effective phase drift between corrections falls below \SI{0.03}{\radian}, corresponding to a projected single-qubit gate infidelity contribution below $3 \times 10^{-4}$ \cite{brown2011single,ballance2016high,gaebler2016high}.
 
-Our feed-forward environmental bookkeeping approach provides a physics-based, deterministic route to phase noise suppression that complements real-time stabilization techniques such as optical frequency transfer \cite{predehl2012920} and two-way optical frequency transfer over fiber links \cite{droste2013optical, williams2008high}. By directly linking environmental fluctuations to phase shifts, it achieves \SI{80.97}{\percent} noise reduction over \SI{15}{\day} and substantial spectral whitening over \SI{12}{\hour}, corresponding to a 5.3-fold decrease in phase standard deviation. This level of suppression enables phase-coherent quantum operations, including entanglement swapping and quantum memory storage in emerging trapped-ion networks \cite{nichol2022elementary,o2024fast}, in settings where installing additional optical infrastructure may not be feasible.
+The \SI{17.2}{\percent} humidity-coefficient enhancement over the Mathar model has a practical consequence: any free-space optical interface in a quantum computing platform operating at a wavelength adjacent to molecular absorption features should be individually calibrated if environmental phase errors are to be suppressed below the \SI{0.1}{\radian} level. The linearity of the refractive index response and the \SI{85}{\percent} reduction in residual phase error demonstrated here suggest that a modest library of wavelength-specific coefficients covering the principal species-specific transitions at \SI{729}{\nano\meter}, \SI{1762}{\nano\meter}, and \SI{2.1}{\micro\meter} would suffice to enable feed-forward compensation across all beamlines in a multi-species quantum computing platform. Factors that limit the achievable accuracy of the empirical model, as well as the inherent scope of what a single-point, slow-sampling feed-forward approach can correct in a deployed system, are discussed in Supplemental Material.
 
-Translating this offline demonstration to real-time operation presents engineering challenges, primarily concerning sensor-actuator latency and computational overhead. However, the minute-scale dynamics of the dominant environmental fluctuations suggest that commercial sensors and modern FPGAs are likely sufficient for implementation, with the high-fidelity model here providing a solid foundation.
+The same compensation strategy could extend to metropolitan-scale free-space quantum channels. At \SI{1762}{\nano\meter}, the native wavelength of the $^{138}\mathrm{Ba}^+$ qubit transition, a free-space channel spanning hundreds of meters under the diurnal swings considered here would accumulate a phase error on the order of $10^3$~\si{\radian} if uncorrected, which is sufficient to randomize the distributed entanglement entirely, a magnitude consistent with the phase-budget estimates for ground-level free-space entanglement distribution \cite{ursin2007entanglement}. Feed-forward compensation using the wavelength-specific coefficients reduces this to a tractable residual, suggesting that atmospheric dispersion may be correctable rather than prohibitive for ground-level quantum network links. The methodology demonstrated here, pairing a quantum frequency reference with environmental monitoring for wavelength-specific refractometry, is transferable to free-space quantum channels operating at wavelengths where broadband refractive index models lack validation.
 
-Within quantum communication research, this work shifts the focus from statistical phase noise models to the deterministic, dispersive noise dominant at specific wavelengths. The precision achieved yields clear design principles: wavelength-specific metrology is essential near resonances, and application needs dictate sensor requirements, like high accuracy for memories versus high bandwidth for gates.
+Beyond quantum networks, the per-meter phase-shift sensitivities in Table~\ref{tab:phase_shift} offer a direct pathway to improving systematic error budgets in precision optical metrology. In setups with multiple free-space beamlines, for example, individual addressing arrays, Raman sideband paths, or optical lattice projection optics, the cumulative phase budget benefits multiplicatively from wavelength-specific compensation at each beamline. Beyond trapped ions, the methodology is applicable to precision optical measurements where uncompensated air dispersion forms a systematic error floor: long-baseline interferometry \cite{colavita2004effects,meiners2016overcoming}, optical clock comparisons over free-space links \cite{giorgetta2013optical,shen2022free}, and dimensional metrology. The empirical measurement at a target wavelength effectively converts the optical path into a refractometer of ambient air whose accuracy is set by the atomic frequency reference rather than by a proxy calibration chain. Viewed inversely, the same measurement configuration constitutes a quantum-referenced precision refractometer for atmospheric sensing, with potential relevance to distributed atmospheric refractometry and dimensional metrology.
 
-A key limitation is the single-location validation. Future multi-site campaigns across diverse climates are essential to assess the geographic robustness of the coefficients, a critical step toward global deployment. Looking beyond linear compensation, the strong environment-phase correlation invites "intelligent bookkeeping" strategies, where machine learning approaches \cite{carleo2019machine} and adaptive filtering could enable predictive, dynamic compensation, opening a cross-disciplinary frontier for enhancing quantum network resilience.
-
-
-\section{Conclusion}
-\label{sec:conclusion}
-
-In conclusion, we have demonstrated that the challenge of environmental phase noise for outdoor quantum technologies is fundamentally addressable through precision metrology and physical modeling. By establishing the definitive refractive index coefficients at \SI{1762}{\nano\meter} and demonstrating effective noise suppression across relevant timescales, this work transforms the atmosphere from an insurmountable obstacle into a manageable channel. The environmental bookkeeping approach provides a viable pathway toward robust quantum networks that can operate reliably in real-world conditions.
-
-Looking forward, this proof-of-principle demonstration naturally suggests a clear pathway toward the integration of environmental bookkeeping into operational quantum networks. A three-stage roadmap can be envisioned. First, multi-site validation across diverse climatic zones is essential to quantify the robustness and potential need for region-specific adaptations of the refractive index coefficients. Second, the translation from offline post-processing to real-time compensation must be achieved by engineering systems that meet the requisite sensor bandwidth and computational latency requirements, building upon the high-fidelity model validated here. Finally, the concept can evolve from single-link compensation to a network-level protocol, where environmental data is shared across nodes to enable predictive stabilization and optimize resource allocation in a multi-user quantum network. This progression from fundamental characterization to networked implementation will unlock the full potential of environmental bookkeeping for global quantum communications.
+The immediate extension is to replicate the measurement at other quantum-relevant wavelengths using either the same $^{138}\mathrm{Ba}^+$ clock or alternative atomic species. A library of wavelength-specific coefficients spanning \SI{400}{\nano\meter} to \SI{5}{\micro\meter} would enable feed-forward compensation across all optical beamlines in a multi-species quantum computing platform. Coupled with miniature environmental sensors integrated into the beamline enclosure, such a library would provide the basis for environmental phase compensation across multi-species quantum platforms. Longer-term, machine-learning surrogates trained on high-resolution HITRAN line lists \cite{gordon2022hitran2020} and validated by targeted empirical benchmarks as demonstrated here could generate continuous $\partial n/\partial X$ surfaces across wavelength, temperature, and humidity, providing a wavelength-resolved complement to the single-point broadband models currently embedded in quantum control software \cite{ukkonen2022improving}.
 
 \begin{acknowledgments}
-This research was funded by the European Research Council (ERC) under the European Union’s Horizon 2020 research and innovation programme (grant number 648330), the Deutsche Forschungsgemeinschaft (DFG, grant number SCHA 973/9-1-3017959) and the Georg H. Endress Foundation. W.W. acknowledges financial support from the QUSTEC programme, funded by the European Union’s Horizon 2020 research and innovation programme under the Marie Sklodowska-Curie (grant number 847471). T.S. acknowledges financial support from the DFG via the RTG DYNCAM 2717 and the Georg H. Endress foundation.
+We thank F. Hasse, H. Bao, P. Mullan and D. Palani for fruitful discussions, as well as A. Windt and I. Zhuravlev for comments on the manuscript. This research was funded by the European Research Council (ERC) under the European Union's Horizon 2020 research and innovation programme (grant number 648330), the Deutsche Forschungsgemeinschaft (DFG, grant number SCHA 973/9-1-3017959) and the Georg H. Endress Foundation. W.W. acknowledges financial support from the QUSTEC programme, funded by the European Union's Horizon 2020 research and innovation programme under the Marie Sklodowska-Curie (grant number 847471). T.S. acknowledges financial support from the DFG via the RTG DYNCAM 2717 and the Georg H. Endress foundation.
 \end{acknowledgments}
 
-\appendix
-
-\section{Experimental Configuration}
-\label{app:experimental}
-
-\subsection{Quantum Reference System Specifications}
-
-The primary frequency reference for the \SI{1762}{\nano\meter} laser was a single trapped \(^{138}\text{Ba}^+\) ion, stabilized to the \(6S_{1/2} \rightarrow 5D_{5/2}\) electric quadrupole transition. The reference for the \SI{780}{\nano\meter} laser was provided by saturation absorption spectroscopy on the \(5S_{1/2} \rightarrow 5P_{3/2}\) transition of \(^{87}\text{Rb}\). A GPS-disciplined oscillator (Leo Bodnar Precision GPS Reference Clock) generated a universal 10 MHz timebase, synchronizing all data acquisition units.
-
-\subsection{Interferometer and Sensor Details}
-
-The interferometric sensor was based on a modified commercial wavelength meter (NIST LM10 design principle), configured for dual-wavelength operation \cite{fox1999reliable}. The optical path difference of \SI{4.2}{\meter} was maintained in a temperature-stabilized enclosure. Environmental monitoring utilized the following calibrated sensors: temperature (PT100, \SI{0.015}{\celsius} uncertainty), relative humidity (capacitive sensor, \SI{0.004}{\percent} uncertainty), and pressure (piezoresistive sensor, \SI{0.025}{\hecto\pascal} uncertainty). All sensors were co-located within \SI{10}{\centi\meter} of the interferometer beam path.
-
-\subsection{Data Acquisition and Processing}
-
-Synchronized data streams were recorded at \SI{1}{\hertz} for environmental parameters and approximately \SI{0.06}{\hertz} (every \SI{17}{\second}) for interferometric fringe counts, limited by the integration time required for precise phase measurement. Data preprocessing included timestamp alignment via linear interpolation and outlier removal based on adaptive statistical thresholds. The final curated dataset for analysis consisted of \num{89106} measurements for training and \num{46999} for validation, ensuring temporal separation and coverage of full diurnal cycles.
-
-\section{Statistical Framework and Experimental Validation}
-\label{app:statistics}
-
-\subsection{Regression Analysis with HAC Correction}
-
-To quantify the dependence of n on T, H, and P, we applied a multivariate linear regression model to the full dataset. The model takes the form:
-
-\begin{equation}
-    n = \alpha_{0} + \alpha_{T}T + \alpha_{H}H + \alpha_{P}P
-\end{equation}
-
-where $\alpha_{0}$ is the intercept, $\alpha_{T}$, $\alpha_{H}$, and $\alpha_{P}$ are the regression coefficients for temperature, humidity, and pressure respectively.
-
-The regression model exhibits significant residual autocorrelation (Durbin-Watson statistic = 1.130) and heteroskedasticity. We implemented the Newey-West heteroskedasticity and autocorrelation consistent (HAC) covariance matrix estimator with an optimal bandwidth of L = 37 lags, determined using data-dependent methods. Figure~\ref{fig:residual_diagnostics} shows the residual diagnostics that justify the HAC approach for reliable inference.
-
-Block bootstrap validation with B = 2000 samples and an optimal block length of b = 58 observations (based on an integrated autocorrelation time of 14.62) provided independent confirmation of the coefficient uncertainties. Figure~\ref{fig:bootstrap_distributions} displays the narrow symmetric bootstrap sampling distributions, confirming robustness against temporal autocorrelation. Bootstrap standard errors agreed within 3\% of the HAC estimates.
-%
-%Comprehensive diagnostic tests confirmed model adequacy, including Breusch-Godfrey test (LM = 29734.5) for autocorrelation and Breusch-Pagan test (LM = 6252.8) for heteroskedasticity. Variance inflation factors ranged between 1.82 and 2.01, indicating acceptable levels of multicollinearity.
-
-Comprehensive diagnostic tests confirmed model adequacy:
-\begin{itemize}
-\item Breusch-Godfrey test for autocorrelation: LM = 29734.5 ($p < 0.001$)
-\item Breusch-Pagan test for heteroskedasticity: LM = 6252.8 ($p < 0.001$)  
-\item Variance inflation factors: 1.82-2.01 (acceptable multicollinearity)
-\item Residual standard error: $\sigma_n = 1.2 \times 10^{-9}$
-\end{itemize}
-
-\subsection{Uncertainty Analysis and Model Validation}
-
-The comprehensive uncertainty budget is presented in Table~\ref{tab:uncertainty_budget}. The dominant uncertainty source was identified as spatial gradients in the environmental sensor readings, contributing $2.11 \times 10^{-7}$ to the refractive index uncertainty.
-
-Temporal cross-validation demonstrated excellent model generalizability, with a cross-validation RMSE of $2.08 \times 10^{-7}$ compared to a training RMSE of $2.01 \times 10^{-7}$, confirming the model's robustness beyond the training dataset.
-
-\begin{table*}
-\centering
-\caption{\label{tab:uncertainty_budget}
-Uncertainty budget for refractive index coefficients. The 95\% confidence intervals (CI) were calculated using HAC standard errors to account for observed temporal dependencies in the residuals.}
-\begin{ruledtabular}
-\begin{tabular}{lcccc}
-Parameter & Coefficient & OLS SE & HAC SE & {95\% CI} \\
-\colrule
-Temperature ($\alpha_T$) & $-8.940 \times 10^{-7}$ & $2.43 \times 10^{-10}$ & $8.85 \times 10^{-10}$ & $[-8.942, -8.938] \times 10^{-7}$ \\
-Humidity ($\alpha_H$) & $-1.780 \times 10^{-8}$ & $2.44 \times 10^{-10}$ & $8.21 \times 10^{-10}$ & $[-1.796, -1.764] \times 10^{-8}$ \\
-Pressure ($\alpha_P$) & $2.569 \times 10^{-7}$ & $2.00 \times 10^{-10}$ & $6.00 \times 10^{-10}$ & $[2.557, 2.581] \times 10^{-7}$ \\
-\end{tabular}
-\end{ruledtabular}
-\end{table*}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.45\textwidth]{figures/residual_autocorrelation.pdf}
-\caption{Residual diagnostics showing (a) distribution and (b) autocorrelation function (ACF). The significant temporal dependence in the residuals justifies the use of HAC inference methods.}
-\label{fig:residual_diagnostics}
-\end{figure}
-
-\begin{figure*}
-\centering
-\includegraphics[width=0.8\textwidth]{figures/bootstrap_coefficient_distributions.pdf}
-\caption{Bootstrap sampling distributions for the temperature ($\alpha_T$), humidity ($\alpha_H$), and pressure ($\alpha_P$) coefficients, based on 2000 block bootstrap samples. The narrow and symmetric distributions confirm the robustness of the estimates against temporal autocorrelation.}
-\label{fig:bootstrap_distributions}
-\end{figure*}
-
-
-\section{First-Principles Dispersion Calculation}
-\label{app:dispersion}
-
-\subsection{Theoretical Framework}
-
-The Kramers-Kronig relations link the real and imaginary parts of the complex refractive index, $\tilde{n}(\nu) = n(\nu) + i\kappa(\nu)$. The dispersion contribution to the refractive index at frequency $\nu$ is given by:
-\begin{equation}
-n(\nu) - 1 = \frac{c}{\pi} \mathcal{P} \int_{0}^{\infty} \frac{\kappa(\nu')}{\nu'^2 - \nu^2}  d\nu'
-\end{equation}
-where $\mathcal{P}$ denotes the Cauchy principal value, $c$ is the speed of light, and $\kappa(\nu) = c\alpha(\nu)/(4\pi\nu)$ is related to the absorption coefficient $\alpha(\nu)$.
-
-\subsection{Numerical Implementation and Input Data}
-
-The numerical integration was performed using water vapor absorption data from the HITRAN2016 database \cite{kochanov2016hitran}. The integration accounted for the strongest nearby absorption features, particularly the line at \SI{1761.0405}{\nano\meter} (5678.1 \si{\per\centi\meter}) with an intensity $S = 1.314 \times 10^{-22}$ %\si{\centi\meter\per\molecule\per\centi\meter\squared}. Voigt line profiles were used to model the absorption lineshape, and careful handling of the principal value singularity near $\nu' = \nu$ was implemented. The integration range extended from \SI{1}{\micro\meter} to \SI{50}{\micro\meter} to capture the significant contributions from infrared absorption bands.
-
-\subsection{Result and Comparison}
-
-The first-principles Kramers-Kronig integration yields a dispersion contribution of $\Delta n_{\text{disp}} = \SI{-2.35e-9}{\per\percent}$ relative humidity at \SI{1762}{\nano\meter}. This represents a \SI{15.3}{\percent} enhancement over the pure replacement effect predicted by the Ciddor model ($\alpha_H^{\text{Ciddor}} = \SI{-1.537e-8}{\per\percent}$). The resulting theoretical humidity sensitivity, $\alpha_H^{\text{theory}} = \alpha_H^{\text{Ciddor}} + \Delta n_{\text{disp}} = \SI{-1.772e-8}{\per\percent}$, agrees with our experimental measurement ($\alpha_H^{\text{exp}} = \SI{-1.780e-8}{\per\percent}$) within \SI{0.5}{\percent}, strongly supporting the interpretation that dispersion effects near the water vapor resonance are responsible for the observed enhancement.
-
-\nocite{*}
+\section*{Data Availability}
+The data that support the findings of this study, including the synchronized time series of interferometric phase measurements and co-located environmental sensor readings, are openly available on Zenodo at Ref.~\cite{wu_2026_18800166}. Analysis scripts used to perform the multivariate regression, statistical diagnostics, and Kramers-Kronig integration are included in the same repository.
 
 \bibliography{reference}
 

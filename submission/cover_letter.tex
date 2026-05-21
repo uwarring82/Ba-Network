@@ -1,0 +1,56 @@
+%basic cover letter template
+\documentclass{letter}
+\usepackage{amssymb,amsmath}
+\usepackage{graphicx}
+
+\oddsidemargin=.2in
+\evensidemargin=.2in
+\textwidth=6in
+\topmargin=-1.5in
+\textheight=10in
+
+
+%\address{Mathematics Department\\University of Illinois\\
+%1409 W. Green St\\Urbana, Illinois 61801}
+
+\newcommand {\qed}{\mbox{$\Box$}}
+\renewcommand {\iff}{\Longleftrightarrow}
+\newcommand {\R}{\mathbb{R}}
+\newcommand {\N}{\mathbb{N}}
+\newcommand {\Q}{\mathbb{Q}}
+\newcommand {\Z}{\mathbb{Z}}
+
+\newcommand {\sub}{\mbox{SB}}
+
+\begin{document}
+
+\begin{letter}{\textbf{Editorial Office}\\ 
+		\textbf{Physical Review Applied}}
+
+\opening{Dear Editor,}
+
+We submit the manuscript \textit{Wavelength-specific refractive-index calibration of air at 1762 nm for environmental phase compensation in quantum optical interfaces} by W. Wu, T. Sch\"{a}tz, and U. Warring for consideration as a Research Article in Physical Review Applied.
+
+Free-space optical paths in trapped-ion and neutral-atom quantum platforms accumulate phase errors from environmentally driven refractive-index fluctuations. Compensating these errors requires accurate knowledge of the refractive-index sensitivity at the operating wavelength, but standard broadband refractivity formulations (Edlén, Ciddor, Mathar) lack wavelength-specific validation at atomic clock transition wavelengths relevant to trapped-ion and quantum optical platforms. The $^{138}\mathrm{Ba}^+$ clock transition at 1762 nm lies adjacent to water-vapour absorption features, suggesting that local dispersion effects may influence the humidity coefficient; no direct measurement has been reported.
+
+Here we report an eight-month measurement campaign in which a 1762 nm probe laser referenced to a single trapped $^{138}\mathrm{Ba}^+$ ion, combined with a dual-wavelength Michelson interferometer and co-located environmental sensors, yields a wavelength-specific calibration of the refractive index of air. The measured temperature coefficient differs from the Mathar model by 0.53 \%, and the pressure coefficient by 2.08 \%, while the humidity coefficient exhibits a 17.2 \% enhancement consistent with a Kramers–Kronig analysis of nearby water-vapour resonances. For a representative 1 m free-space path under diurnal environmental swings, feed-forward compensation using these wavelength-specific coefficients reduces the residual phase error by 85 \% compared to the Mathar model, yielding a projected single-qubit gate infidelity contribution below $3\times10^{-4}$.
+
+This manuscript is suited to Physical Review Applied because it addresses a practical bottleneck in deployed quantum optical systems with a measurement-based solution and concrete engineering deliverables. The per-meter phase-shift sensitivities reported (rad m$^{-1}$ K$^{-1}$, rad m$^{-1}$ \%RH$^{-1}$, rad m$^{-1}$ hPa$^{-1}$) can be incorporated directly into environmental phase-noise budgets of trapped-ion and neutral-atom platforms operating at this wavelength. More broadly, the methodology — pairing an atomic frequency reference with environmental monitoring to extract wavelength-specific refractivity coefficients — is transferable to other quantum-relevant wavelengths where broadband refractivity models lack validation, with implications for precision optical metrology and atmospheric sensing.
+
+This manuscript has not been published previously and is not under consideration elsewhere. All authors have approved the submission.
+
+Data and analysis scripts supporting the findings are openly available through Zenodo (DOI: 10.5281/zenodo.18800166).
+
+Yours faithfully,\\
+
+{\bf Wei Wu}\\
+Doctoral Researcher, AG Sch\"{a}tz\\
+Albert-Ludwigs-Universität Freiburg\\
+Physikalisches Institut\\
+Hermann-Herder-Str. 3\\
+79104 Freiburg, Germany\\
+wei.wu@physik.uni-freiburg.de
+\end{letter}
+
+\end{document}
+
