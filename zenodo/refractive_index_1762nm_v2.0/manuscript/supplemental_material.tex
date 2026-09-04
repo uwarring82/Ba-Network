@@ -70,7 +70,7 @@ Combined expanded uncertainty ($k = 2$)          & $3.68 \times 10^{-7}$ \\
 
 Table~\ref{tab:S1b} separates the statistical and systematic contributions to the uncertainty of the environmental coefficients. The statistical component is the moving-block bootstrap standard error ($B = 5000$, block length 156 samples), cross-checked against the HAC estimate. The systematic component accounts for the sensor gain error, that is, the uncertainty in the multiplicative scale of the sensor readings. A constant sensor offset is absorbed by the fitted intercept $n_0$ and does not affect the coefficients; the gain error, by contrast, propagates directly into the coefficient estimate as $\alpha_X^{\rm meas} = \alpha_X^{\rm true}/g_X$, where $g_X$ is the sensor gain. Worst-case gain bounds follow from the manufacturer specifications of the BME280 sensor over the observed campaign ranges ($T$: \SIrange{17.5}{34.6}{\degreeCelsius}, span 17.1 K; $H$: \SIrange{18.9}{45.3}{\percent}, span 26.4\%; $P$: \SIrange{964.6}{1006.8}{\hecto\pascal}, span 42.2 hPa): the temperature accuracy of \SI{1.0}{\degreeCelsius} bounds the temperature gain error to 11.7\%; the relative humidity accuracy of \SI{3}{\percent} at \SI{25}{\degreeCelsius}, together with the specified accuracy degradation outside this range and long-term drift, does not exclude a humidity gain as large as 1.33; the pressure accuracy of \SI{1}{\hecto\pascal} bounds the pressure gain error to 4.7\%. The systematic uncertainties in Table~\ref{tab:S1b} are computed from these worst-case gain bounds assuming a rectangular distribution (division by $\sqrt{3}$). For the humidity channel the full worst-case bound is quoted because the sign of the gain deviation is not determined a priori.
 
-\begin{table*}[htbp]
+\begin{table}[htbp]
 \centering
 \caption{Uncertainty budget for the environmental coefficients at \SI{1762}{\nano\meter}.
          Statistical uncertainties are moving-block bootstrap standard errors
@@ -87,7 +87,7 @@ $\alpha_H$ (\%RH$^{-1}$)   & $-1.3152\times 10^{-8}$ & $1.15\times 10^{-9}$ & $4
 $\alpha_P$ (\si{hPa^{-1}}) & $+2.5949\times 10^{-7}$ & $9.85\times 10^{-10}$ & $7.11\times 10^{-9}$ & $7.17\times 10^{-9}$ & $1.43\times 10^{-8}$ & $9.69\times 10^{-10}$ \\
 \hline
 \end{tabular}
-\end{table*}
+\end{table}
 
 \section{Same-condition comparison with the Mathar model}
 \label{sec:S2}
@@ -96,7 +96,7 @@ To compare the measured environmental response with the Mathar model on equal fo
 
 Table~\ref{tab:S2} summarizes the result for two analysis windows: the full campaign and the subset within the validity domain of the Mathar model ($T \in [10, 25]\,\si{\degreeCelsius}$, comprising 12,134 of the 145,784 observations; 91.7\% of the data lie above \SI{25}{\degreeCelsius}). For the full campaign, the measured $\alpha_T$ and $\alpha_P$ agree with the Mathar surrogate within \SI{0.35}{\percent} and \SI{0.93}{\percent}, respectively, and the humidity coefficient is smaller in magnitude than the surrogate by $+24.8\%$. Within the Mathar validity domain the humidity difference is not statistically significant. Because the Kramers-Kronig prediction at the mean campaign conditions (Sec.~\ref{sec:S5}) likewise shows no enhancement over the broadband model, and because the sensor gain uncertainty (Table~\ref{tab:S1b}) spans the full observed humidity difference, we do not attribute the humidity-coefficient difference to a wavelength-specific physical effect; it is reported as an unresolved systematic pending independent humidity sensor calibration.
 
-\begin{table*}[htbp]
+\begin{table}[htbp]
 \centering
 \caption{Same-condition comparison of the measured environmental coefficients
          with a linear surrogate of the Mathar model fitted on identical data rows.
@@ -113,7 +113,7 @@ Full campaign                               & 145,784 & $-3.11\times 10^{-9}$ & 
 \quad 95\% interval                          &        & $[-6.26, -0.15]\times 10^{-9}$ & $[+1.79, +6.88]\times 10^{-9}$ & $[+0.31, +4.45]\times 10^{-9}$ \\
 \hline
 \end{tabular}
-\end{table*}
+\end{table}
 
 A blocked out-of-sample validation complements the coefficient comparison: the data are divided into contiguous time blocks of 156 samples and five folds; within each fold the linear surrogate is fitted on the training blocks (including the intercept) and evaluated on the held-out blocks. Identical folds are used for both models and no global preprocessing is applied before splitting. The out-of-sample root-mean-square residual of the data surrogate is $(1.84 \pm 0.02) \times 10^{-7}$, whereas that of the Mathar surrogate is $(4.4 \pm 0.2) \times 10^{-8}$. The larger residual of the data surrogate reflects measurement noise that is absent in the analytic Mathar function; the small surrogate residual confirms that the linear model captures the Mathar environmental response to high accuracy over the observed parameter range.
 

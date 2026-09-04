@@ -92,7 +92,7 @@ The refractive index time series, derived from differential phase accumulation b
 
 Multivariate regression following the linear model defined in Section~\ref{sec:methods} yields the environmental coefficients listed in Table~\ref{tab:coefficients}. To place the comparison with the Mathar model on equal footing, we evaluate the Mathar formulation at the identical $(T,H,P)$ rows of the campaign and fit the same linear surrogate model to both datasets, as detailed in Supplemental Material. The temperature and pressure coefficients agree with this same-condition Mathar surrogate within \SI{0.35}{\percent} and \SI{0.93}{\percent}, respectively. In contrast, the humidity coefficient is smaller in magnitude than the same-condition Mathar surrogate by \SI{24.8}{\percent}. The humidity difference is statistically significant in the full campaign, but a Kramers-Kronig estimate at the mean campaign conditions (Supplemental Material) likewise shows no enhancement over the broadband model, and the humidity-sensor gain systematic spans the full observed difference; it is therefore reported as an unresolved systematic pending independent humidity sensor calibration.
 
-\begin{table*}[htbp]
+\begin{table}[htbp]
 \centering
 \caption{Measured and predicted environmental coefficients at
          \SI{1762}{\nano\meter}. Mathar surrogate values are obtained
@@ -112,7 +112,7 @@ $\alpha_H$ (\%RH$^{-1}$)      & $-1.3152\times 10^{-8}$ & $-1.7486\times 10^{-8}
 $\alpha_P$ (\si{hPa^{-1}})    & $+2.5949\times 10^{-7}$ & $+2.5710\times 10^{-7}$ & $+0.93\%$ & $9.85\times10^{-10}$ \\
 \hline
 \end{tabular}
-\end{table*}
+\end{table}
 
 The proximity of \SI{1762}{\nano\meter} to water-vapor absorption features, with the two nearest H$_2$O lines at \SI{1761.0405}{\nano\meter} and \SI{1762.4852}{\nano\meter} \cite{gordon2022hitran2020}, motivates a Kramers-Kronig analysis of the humidity dispersion at this wavelength, detailed in Supplemental Material. The line-by-line prediction from the HITRAN2020 water-vapor spectrum evaluated at the mean campaign conditions yields a humidity coefficient of order $10^{-8}$\,\%RH$^{-1}$ without enhancement over the broadband model at this wavelength. This is consistent with the same-condition comparison above, where the measured humidity coefficient is found to be smaller in magnitude than the Mathar surrogate rather than enhanced. Given the unresolved sensor gain systematic, a quantitative attribution of the residual humidity difference to a wavelength-specific physical effect is not possible with the present data.
 

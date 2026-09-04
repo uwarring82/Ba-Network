@@ -1,0 +1,47 @@
+{
+    "title": "Quantum-referenced refractive-index calibration of air at 1762 nm for environmental phase compensation in quantum optical interfaces",
+    "version": "2.0",
+    "creators": [
+      {
+        "name": "Wu, Wei",
+        "affiliation": "Albert-Ludwigs-Universität Freiburg, Physikalisches Institut, Germany"
+      },
+      {
+        "name": "Schaetz, Tobias",
+        "affiliation": "Albert-Ludwigs-Universität Freiburg, Physikalisches Institut, Germany"
+      },
+      {
+        "name": "Warring, Ulrich",
+        "affiliation": "Albert-Ludwigs-Universität Freiburg, Physikalisches Institut, Germany"
+      }
+    ],
+    "description": "Data and analysis scripts for the quantum-referenced calibration of the refractive index of air at 1762 nm (the 138Ba+ clock transition wavelength), based on 145,784 synchronized dual-wavelength interferometric and environmental measurements from January to August 2025. Version 2.0 updates the analysis to a same-condition comparison with the Mathar model, an offset-fair compensation assessment, and a rebuilt uncertainty budget, superseding version 1.0.",
+    "keywords": [
+      "refractive index",
+      "atmospheric optics",
+      "interferometry",
+      "trapped ions",
+      "1762 nm",
+      "quantum networks",
+      "environmental phase compensation",
+      "BME280"
+    ],
+    "license": "cc-by-4.0",
+    "upload_type": "dataset",
+    "publication_date": "2026-09-01",
+    "related_identifiers": [
+      {
+        "relation": "isNewVersionOf",
+        "identifier": "10.5281/zenodo.18800166"
+      },
+      {
+        "relation": "isSupplementTo",
+        "identifier": "10.xxxx/xxxxx"
+      }
+    ],
+    "references": [
+      "Mathar, R. J. (2007). Refractive index of humid air in the infrared: model fits. Journal of Optics A, 9(5), 470.",
+      "Ciddor, P. E. (1996). Refractive index of air: new equations for the visible and near infrared. Applied Optics, 35(9), 1566-1573.",
+      "Arnold, K. J. et al. (2020). Precision measurements of the 138Ba+ clock transition. Physical Review Letters, 124, 193001."
+    ]
+}

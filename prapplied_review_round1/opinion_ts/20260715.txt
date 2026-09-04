@@ -1,0 +1,3 @@
+do we know the sensor of #1 sufficiently well? Do we need to calibrate it or use a better calibrated one?
+
+- he would suggest to find an institution to calibrate our sensors and post-select data to narrow down the errorbar

@@ -1,0 +1,101 @@
+Re: NS10657
+   Wavelength-specific refractive-index calibration of air at 1762 nm for
+   environmental phase compensation in quantum optical interfaces
+   by Wei Wu, Tobias Sch\"{a}tz, and Ulrich Warring
+
+Dear Wei Wu,
+
+Thank you for submitting your manuscript to Physical Review Applied. We appreciate your interest in our journal, and your trust as we consider your work.
+
+We have completed this round of review of your manuscript, and the reviewer comments are attached. They have raised substantial issues. We ask that you address these concerns through major revisions and provide a clear, detailed response so that we may proceed with further consideration.
+
+Another referee was asked to review the paper, but we now assume no report will be received.
+
+We strongly prefer to base our decisions on more than one opinion, but in this case we feel that we ought to proceed. We will seek a new opinion in the next round.
+
+Please use https://authors.aps.org/Submissions/ if you resubmit. Be sure to include a complete response to the reviewer comments, a marked-up PDF of the manuscript showing changes, and a list of those changes. We only need the PDF file of the manuscript, not the TeX or Word source file or figure files.
+
+Yours sincerely,
+
+Qiao Qiao, Ph.D. (she/her/hers)
+Associate Editor
+Physical Review Applied
+Email: prapplied@aps.org
+https://journals.aps.org/prapplied
+
+NEWS FROM THE PHYSICAL REVIEW JOURNALS
+
+PRApplied is your home for significant, practical advances in QIST,
+photonics, spintronics, metamaterials, etc.
+https://go.aps.org/qist
+
+Announcing PRX Intelligence
+https://go.aps.org/4pFrs50
+
+----------------------------------------------------------------------
+Report of the Referee -- NS10657/Wu
+----------------------------------------------------------------------
+
+In this article, the authors have shown a long-term refractive index measurement
+of air at 138Ba+ clock transition wavelength using a dual wavelength Michaelson
+interferometer for refractive index calibration in trapped ion experiment. They
+have shown that the generic atmospheric refractivity formulations don’t provide
+precise refractive index near the molecular absorption wavelength, which is
+necessary to accurately compensate the phase error from air dispersion.  The
+article is largely clearly written and the result will likely be valuable to the
+community, especially to the trapped ion community working with 138Ba+.
+
+However, we would recommend addressing the following comments before publication
+in Physical Review Applied. The first point below is the most critical, in that
+it may affect the main claim of the study.
+
+1.	The authors have used BME280 sensor which has a specified relative humidity
+accuracy of +/- 3% The main claim of the paper is that the Mathar model differs
+by about 20% from the measurement here, but Fig. 2 shows example data where RH
+varies by roughly 1%. It appears that if the BME 280 sensor had an inaccuracy
+such that a 1% absolute RH swing was reported as 1.2%, it would drastically
+alter the results of the study -- it is not clear that the specs of the sensor
+rule this out this level of inaccuracy. It seems critical that the authors can
+justify that the ~1%-level RH swing as measured by the sensor is accurate to
+well below 20% fractional uncertainty -- can this be demonstrated?
+
+2.	The introduction motivates the work in terms of optical interconnects that
+between trapped-ion quantum nodes, requiring phase stable links. However, many
+schemes for remote entanglement generation are insensitive to phase fluctuations
+on the connecting optical paths, see e.g. doi.org/10.1103/PhysRevLett.91.110405
+and doi.org/10.1103/PhysRevLett.124.110501. It would be valuable if the authors
+more clearly specify what schemes they refer to, where phase-stable links are
+critical.  
+
+3.	In the manuscript, the authors mention that the residual phase error
+compensation projects a single qubit gate infidelity error below 3e-4, though
+this seems to rest on assumptions about the single-qubit gate mechanism that are
+not stated. For example: Raman gate or microwave gates don’t depend on the phase
+error of the clock transition wavelength. Please specify the kinds of gates
+these claims are relevant to.
+
+4.	The caption of table 1 mentions uncertainties, however uncertainties are not
+included in Table 1. Please include the uncertainties on the reported values
+within the table. Is the sensor’s accuracy truly good enough to include as many
+significant figures are included in the reported –1.3152e-8  RH coefficient?  
+
+5.	In the regression analysis, the environmental sensor uncertainties are taken
+as gaussian; but is unclear from the manufacturer spec that the 3% on the BME280
+sensor corresponds to a Gaussian variance. Can this be justified? If not
+acknowledging the assumption would be helpful.
+
+6.	The authors used a linear model to fit temperature, pressure and humidity
+coefficients and compared it to the Mathar model. However, Mathar model as
+described e.g. in 10.1088/1464-4258/9/5/008 contains cross terms and higher
+order terms among temperature, pressure and humidity, which are not considered
+in the manuscript. Can the authors explain why only a first-order treatment is
+needed here, in comparison to the Mathar model? It also seems this could affect
+the comparison to the Mathar model -- the apparent discrepancy in the
+first-order sensitivity could be explained by the additional higher-order
+dependencies in the latter model, which do not seem to be quoted e.g. in Table
+I, but are presumably part of the Mathar Model calculations. Clarification on
+this point would be critical to the main claim of the paper.
+
+7.	Please check for abbreviations that are not defined. Two examples:
+•	ULE in Fig.1, Fig. 1 caption and in line 86 without specifying the full form.
+•	OLS in the first paragraph of the supplementary material
