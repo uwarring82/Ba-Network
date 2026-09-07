@@ -1,0 +1,74 @@
+{
+ "N": 145784,
+ "span_days": 231.85499348756892,
+ "active_days": 89,
+ "n_segments": 104,
+ "duty_cycle_pct": 15.347059524754863,
+ "mean_retained": {
+  "T": 28.874691888621115,
+  "RH": 30.230867905739245,
+  "P": 986.4032384629434
+ },
+ "mean_timeweighted": {
+  "T": 25.642635219569378,
+  "RH": 31.038452284397273,
+  "P": 987.9418925516446
+ },
+ "monthly": [
+  {
+   "month": "2025-01",
+   "n_obs": 12109,
+   "active_days": 17,
+   "median_cadence_s": 13.42735743522644,
+   "longest_gap_d": 4.4919132286558545,
+   "T_range": "17.5-21.4",
+   "RH_range": "28.5-40.9",
+   "P_range": "964.6-1006.8",
+   "frac_T_in_Mathar_domain": 1.0
+  },
+  {
+   "month": "2025-02",
+   "n_obs": 25,
+   "active_days": 13,
+   "median_cadence_s": 41317.22072350979,
+   "longest_gap_d": 5.895222940660186,
+   "T_range": "20.2-22.1",
+   "RH_range": "28.5-38.4",
+   "P_range": "982.2-999.4",
+   "frac_T_in_Mathar_domain": 1.0
+  },
+  {
+   "month": "2025-06",
+   "n_obs": 28911,
+   "active_days": 13,
+   "median_cadence_s": 12.849337935447693,
+   "longest_gap_d": 1.4644412928102193,
+   "T_range": "29.3-33.3",
+   "RH_range": "22.8-34.6",
+   "P_range": "980.6-995.7",
+   "frac_T_in_Mathar_domain": 0.0
+  },
+  {
+   "month": "2025-07",
+   "n_obs": 54397,
+   "active_days": 26,
+   "median_cadence_s": 12.759417176246643,
+   "longest_gap_d": 3.982549195115765,
+   "T_range": "25.9-34.6",
+   "RH_range": "18.9-44.0",
+   "P_range": "974.1-993.3",
+   "frac_T_in_Mathar_domain": 0.0
+  },
+  {
+   "month": "2025-08",
+   "n_obs": 50342,
+   "active_days": 20,
+   "median_cadence_s": 12.920514106750488,
+   "longest_gap_d": 0.9936837100237608,
+   "T_range": "25.4-31.9",
+   "RH_range": "24.8-45.3",
+   "P_range": "978.9-994.5",
+   "frac_T_in_Mathar_domain": 0.0
+  }
+ ]
+}
