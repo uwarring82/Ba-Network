@@ -2,38 +2,62 @@
 
 \usepackage{graphicx}
 \usepackage{amsmath}
+% Pin array to v2.4d: RevTeX4-2 cannot recognise array v2.5+ (pulled in by
+% siunitx), which corrupts \@mkpream and breaks every p{} column ("! Extra \or.").
+\usepackage{array}[=2016-10-06]
 \usepackage{siunitx}
 \usepackage{booktabs}
 
 \begin{document}
 
 \title{Supplemental Material: \\
-       Quantum-referenced refractive-index calibration of air at 1762 nm for environmental phase compensation in quantum optical interfaces}
+   Quantum-referenced refractive-index calibration of air at 1762 nm for environmental phase compensation in quantum optical interfaces}
 
 \author{Wei Wu}
-\affiliation{Albert-Ludwigs-Universit\"at Freiburg, Physikalisches Institut, 
-             Hermann-Herder-Stra\ss e 3, 79104 Freiburg, Germany}
-\affiliation{EUCOR Centre for Quantum Science and Quantum Computing, 
-             University of Freiburg, Hermann-Herder-Stra\ss e 3, 
-             79104 Freiburg, Germany}
+\affiliation{Albert-Ludwigs-Universit\"at Freiburg, Physikalisches Institut, Hermann-Herder-Stra\ss e 3, 79104 Freiburg, Germany}
+\affiliation{EUCOR Centre for Quantum Science and Quantum Computing, University of Freiburg, Hermann-Herder-Stra\ss e 3, 79104 Freiburg, Germany}
 \author{Tobias Sch{\"a}tz}
-\affiliation{Albert-Ludwigs-Universit\"at Freiburg, Physikalisches Institut, 
-             Hermann-Herder-Stra\ss e 3, 79104 Freiburg, Germany}
-\affiliation{EUCOR Centre for Quantum Science and Quantum Computing, 
-             University of Freiburg, Hermann-Herder-Stra\ss e 3, 
-             79104 Freiburg, Germany}
+\affiliation{Albert-Ludwigs-Universit\"at Freiburg, Physikalisches Institut, Hermann-Herder-Stra\ss e 3, 79104 Freiburg, Germany}
+\affiliation{EUCOR Centre for Quantum Science and Quantum Computing, University of Freiburg, Hermann-Herder-Stra\ss e 3, 79104 Freiburg, Germany}
 \author{Ulrich Warring}
-\affiliation{Albert-Ludwigs-Universit\"at Freiburg, Physikalisches Institut, 
-             Hermann-Herder-Stra\ss e 3, 79104 Freiburg, Germany}
+\affiliation{Albert-Ludwigs-Universit\"at Freiburg, Physikalisches Institut, Hermann-Herder-Stra\ss e 3, 79104 Freiburg, Germany}
 
 \date{\today}
 
 \maketitle
 
+\section{Campaign temporal coverage}
+\label{sec:S0}
+
+The processed dataset spans 231 calendar days (2025-01-01 to 2025-08-20) but is not a continuous record: it consists of 104 observation segments, separated by gaps longer than 2~h, with 89 active observation days in total. The longest gap (111 days) separates a sparse January--February block from the main body of the campaign in June--August, which contains 91.7\% of the observations and entirely exceeds the 25\,$^{\circ}$C validity bound of the Mathar model. The overall duty cycle, defined as the ratio of active segment time (35.6 days) to the calendar span, is 15.3\%. Within active periods the median sampling interval is 12.9~s.
+
+Table~\ref{tab:S0} summarises the monthly coverage. January and February are the only months within the Mathar validity domain ($T \in [10,25]\,^{\circ}$C); February is represented by only 25 retained observations spread over 13 active days. The retained-observation mean conditions ($\overline{T} = 28.9\,^{\circ}$C, $\overline{\mathrm{RH}} = 30.2\%$, $\overline{P} = 986.4$\,hPa) are weighted toward the warm-season segments. A time-weighted mean is not reported: the 111-day gap separates the January--February block from the June--August body of the campaign, so the calendar-duration weight of the two observations bordering the gap dominates any such average, making it unrepresentative of either the observed conditions or a continuous campaign. The regression coefficients of Table~\ref{tab:coefficients} are estimated from the retained observations.
+
+\begin{table*}[tbp]
+\centering
+\caption{Monthly coverage of the processed dataset. $n_{\rm obs}$: retained observations; active days: calendar days containing observations; cadence: median intra-month sampling interval; gap: longest intra-month gap; ranges are min--max within each month. The last column is the fraction of the month's
+observations within the Mathar validity domain ($T \in [10,25]\,^{\circ}$C).}
+\label{tab:S0}
+\begin{tabular}{lcccccccc}
+\hline
+Month & $n_{\rm obs}$ & Active & Cadence & Gap & $T$ range & RH range & $P$ range & In-domain \\
+  & & days   & (s) & (d)  & ($^{\circ}$C) & (\%) & (hPa) & \\
+\hline
+2025-01 & 12\,109 & 17 & 13.4 & 4.5 & 17.5--21.4 & 28.5--40.9 & 964.6--1006.8 & 100\% \\
+2025-02 & 25 & 13 & 41\,317 & 5.9 & 20.2--22.1 & 28.5--38.4 & 982.2--999.4 & 100\% \\
+2025-06 & 28\,911 & 13 & 12.8 & 1.5 & 29.3--33.3 & 22.8--34.6 & 980.6--995.7 & 0\% \\
+2025-07 & 54\,397 & 26 & 12.8 & 4.0 & 25.9--34.6 & 18.9--44.0 & 974.1--993.3 & 0\% \\
+2025-08 & 50\,342 & 20 & 12.9 & 1.0 & 25.4--31.9 & 24.8--45.3 & 978.9--994.5 & 0\% \\
+\hline
+\multicolumn{2}{l}{Total} & 89 & 12.9 & 111.3 & 17.5--34.6 & 18.9--45.3 & 964.6--1006.8 & 8.3\% \\
+\hline
+\end{tabular}
+\end{table*}
+
 \section{Statistical validation of the environmental coefficients}
 \label{sec:S1}
 
-The refractive index time series exhibits serial correlation characteristic of slowly varying environmental parameters. The residual autocorrelation function decays to $1/e$ at a lag of approximately 78 samples, corresponding to a decorrelation time well resolved by the 10--20~s measurement cadence. To ensure that reported coefficient uncertainties account for this structure, we compute heteroskedasticity- and autocorrelation-consistent (HAC) standard errors with a Bartlett kernel \cite{newey1987hypothesis,andrews1991heteroskedasticity} using a maximum lag of 156 samples, twice the measured $1/e$ decorrelation time. As the primary uncertainty estimate we use moving-block bootstrap resampling with a block length of 156 samples and $B = 5000$ replications \cite{kunsch1989jackknife,politis1994stationary}; the block length preserves the serial correlation structure of the original data while rendering successive blocks approximately independent. The HAC standard errors serve as an independent cross-check: the HAC and bootstrap standard errors agree to within 3\% for all three coefficients (Table~\ref{tab:S1b}), confirming that the uncertainty estimates are robust to the specific autocorrelation-consistent estimator employed. For reference, a HAC estimate with an insufficient lag of 3 samples, which does not capture the dominant serial correlation, underestimates the standard errors by approximately a factor of five.
+The refractive index time series exhibits serial correlation characteristic of slowly varying environmental parameters. Evaluated within continuous segments, the residual autocorrelation function decays to $1/e$ at a lag of approximately 100 samples, i.e.\ about \SI{35}{\minute} at the mean within-segment cadence of \SI{21.1}{\second} (the median sampling interval over the campaign is \SI{12.9}{\second}); a whole-file row-lag evaluation that includes pairs spanning the \num{111}-day gap gives a smaller value (78 samples), and neither is used. The decay is not monotonic: a diurnal component remains, so no single decorrelation scale describes the full dependence. A block length derived from the $1/e$ crossing (twice the lag) is not adopted as a decision rule. Instead we report two independent estimators. First, heteroskedasticity- and autocorrelation-consistent (HAC) standard errors with a Bartlett kernel \cite{newey1987hypothesis,andrews1991heteroskedasticity} at a maximum lag of 156 samples, used as a cross-check. Second, moving-block bootstrap resampling \cite{kunsch1989jackknife,politis1994stationary} over \emph{physical-time} blocks whose duration $D$ is varied from \SI{0.6}{\hour} to \SI{48}{\hour} ($B = 5000$ for the coefficient standard errors, $B = 400$ per duration in the scan of Table~\ref{tab:S1c}, $B = 1000$ for the paired-difference intervals of Table~\ref{tab:S2}); the block pool is built within continuous segments so that no block crosses a data gap, and the fraction of observations covered by the block pool is reported for each duration (Table~\ref{tab:S1c}). No single duration is frozen as a nominal value. The HAC standard errors fall between the $0.6$~h and $7.2$~h physical-time block bootstrap values for all three coefficients (Tables~\ref{tab:S1b} and~\ref{tab:S1c}), so the two estimators are consistent once the block-duration dependence is made explicit. For reference, a HAC estimate with an insufficient lag of 3 samples, which does not capture the dominant serial correlation, underestimates the standard errors by approximately a factor of five.
 
 First-order residual autocorrelation is additionally addressed using the Prais-Winsten generalized least squares estimator \cite{prais1954trend}. The transformation improves the Durbin-Watson statistic from 1.197 (raw OLS residuals) to 2.226 (transformed residuals), where a value of 2.0 indicates no first-order autocorrelation \cite{durbin1950testing}. The Prais-Winsten coefficient estimates agree with the OLS estimates within \SI{1.5}{\percent}, confirming that the point estimates are insensitive to the residual correlation structure.
 
@@ -53,14 +77,14 @@ Table~\ref{tab:S1a} provides the uncertainty budget for the determination of the
 Source & $\delta n$ (1$\sigma$) \\
 \hline
 Residual scatter (incl.\ spatial/temporal mismatch) & $1.84 \times 10^{-7}$ \\
-\quad of which: measurement noise                     & $1.78 \times 10^{-7}$ \\
-\quad of which: model nonlinearity                    & $4.4 \times 10^{-8}$ \\
-\SI{780}{\nano\meter} frequency reference               & $1.0 \times 10^{-9}$ \\
-\SI{1762}{\nano\meter} frequency reference              & $<10^{-12}$ \\
-Interferometer non-linearity                     & Negligible \\
+\quad of which: measurement noise & $1.78 \times 10^{-7}$ \\
+\quad of which: model nonlinearity & $4.4 \times 10^{-8}$ \\
+\SI{780}{\nano\meter} frequency reference   & $1.0 \times 10^{-9}$ \\
+\SI{1762}{\nano\meter} frequency reference & $<10^{-12}$ \\
+Interferometer non-linearity & Negligible \\
 \hline
-Combined standard uncertainty                    & $1.84 \times 10^{-7}$ \\
-Combined expanded uncertainty ($k = 2$)          & $3.68 \times 10^{-7}$ \\
+Combined standard uncertainty & $1.84 \times 10^{-7}$ \\
+Combined expanded uncertainty ($k = 2$)  & $3.68 \times 10^{-7}$ \\
 \hline
 \end{tabular}
 \end{table}
@@ -68,23 +92,43 @@ Combined expanded uncertainty ($k = 2$)          & $3.68 \times 10^{-7}$ \\
 \subsection{Uncertainty budget for environmental coefficients}
 \label{sec:S1b}
 
-Table~\ref{tab:S1b} separates the statistical and systematic contributions to the uncertainty of the environmental coefficients. The statistical component is the moving-block bootstrap standard error ($B = 5000$, block length 156 samples), cross-checked against the HAC estimate. The systematic component accounts for the sensor gain error, that is, the uncertainty in the multiplicative scale of the sensor readings. A constant sensor offset is absorbed by the fitted intercept $n_0$ and does not affect the coefficients; the gain error, by contrast, propagates directly into the coefficient estimate as $\alpha_X^{\rm meas} = \alpha_X^{\rm true}/g_X$, where $g_X$ is the sensor gain. Worst-case gain bounds follow from the manufacturer specifications of the BME280 sensor over the observed campaign ranges ($T$: \SIrange{17.5}{34.6}{\degreeCelsius}, span 17.1 K; $H$: \SIrange{18.9}{45.3}{\percent}, span 26.4\%; $P$: \SIrange{964.6}{1006.8}{\hecto\pascal}, span 42.2 hPa): the temperature accuracy of \SI{1.0}{\degreeCelsius} bounds the temperature gain error to 11.7\%; the relative humidity accuracy of \SI{3}{\percent} at \SI{25}{\degreeCelsius}, together with the specified accuracy degradation outside this range and long-term drift, does not exclude a humidity gain as large as 1.33; the pressure accuracy of \SI{1}{\hecto\pascal} bounds the pressure gain error to 4.7\%. The systematic uncertainties in Table~\ref{tab:S1b} are computed from these worst-case gain bounds assuming a rectangular distribution (division by $\sqrt{3}$). For the humidity channel the full worst-case bound is quoted because the sign of the gain deviation is not determined a priori.
+Table~\ref{tab:S1b} reports the coefficient values together with two quantities that are deliberately kept separate: a statistical component and deterministic envelopes for the sensor gain and offset. The statistical component is the moving-block bootstrap standard error over physical-time blocks; because its value depends on the block duration, no single nominal value is quoted for the coefficients, and the duration dependence with the corresponding coverage fractions is given in Table~\ref{tab:S1c}. The deterministic envelopes account for the sensor gain and offset errors, that is, the uncertainty in the multiplicative scale and in the additive zero of the sensor readings. In a single-channel linear fit a constant offset is absorbed by the intercept $n_0$ and does not affect the coefficient, whereas the gain error propagates directly into the coefficient estimate as $\alpha_X^{\rm meas} = \alpha_X^{\rm true}/g_X$, where $g_X$ is the sensor gain. In the full measurement chain the offset is retained as well: it shifts the conditions at which the Ciddor anchor is evaluated, so the joint envelope of Sec.~\ref{sec:S2} is taken over the gain and the offset together. The manufacturer bounds are specified relative to the true value of the measurand rather than relative to the reading, so they are applied as a multiplicative gain together with an additive offset, $x_{\rm true} = g\,x_{\rm read} + b$. The offset term in the realised envelope is not centred: for the humidity channel the sampled offset reaches \SI{9.10}{\percent}RH, wider than the half-width of a single specification interval, because the envelope is taken over the specification-justified region of the joint (gain, offset) pair rather than over an independently specified offset distribution. This is a property of the deterministic envelope construction and is reported for transparency; it does not affect the statistical component.
 
-\begin{table*}[htbp]
+The counter values and the environmental readings are attached with a nearest-neighbour merge (\texttt{merge\_asof}, \texttt{direction=`nearest'}); the counter sampling interval is 63--74~s and the resulting mismatch can reach several tens of seconds. Because the environmental parameters vary on diurnal and longer scales, the change over a mismatch window of this length is below \SI{0.03}{\celsius} in temperature, and the effect on the fitted coefficients is negligible; the exact mismatch distribution is reported with the analysis notebooks. The instrument-side acquisition model is not instrumented in the data release: the scan timing and the counter-gate synchronisation are not recorded, and the measurement equation is therefore used as an effective description of the accumulated fringe counts, following the wavemeter model of Ref.~\cite{fox1999reliable}.
+
+\paragraph{Retention-window sensitivity.} The dataset is defined by a \texttt{counts\_ratio} acceptance window $[2.2584867,\,3]$ applied in \texttt{preprocess\_data.ipynb}. The lower bound equals the smallest retained value, so it is a data-defined boundary rather than an independently computed physical threshold and can in principle remove valid observations near the boundary. The rows below the window are not part of the released package, so their own distribution cannot be characterised from the release; we therefore quantify the influence of the boundary with a trimming sensitivity on the retained data. Over the retained set the ratio spans only $[2.2584867,\,2.2584884]$ and is essentially uncorrelated with the environmental state (Pearson $r = -0.006$ for $T$, $-0.032$ for $H$, and $-0.006$ for $P$). Removing the lowest $0.5$--$1\%$ of the retained ratio values changes $\alpha_H$ by $3.2$--$3.4\%$ ($\approx 4.2$--$4.4\times10^{-10}$), and removing up to $10\%$ changes it by at most $4.2\%$ ($\approx 5.5\times10^{-10}$); the change is not monotonic in the trim fraction, so it is dominated by noise in the extreme tail rather than by a systematic selection effect. All these changes lie below the statistical standard error of $\alpha_H$ ($1.16\times10^{-9}$; Table~\ref{tab:S1b}) and below the paired-bootstrap standard error of the coefficient difference ($1.13\times10^{-9}$ at the shortest block duration). The lowest $1\%$ of the retained rows has mean conditions $\overline{T}=27.9\,^{\circ}$C and $\overline{\mathrm{RH}}=30.0\%$, close to the campaign means, so we treat the data-defined lower bound as a quantified limitation on the retention of near-boundary observations rather than as a bias on the reported coefficients.
+
+Worst-case gain bounds follow from the manufacturer specifications of the BME280 sensor over the observed campaign ranges ($T$: \SIrange{17.5}{34.6}{\degreeCelsius}, span 17.1 K; $H$: \SIrange{18.9}{45.3}{\percent}, span 26.4\%; $P$: \SIrange{964.6}{1006.8}{\hecto\pascal}, span 42.2 hPa). For temperature, the accuracy of \SI{1.0}{\degreeCelsius} bounds the gain error to $2 \times 1.0/17.1 = 11.7\%$. For humidity, the accuracy of \SI{3}{\percent} at \SI{25}{\degreeCelsius} degrades to about \SI{4}{\percent} over the temperature range of the campaign (together with long-term drift), bounding the gain error to $2 \times 4.0/26.4 = 30.3\%$. For pressure, the accuracy of \SI{1}{\hecto\pascal} bounds the gain error to $2 \times 1.0/42.2 = 4.7\%$. These worst-case gain bounds translate directly into the endpoint sensitivities of Table~\ref{tab:S1b}: the change in the coefficient if the gain deviated from unity by the full bound, $\Delta\alpha_X^{\rm end} = (\delta g/g)_{\max} \cdot |\alpha_X|$.
+
+The joint gain--offset envelope of Sec.~\ref{sec:S2} is reported in Table~\ref{tab:S1b} as a deterministic quantity: the BME280 manufacturer bounds on the gain and offset are propagated through all three channels and sampled over the envelope that the specifications justify, and the outcome is given as the signed extrema of the coefficient displacement together with a linearised surrogate bound. These envelopes are not converted to standard uncertainties here. The envelope combines a deterministic bound on the sensor response with the measured coefficient; forming a combined standard uncertainty would require a specified and propagated joint probability model over the three sensor channels, which is not available. We therefore report the deterministic envelope and the statistical component separately and quote no combined standard uncertainty for the coefficients, pending a measurand-specific propagation. Relative to the single-branch treatment, in which the worst-case bound is applied to that coefficient alone, the joint envelope on the humidity coefficient is smaller by a factor of about $3.9$ ($3.99\times10^{-9}$ single-branch endpoint versus $1.02\times10^{-9}$ signed maximum); this factor compares two deterministic constructions and is not a reduction of a standard uncertainty. For the humidity channel the single-branch endpoint is retained only as a diagnostic, because it rescales the humidity coefficient in isolation and omits the Ciddor-anchor and Mathar branches. The paired bootstrap standard error of the difference quoted in Sec.~\ref{sec:S2} is larger than the single-coefficient statistical error listed here because it accounts for the correlation between the two estimates.
+
+\begin{table*}[tbp]
 \centering
-\caption{Uncertainty budget for the environmental coefficients at \SI{1762}{\nano\meter}.
-         Statistical uncertainties are moving-block bootstrap standard errors
-         ($B = 5000$, block length 156 samples); HAC (lag 156) standard errors agree within 3\%.
-         Systematic uncertainties are sensor gain bounds from BME280 manufacturer
-         specifications, assuming a rectangular distribution.}
+\caption{Values and deterministic envelopes for the environmental coefficients at \SI{1762}{\nano\meter}. No combined standard uncertainty is quoted for the coefficients. The statistical component is the block-duration-dependent moving-block bootstrap standard error of Table~\ref{tab:S1c}; the HAC (lag 156) standard error is given as a cross-check. The deterministic columns report the sampled gain--offset sensitivities over the specification-justified region separately: the endpoint is the single-branch coefficient change for a gain deviation of the full worst-case bound (Sec.~\ref{sec:S1b}), the signed extrema are the minimum and maximum displacement of the coefficient over the sampled joint gain--offset envelope of Sec.~\ref{sec:S2}, and the linearised bound is the corresponding linear surrogate. The deterministic envelopes are not standard uncertainties and must not be combined with the statistical component.}
 \label{tab:S1b}
+\begin{tabular}{lccccc}
+\hline
+Coefficient & Value & Single-branch endpoint (det.) & Signed envelope extrema (det.) & Linearised bound (det.) & HAC SE \\
+\hline
+$\alpha_T$ (\si{K^{-1}})   & $-8.8474\times 10^{-7}$ & $1.03\times 10^{-7}$ & $-1.48\times 10^{-9}$ / $+1.14\times 10^{-9}$ & $1.92\times 10^{-9}$ & $1.41\times 10^{-9}$ \\
+$\alpha_H$ (\%RH$^{-1}$)   & $-1.3152\times 10^{-8}$ & $3.99\times 10^{-9}$ & $-0.58\times 10^{-9}$ / $+1.02\times 10^{-9}$ & $0.92\times 10^{-9}$ & $1.16\times 10^{-9}$ \\
+$\alpha_P$ (\si{hPa^{-1}}) & $+2.5949\times 10^{-7}$ & $1.23\times 10^{-8}$ & $-0.23\times 10^{-9}$ / $+0.17\times 10^{-9}$ & $0.23\times 10^{-9}$ & $9.69\times 10^{-10}$ \\
+\hline
+\end{tabular}
+\end{table*}
+
+\begin{table*}[tbp]
+\centering
+\caption{Sensitivity of the moving-block bootstrap standard error to the physical block duration $D$. Blocks are built in physical time within continuous segments, so that no block crosses a data gap (the campaign contains a 111-day gap); $B = 400$ replications, and the quoted standard error is the standard deviation over draws. The coverage column gives the fraction of the \num{145784} observations that the block pool at that duration represents. No single duration is adopted as a nominal value. A Bartlett-kernel HAC estimate at lag 156, which does not resolve the sample-to-sample correlation structure of the environmental series, gives $1.41$, $1.16$ and $0.97\times10^{-9}$ for $\alpha_T$, $\alpha_H$ and $\alpha_P$; both it and the previously used fixed row-block length of 156 samples lie below the \SI{7.2}{\hour} and \SI{24}{\hour} values and are therefore lower bounds on the block-duration-dependent standard error. With $B = 400$ the Monte-Carlo error of a quoted standard error is about \SI{3.5}{\percent}, so differences below that level are not resolved.}
+\label{tab:S1c}
 \begin{tabular}{lcccccc}
 \hline
-Coefficient & Value & $u_{\rm stat}$ & $u_{\rm syst}$ & $u_{\rm tot}$ & $U$ ($k=2$) & HAC SE \\
+$D$ (h) & $n_{\rm blocks}$ & $n_{\rm used}$ & Coverage & SE$_{\alpha_T}$ & SE$_{\alpha_H}$ & SE$_{\alpha_P}$ (\si{hPa^{-1}}) \\
 \hline
-$\alpha_T$ (\si{K^{-1}})   & $-8.8474\times 10^{-7}$ & $1.41\times 10^{-9}$ & $5.97\times 10^{-8}$ & $5.97\times 10^{-8}$ & $1.19\times 10^{-7}$ & $1.41\times 10^{-9}$ \\
-$\alpha_H$ (\%RH$^{-1}$)   & $-1.3152\times 10^{-8}$ & $1.15\times 10^{-9}$ & $4.34\times 10^{-9}$ & $4.49\times 10^{-9}$ & $8.98\times 10^{-9}$ & $1.16\times 10^{-9}$ \\
-$\alpha_P$ (\si{hPa^{-1}}) & $+2.5949\times 10^{-7}$ & $9.85\times 10^{-10}$ & $7.11\times 10^{-9}$ & $7.17\times 10^{-9}$ & $1.43\times 10^{-8}$ & $9.69\times 10^{-10}$ \\
+0.6  & 1379 & 145\,196 & 0.996 & $1.09\times 10^{-9}$ & $1.01\times 10^{-9}$ & $8.01\times 10^{-10}$ \\
+7.2  & 122  & 136\,468 & 0.936 & $3.43\times 10^{-9}$ & $3.13\times 10^{-9}$ & $2.46\times 10^{-9}$ \\
+24.0 & 31   & 84\,570  & 0.580 & $5.02\times 10^{-9}$ & $4.53\times 10^{-9}$ & $4.85\times 10^{-9}$ \\
+48.0 & 5    & 21\,881  & 0.150 & $1.78\times 10^{-8}$ & $1.15\times 10^{-8}$ & $8.33\times 10^{-9}$ \\
 \hline
 \end{tabular}
 \end{table*}
@@ -92,30 +136,30 @@ $\alpha_P$ (\si{hPa^{-1}}) & $+2.5949\times 10^{-7}$ & $9.85\times 10^{-10}$ & $
 \section{Same-condition comparison with the Mathar model}
 \label{sec:S2}
 
-To compare the measured environmental response with the Mathar model on equal footing, we evaluate the Mathar formulation \cite{mathar2007refractive} at the identical $(T, H, P)$ rows of the measurement campaign and fit the same linear surrogate model $n = n_0 + \alpha_T T + \alpha_H H + \alpha_P P$ to both the measured refractive index and the Mathar predictions. Both fits therefore share the same design matrix, and the coefficient difference is estimated with a paired moving-block bootstrap (identical block resampling for both models, $B = 5000$, block length 156 samples) that accounts for the correlation between the two estimates.
+To compare the measured environmental response with the Mathar model on equal footing, we evaluate the Mathar formulation \cite{mathar2007refractive} at the identical $(T, H, P)$ rows of the measurement campaign and fit the same linear surrogate model $n = n_0 + \alpha_T T + \alpha_H H + \alpha_P P$ to both the measured refractive index and the Mathar predictions. Both fits therefore share the same design matrix, and the coefficient difference is estimated with a paired moving-block bootstrap (identical block resampling for both models over the physical-time blocks of Sec.~\ref{sec:S1}, $B = 1000$) that accounts for the correlation between the two estimates; no single block duration is frozen, and the duration dependence is reported separately.
 
-Table~\ref{tab:S2} summarizes the result for two analysis windows: the full campaign and the subset within the validity domain of the Mathar model ($T \in [10, 25]\,\si{\degreeCelsius}$, comprising 12,134 of the 145,784 observations; 91.7\% of the data lie above \SI{25}{\degreeCelsius}). For the full campaign, the measured $\alpha_T$ and $\alpha_P$ agree with the Mathar surrogate within \SI{0.35}{\percent} and \SI{0.93}{\percent}, respectively, and the humidity coefficient is smaller in magnitude than the surrogate by $+24.8\%$. Within the Mathar validity domain the humidity difference is not statistically significant. Because the Kramers-Kronig prediction at the mean campaign conditions (Sec.~\ref{sec:S5}) likewise shows no enhancement over the broadband model, and because the sensor gain uncertainty (Table~\ref{tab:S1b}) spans the full observed humidity difference, we do not attribute the humidity-coefficient difference to a wavelength-specific physical effect; it is reported as an unresolved systematic pending independent humidity sensor calibration.
+Table~\ref{tab:S2} summarizes the result for two analysis windows: the full campaign and the subset within the validity domain of the Mathar model ($T \in [10, 25]\,\si{\degreeCelsius}$, comprising 12,134 of the 145,784 observations; 91.7\% of the data lie above \SI{25}{\degreeCelsius}). For the full campaign, the measured $\alpha_T$ and $\alpha_P$ agree with the Mathar surrogate within \SI{0.35}{\percent} and \SI{0.93}{\percent}, respectively, and the humidity coefficient is smaller in magnitude than the surrogate by $+24.8\%$. The humidity coefficient difference remains unresolved: its significance is not robust across the examined dependence treatments, the full-campaign comparison involves Mathar extrapolation, and the in-domain comparison has limited discriminatory power. Because the sampled sensor gain--offset sensitivities over the specification-justified region displace the humidity coefficient by only $-0.58 \times 10^{-9}$ to $+1.02 \times 10^{-9}$ ($-13.3\%$ to $+23.6\%$ of the difference; Table~\ref{tab:S1b}), and because the significance of the difference depends on the block duration used in the paired resampling, we do not attribute the humidity-coefficient difference to a wavelength-specific physical effect; it is reported as an unresolved systematic.
 
-\begin{table*}[htbp]
+The significance of the humidity difference can be assessed in two ways that answer different questions. The endpoint sensitivity of Table~\ref{tab:S1b} ($3.99 \times 10^{-9}$) rescales only the fitted humidity coefficient and omits the Ciddor-anchor and Mathar branches; it is therefore a single-branch estimate rather than a bound on the coefficient difference. Propagating the same manufacturer bounds through all three channels and sampling the joint gain--offset envelope that the specifications justify gives signed extrema of $-0.58 \times 10^{-9}$ and $+1.02 \times 10^{-9}$ for the humidity coefficient, i.e. $-13.3\%$ and $+23.6\%$ of the full-campaign difference $\Delta\alpha_H = +4.33 \times 10^{-9}$, with a linearised surrogate of $0.92 \times 10^{-9}$. These are sampled sensitivities, not certified global bounds, and they are not combined with the statistical component: no combined standard uncertainty is formed here, because doing so would require a specified and propagated joint probability model over the three sensor channels. The statistical significance is conditional on the resampling block duration: the paired-bootstrap standard error of the difference is $1.13 \times 10^{-9}$ at $0.56$~h blocks, $3.69 \times 10^{-9}$ at $7.17$~h blocks and $5.38 \times 10^{-9}$ at $24$~h blocks, so zero is excluded only for the shortest duration. The remaining difference is compatible with the unresolved slow drift of the fringe-ratio anchor: the data-driven monthly injection is $4.4 \times 10^{-9}$ and the shape-bounded magnitude is $13.4 \times 10^{-9}$, either of which can account for the whole difference. This is an uncertainty-budget statement only: reducing the gain sensitivity does not restore a physical claim. The humidity difference remains compatible with the unresolved $1/R(t)$ drift and with the model-surrogate limits.
+
+\begin{table*}[tbp]
 \centering
-\caption{Same-condition comparison of the measured environmental coefficients
-         with a linear surrogate of the Mathar model fitted on identical data rows.
-         $\Delta\alpha = \alpha^{\rm data} - \alpha^{\rm Mathar-surrogate}$;
-         intervals are 95\% bootstrap percentile intervals.}
+\caption{Same-condition comparison of the measured environmental coefficients with a linear surrogate of the Mathar model fitted on identical data rows. The point column is the full-sample ordinary-least-squares coefficient difference $\Delta\alpha = \alpha^{\rm data} - \alpha^{\rm Mathar-surrogate}$ evaluated on all rows of the stated window. The intervals are 95\% paired-bootstrap percentile intervals at the shortest physical block duration examined ($D = 0.56$~h, $B = 1000$, 1379 blocks covering 0.996 of the campaign and \num{271} blocks covering 0.998 within the validity domain), and are therefore evaluated on the rows covered by the block pool (145\,196 and 12\,111) rather than on all rows. The intervals widen with the block duration, and the exclusion of zero for $\Delta\alpha_H$ holds only at this shortest duration; the duration dependence is reported in the statistical-robustness analysis, and no single block duration is adopted as a nominal value.}
+% REFRESH (2026-09-20): interval rows refreshed from the nb 07 re-run on the unified seconds grid (D = 2012.4 s, B = 1000). paired_diff_block_sensitivity.json reports 1379 blocks / 145,196 used rows (coverage 0.996, full campaign) and 271 / 12,111 (0.998, in-domain) at D = 0.56 h, with all four durations available for both subsets. The point column remains the full-row OLS difference of nb 01 (145,784 / 12,134 rows: -3.11/+4.33/+2.39 and -1.41/+4.62/+3.79 in units of 1e-9); the interval rows are the paired-bootstrap values over the covered rows. Both conventions are stated in the caption, and the prose keeps +4.33 x 10^-9 with the +24.8% figure derived from it.
 \label{tab:S2}
 \begin{tabular}{lcccc}
 \hline
 Analysis & $N$ & $\Delta\alpha_T$ & $\Delta\alpha_H$ & $\Delta\alpha_P$ \\
 \hline
 In-domain ($10$--$25\,\si{\degreeCelsius}$) & 12,134 & $-1.41\times 10^{-8}$ & $+4.62\times 10^{-9}$ & $+3.79\times 10^{-9}$ \\
-\quad 95\% interval                          &        & $[-5.51, +2.61]\times 10^{-8}$ & $[-6.86, +21.5]\times 10^{-9}$ & $[+0.10, +8.05]\times 10^{-9}$ \\
-Full campaign                               & 145,784 & $-3.11\times 10^{-9}$ & $+4.33\times 10^{-9}$ & $+2.39\times 10^{-9}$ \\
-\quad 95\% interval                          &        & $[-6.26, -0.15]\times 10^{-9}$ & $[+1.79, +6.88]\times 10^{-9}$ & $[+0.31, +4.45]\times 10^{-9}$ \\
+\quad 95\% interval & & $[-4.05, +1.16]\times 10^{-8}$ & $[-3.69, +14.6]\times 10^{-9}$ & $[+1.39, +6.43]\times 10^{-9}$ \\
+Full campaign  & 145,784 & $-3.11\times 10^{-9}$ & $+4.33\times 10^{-9}$ & $+2.39\times 10^{-9}$ \\
+\quad 95\% interval & & $[-5.41, -0.66]\times 10^{-9}$ & $[+2.01, +6.46]\times 10^{-9}$ & $[+0.64, +4.00]\times 10^{-9}$ \\
 \hline
 \end{tabular}
 \end{table*}
 
-A blocked out-of-sample validation complements the coefficient comparison: the data are divided into contiguous time blocks of 156 samples and five folds; within each fold the linear surrogate is fitted on the training blocks (including the intercept) and evaluated on the held-out blocks. Identical folds are used for both models and no global preprocessing is applied before splitting. The out-of-sample root-mean-square residual of the data surrogate is $(1.84 \pm 0.02) \times 10^{-7}$, whereas that of the Mathar surrogate is $(4.4 \pm 0.2) \times 10^{-8}$. The larger residual of the data surrogate reflects measurement noise that is absent in the analytic Mathar function; the small surrogate residual confirms that the linear model captures the Mathar environmental response to high accuracy over the observed parameter range.
+A within-campaign blocked cross-validation complements the coefficient comparison: the data are divided into contiguous blocks and five folds; within each fold the linear surrogate is fitted on the training blocks (including the intercept) and evaluated on the held-out blocks. Identical folds are used for both models and no global preprocessing is applied before splitting. The blocks are assigned to folds across the whole campaign rather than held out in time, so this is an internal consistency check and not a temporally separated validation. The out-of-sample root-mean-square residual of the data surrogate is $(1.84 \pm 0.02) \times 10^{-7}$, whereas that of the Mathar surrogate is $(4.5 \pm 0.2) \times 10^{-8}$. The larger residual of the data surrogate reflects measurement noise that is absent in the analytic Mathar function; the small surrogate residual confirms that the linear model captures the Mathar environmental response to high accuracy over the observed parameter range.
 
 \section{Phase budget for a representative free-space path}
 \label{sec:S3}
@@ -123,39 +167,25 @@ A blocked out-of-sample validation complements the coefficient comparison: the d
 For a representative \SI{1}{\meter} free-space path at \SI{1762}{\nano\meter}, the accumulated phase error under diurnal environmental swings of amplitude $\Delta T = \SI{1}{\degreeCelsius}$, $\Delta H = \SI{12}{\percent}$, and $\Delta P = \SI{5}{\hecto\pascal}$ is computed as
 
 \begin{equation}
-\Delta\phi = \sqrt{(\alpha_\phi^T\Delta T)^2 
-                 + (\alpha_\phi^H\Delta H)^2 
-                 + (\alpha_\phi^P\Delta P)^2},
+\Delta\phi = \sqrt{(\alpha_\phi^T\Delta T)^2 + (\alpha_\phi^H\Delta H)^2 + (\alpha_\phi^P\Delta P)^2},
 \end{equation}
 
 where $\alpha_\phi^X \equiv \partial\phi/\partial X$ per meter (Table~II of the main text). The per-meter phase budget is summarized 
 in Table~\ref{tab:S3}.
 
-\begin{table*}[htbp]
+\begin{table*}[tbp]
 \centering
-\caption{Phase error budget for a \SI{1}{\meter} free-space optical path
-         at \SI{1762}{\nano\meter} under typical diurnal environmental swings.
-         Sensitivities are from Table~II of the main text.}
+\caption{Phase error budget for a \SI{1}{\meter} free-space optical path at \SI{1762}{\nano\meter} under typical diurnal environmental swings. Sensitivities are from Table~II of the main text.}
 \label{tab:S3}
 \begin{tabular}{lccc}
 \hline
-Parameter          & $\Delta X$ (diurnal)
-                   & $\alpha_\phi^X$
-                   & $\Delta\phi$ (\si{\radian}) \\
+Parameter  & $\Delta X$ (diurnal)  & $\alpha_\phi^X$  & $\Delta\phi$ (\si{\radian}) \\
 \hline
-Temperature        & \SI{1}{\degreeCelsius}
-                   & \SI{3.16}{\radian\,m^{-1}\,K^{-1}}
-                   & \num{3.16}  \\
-Relative humidity  & \SI{12}{\percent}
-                   & \SI{0.047}{\radian\,m^{-1}\,(\%RH)^{-1}}
-                   & \num{0.56}  \\
-Pressure           & \SI{5}{\hecto\pascal}
-                   & \SI{0.93}{\radian\,m^{-1}\,hPa^{-1}}
-                   & \num{4.63}  \\
+Temperature & \SI{1}{\degreeCelsius}  & \SI{3.16}{\radian\,m^{-1}\,K^{-1}}  & \num{3.16}  \\
+Relative humidity  & \SI{12}{\percent}  & \SI{0.047}{\radian\,m^{-1}\,(\%RH)^{-1}}  & \num{0.56}  \\
+Pressure   & \SI{5}{\hecto\pascal}  & \SI{0.93}{\radian\,m^{-1}\,hPa^{-1}}  & \num{4.63}  \\
 \hline
-Total (RSS)        &
-                   &
-                   & \textbf{\num{5.63}} \\
+Total (RSS) &  &  & \textbf{\num{5.63}} \\
 \hline
 \end{tabular}
 \end{table*}
@@ -165,14 +195,14 @@ Feed-forward phase compensation uses real-time environmental sensor data to comp
 \begin{equation}
 \delta\phi_{\text{res}} = \frac{2\pi L}{\lambda}\,
   \sqrt{\sigma_n^{2} 
-      + (\sigma_{\alpha_T}\Delta T)^2 
-      + (\sigma_{\alpha_H}\Delta H)^2 
-      + (\sigma_{\alpha_P}\Delta P)^2}.
+  + (\sigma_{\alpha_T}\Delta T)^2 
+  + (\sigma_{\alpha_H}\Delta H)^2 
+  + (\sigma_{\alpha_P}\Delta P)^2}.
 \end{equation}
 
 Using the statistical (bootstrap) coefficient standard errors of Table~\ref{tab:S1b} and the diurnal swings of Table~\ref{tab:S3}, the coefficient-uncertainty term contributes $1.5 \times 10^{-8}$ in refractive-index units, an order of magnitude below $\sigma_n$. The residual is therefore dominated by the predictive accuracy of the model, and the combined expression evaluates to $\delta\phi_{\text{res}} = \SI{0.66}{\radian}$ per meter.
 
-For a fair model comparison, the static offset between the Mathar prediction and the measured refractive index must be removed, since any deployed system removes this offset with a single calibration. The static offset over the campaign is $\delta n = 1.166 \times 10^{-6}$, corresponding to \SI{4.16}{\radian} per meter (\SI{17.46}{\radian} over the full \SI{4.2}{\meter} round-trip path). After subtracting this offset, the Mathar residual standard deviation is $1.93 \times 10^{-7}$ ($\SI{0.69}{\radian}$ per meter), compared with $1.84 \times 10^{-7}$ ($\SI{0.66}{\radian}$ per meter) for the empirical model. The improvement in residual amplitude is therefore $I_{\rm amp} = 4.86\%$ (95\% interval $[3.9, 6.0]\%$), and the improvement in residual variance is $I_{\rm var} = 9.5\%$ (95\% interval $[7.7, 11.5]\%$). These modest improvements reflect that the empirical model and the debiased Mathar model agree closely over the observed parameter range, consistent with the same-condition coefficient comparison of Sec.~\ref{sec:S2}.
+For a fair model comparison, the static offset between the Mathar prediction and the measured refractive index must be removed, since any deployed system removes this offset with a single calibration. The static offset over the campaign is $\delta n = 1.166 \times 10^{-6}$, corresponding to \SI{4.16}{\radian} per meter (\SI{17.46}{\radian} over the full \SI{4.2}{\meter} round-trip path). After subtracting this offset, the Mathar residual standard deviation is $1.93 \times 10^{-7}$ ($\SI{0.69}{\radian}$ per meter), compared with $1.84 \times 10^{-7}$ ($\SI{0.66}{\radian}$ per meter) for the empirical model. The improvement in residual amplitude is therefore $I_{\rm amp} = 4.86\%$ (95\% interval $[4.0, 5.8]\%$), and the improvement in residual variance is $I_{\rm var} = 9.5\%$ (95\% interval $[7.9, 11.2]\%$). Both intervals are quoted at the shortest physical block duration examined and widen with the block duration. These modest improvements reflect that the empirical model and the debiased Mathar model agree closely over the observed parameter range, consistent with the same-condition coefficient comparison of Sec.~\ref{sec:S2}.
 
 \section{Model limitations and scope of the measurement approach}
 \label{sec:S4}
@@ -181,39 +211,78 @@ Several factors set the achievable accuracy of the empirical model. First, the m
 
 Beyond these model-level uncertainties, the measurement approach itself has inherent scope limitations that define what the calibrated coefficients can and cannot correct in a deployed system. (i)~\textit{Local gradients}: the environmental sensor samples temperature, humidity, and pressure at a single location, whereas the optical path extends over several meters. Under strong thermal stratification or localized humidity sources, the sensor reading may deviate from the path-averaged value, introducing an uncompensated residual that scales with the gradient magnitude. This is particularly relevant for vertical beam paths or links traversing multiple thermal zones. (ii)~\textit{Turbulence}: the sensor sampling rate (\SI{2}{\hertz}) is far slower than the characteristic timescales of turbulent refractive-index fluctuations (milliseconds to seconds) \cite{tatarskii1961wave}. The feed-forward scheme therefore corrects only the slowly varying background but not the stochastic Kolmogorov-phase noise, which must be addressed by other means such as high-bandwidth phase tracking or spatial mode filtering. (iii)~\textit{Unsensed geometric path-length variations}: the dual-wavelength common-mode rejection cancels mechanical fluctuations only to the extent that both wavelengths experience identical geometric displacement. Differential effects, such as chromatic beam wander due to thermal lensing in transmissive optics or wavelength-dependent thermal expansion of mechanical mounts, produce an uncompensated residual that is not sensed by the environmental monitor. (iv)~\textit{Fast mechanical noise}: the interferometer rejects common-mode vibrations within its fringe-tracking bandwidth, but spectral components above this bandwidth, or differential vibrations between the two wavelength channels due to spatially separated beam paths on the detection side, are not canceled and set a practical noise floor for the phase correction. These scope limitations are inherent to any single-point, slow-sampling feed-forward approach and apply equally to the empirical and the Mathar-based compensation.
 
-\section{Kramers-Kronig analysis of the humidity coefficient}
+\section{Evidence grading of the measurement-chain budget}
 \label{sec:S5}
 
-The proximity of the probe wavelength to water-vapor absorption features (Sec.~III of the main text) motivates a spectroscopic estimate of the humidity-coefficient contribution. No environmental time-series data enter this calculation; it is a purely spectroscopic estimate intended to test whether the sign and order of magnitude of the measured humidity response are reproduced by the known water-vapor line list.
+Tables~\ref{tab:S4a}--\ref{tab:S4c} grade every term of the measurement-chain budget as \emph{quantified}, \emph{bounded} or \emph{unresolved}, together with its assumed magnitude, its temporal behaviour, the evidence it rests on and its propagated effect. The notebook numbers in the evidence column refer to the analysis notebooks archived with the data release. The grading follows the chain-propagation protocol of Sec.~\ref{sec:S2}. Of the 21 graded terms, 8 are quantified, 7 are bounded and 6 are unresolved (Output~A: 4/2/2; Output~B: 2/3/3; Output~C: 2/2/1). The grading is a descriptive audit of the measurement chain; the conditional sensitivity statements of Secs.~\ref{sec:S1b} and~\ref{sec:S2} carry the quantitative content, and the table is not used to draw design conclusions. Entries that depended on the retracted combined-uncertainty columns, or that await the statistical repairs of the analysis notebooks, are marked provisional.
 
-\textit{Kramers-Kronig integration.} The refractive-index change per unit humidity at frequency $\nu$ follows from the absorption spectrum $\kappa(\nu')$ via the principal-value integral \cite{toll1956causality}
+% Evidence-grading tables for the NS10657 supplemental material.
+% Generated from code/analysis/evidence_grading.json (producer: 11_evidence_grading.ipynb).
+% Three floats, one per output; labels tab:S4a/b/c. Previously shipped as evidence_grading_tables.tex
+% and included with \input; inlined here so the supplemental material is self-contained.
 
-\begin{equation}
-\Delta n(\nu) = \frac{1}{\pi}\; \mathcal{P}\!\int
-\frac{\kappa(\nu')}{\nu' - \nu}\, d\nu'.
-\end{equation}
-
-The absorption spectrum is constructed from H$_2$O line positions, strengths, and broadening parameters in the HITRAN2020 database \cite{gordon2022hitran2020}, using a Lorentzian line shape. The water-vapor number density per 1\%~RH is obtained from the Magnus saturation-vapor-pressure formula. The integral excludes a narrow interval $\pm\varepsilon$ around $\nu$ to handle the singularity; convergence with respect to $\varepsilon$ was verified.
-
-\textit{Sensitivity to integration range and atmospheric parameters.} The Kramers-Kronig prediction depends weakly on the integration range (varying by about 1\% between 1600--1950~nm and 1500--2050~nm) and noticeably on the assumed atmospheric conditions through the water-vapor number density. Table~\ref{tab:S5} summarises the prediction for four combinations of integration range and atmospheric parameters. The first two rows use the mean conditions of the campaign ($T = \SI{302.0}{\kelvin}$, $P = \SI{986.4}{\hecto\pascal}$, corresponding to the measured mean temperature of \SI{28.9}{\degreeCelsius}); the last two rows use the warmer reference conditions of \SI{303}{\kelvin} and \SI{990}{\hecto\pascal} for comparison with earlier iterations of this analysis.
-
-\begin{table}[htbp]
+\begin{table*}[tbp]
 \centering
-\caption{Sensitivity of the Kramers-Kronig humidity-coefficient prediction to integration range and atmospheric parameters. The measured $\alpha_H$ is $-1.3152 \times 10^{-8}\,\text{\%RH}^{-1}$; the Mathar surrogate fitted on identical data rows (Sec.~\ref{sec:S2}) is $-1.7486 \times 10^{-8}\,\text{\%RH}^{-1}$.}
-\label{tab:S5}
-\begin{tabular}{lccc}
+\caption{Evidence grading, Output~A: terms that determine the absolute refractive index $n_{1762}$. Each source is graded \emph{quantified}, \emph{bounded} or \emph{unresolved}. ``Magnitude'' is the assumed or measured size of the term; ``propagated effect'' states how it enters the refractive-index determination. Terms absorbed by the fitted intercept do not enter the environmental coefficients.}
+\label{tab:S4a}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}p{0.15\textwidth}p{0.095\textwidth}p{0.185\textwidth}p{0.095\textwidth}p{0.14\textwidth}p{0.20\textwidth}@{}}
 \hline
-Integration range & $T$ (K) & $P$ (hPa) & $\alpha_H^{\rm KK}$ (\%RH$^{-1}$) \\
+\textbf{Source} & \textbf{Grade} & \textbf{Magnitude} & \textbf{Temporal behaviour} & \textbf{Evidence} & \textbf{Propagated effect} \\
 \hline
-1600--1950 nm & 302 & 986 & $-1.4577 \times 10^{-8}$ \\
-1500--2050 nm & 302 & 986 & $-1.4423 \times 10^{-8}$ \\
-1600--1950 nm & 303 & 990 & $-1.5497 \times 10^{-8}$ \\
-1500--2050 nm & 303 & 990 & $-1.5333 \times 10^{-8}$ \\
+Anchoring / interferometric offset \emph{(hard boundary; not correctable with this dataset)} & unresolved & $1.166\times10^{-6}$ (= 17.46 rad at 4.2 m; 4.16 rad/m) & static over the campaign; no independent monitor & nb 02; SM S1a; hard-boundary note & limits the absolute scale and baseline and blocks any ``Mathar absolutely correct'' claim; absorbed by the fitted intercept, so it does not enter the coefficients \\
+K convention ($f_{780}/f_{1762}$ vs documented 1762.17/780.24) \emph{(convention / rounding, not a measurement)} & bounded & $dK/K = -5.17$ ppm $\to$ offset $5.2\times10^{-6}$, 4.4$\times$ the current $1.166\times10^{-6}$; 0.01 nm rounding alone allows $\pm$6.4 ppm & static multiplicative & nb 10 sec.~D; $f_{\rm rb}/f_{1762} = 2.2584857037$ & intercept only: $dK/K$ from $10^{-9}$ to $10^{-7}$ leaves $d(\alpha_H)_{\rm read}$ unchanged to four digits \\
+780 nm frequency reference \emph{(Rb D2 saturated-absorption lock)} & quantified & $dn = 1.0\times10^{-9}$ ($d\nu \sim 384$ kHz at 384.230 THz) & static / long-term, wavemeter-monitored & SM S1a & enters single-epoch $n$ only; negligible for the coefficients \\
+1762 nm quantum frequency reference & quantified & $dn < 10^{-12}$ & static & SM S1a & negligible \\
+Interferometer non-linearity \emph{(declared negligible)} & bounded & not quantified & static & SM S1a & negligible \\
+Residual scatter (incl.\ spatial/temporal mismatch) \emph{(statistical; the decomposition is not source identification)} & quantified & $1.84\times10^{-7}$; of which measurement noise $1.78\times10^{-7}$ and model nonlinearity $4.4\times10^{-8}$ & short-term scatter plus a slow component & SM S1a; nb 03 & sets single-epoch precision; the spatial/temporal mismatch inside it remains unresolved \\
+Sensor-to-path spatial mismatch \emph{(possible contribution)} & unresolved & not separable; folded into the $1.84\times10^{-7}$ residual & short-term and slow & SM S1a & may contribute to the coefficient difference; must not be quoted as resolved \\
+Wavelength convention (Mathar 1.762 vs 1.762174 $\mu$m; anchor 780.24 vs 780.246 nm) \emph{(documentation item)} & quantified & $d(dH) = -0.21\times10^{-12}$ and $+0.57\times10^{-12}$; anchor $dn = -0.037$ ppb & static & nb 10 sec.~D & $\leq 10^{-12}$ on the coefficients: no recomputation needed, only explicit documentation \\
 \hline
 \end{tabular}
-\end{table}
+\end{table*}
 
-\textit{Interpretation.} The Kramers-Kronig prediction consistently yields a negative humidity coefficient of order $10^{-8}$~\%RH$^{-1}$, confirming that the sign and rough magnitude of the measured humidity response are compatible with water-vapor dispersion. At the mean experimental conditions the prediction is $-1.46 \times 10^{-8}$~\%RH$^{-1}$ (1600--1950~nm range), of the same order as the measured coefficient ($-1.32 \times 10^{-8}$~\%RH$^{-1}$) and smaller in magnitude than the Mathar surrogate ($-1.75 \times 10^{-8}$~\%RH$^{-1}$). The line-by-line HITRAN2020 water-vapor spectrum therefore does not predict an enhancement of the humidity response over the broadband model at \SI{1762}{\nano\meter}. This is consistent with the same-condition comparison of Sec.~\ref{sec:S2}, where the measured humidity coefficient is found to be smaller in magnitude than the Mathar surrogate rather than enhanced. The residual difference between the measured coefficient and the spectroscopic predictions is of order $10^{-9}$~\%RH$^{-1}$, comparable to or smaller than the sensor gain systematic (Table~\ref{tab:S1b}); given this unresolved systematic, a quantitative attribution of the residual difference to a wavelength-specific physical effect is not possible with the present data.
+\begin{table*}[tbp]
+\centering
+\caption{Evidence grading, Output~B: terms that move the humidity coefficient difference $\Delta\alpha_H$. ``Magnitude'' is the assumed or measured size of the term; ``propagated effect'' states how it enters the coefficient difference.}
+\label{tab:S4b}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}p{0.15\textwidth}p{0.095\textwidth}p{0.185\textwidth}p{0.095\textwidth}p{0.14\textwidth}p{0.20\textwidth}@{}}
+\hline
+\textbf{Source} & \textbf{Grade} & \textbf{Magnitude} & \textbf{Temporal behaviour} & \textbf{Evidence} & \textbf{Propagated effect} \\
+\hline
+Statistical uncertainty of the humidity difference \emph{(physical-time blocks; not robust across the block durations examined)} & quantified & paired-bootstrap SE $1.13\times10^{-9}$ at 0.6 h, $3.69\times10^{-9}$ at 7.2 h and $5.38\times10^{-9}$ at 24 h blocks (coverage 0.996/0.936/0.580) & block-duration dependent; no single nominal value is frozen & SM S1b/S1c; nb 06/07; \texttt{paired\_\allowbreak diff\_\allowbreak block\_\allowbreak sensitivity.json} & zero is excluded only at the shortest duration; 7.2 h and 24 h blocks include zero \\
+Humidity sensor gain (H channel) \emph{(consistent three-branch propagation, joint $(g,b)$ envelope)} & bounded & SM single-branch endpoint $3.99\times10^{-9}$ vs sampled signed extrema $-0.577\times10^{-9}$ / $+1.024\times10^{-9}$ (linearised bound $0.915\times10^{-9}$) & assumed constant multiplicative; BME280 $\pm$3 \%RH at $25\,^\circ$C, $\sim$4 \%RH over the campaign plus drift & nb 09; \texttt{joint\_\allowbreak gain\_\allowbreak offset\_\allowbreak envelope}; BME280 specification & signed sampled sensitivities move $d(\alpha_H)_{\rm read}$ by $-13.3\%$ to $+23.6\%$ of the difference; these are not certified global bounds, and the single-branch endpoint overestimates the sampled maximum by 3.9$\times$ \\
+Temperature and pressure sensor gain \emph{(same joint envelope)} & bounded & T: $1.03\times10^{-7} \to 1.484\times10^{-9}$; P: $1.23\times10^{-8} \to 2.324\times10^{-10}$ & assumed constant & nb 09 & cross-channel coupling is real and the response is not additive: the joint maximum exceeds the triangle sum of the channel-only maxima (H 1.024 vs $0.952\times10^{-9}$; linearised bound $0.915\times10^{-9}$), so a joint envelope is required \\
+Sensor offset $b$ (centred parameterisation) \emph{(feasible envelope only; the two tutorial scenarios leave it at the endpoint gain)} & bounded & $|b| \leq \delta$; envelope vertex $b = -0.645$ (H) / $-0.125$ (T) / $-0.033$ (P); uncentred $b = (g-1)X_0 = 9.09$ \%RH at $g = 1.303$, 2.27$\times$ the spec bound & static & nb 09; task-card sec.~1 & the uncentred and the centred-$b=0$ hypotheses are different assumptions and both exceed the specification at the endpoint gain; only envelope vertices are legal sensitivity slices \\
+Slow $1/R(t)$ component of the fringe-ratio anchor \emph{(shape not identifiable; bounded magnitude)} & unresolved & observed slow component 0.147--0.411 ppm; leverage $2.6$--$32.5\times10^{-9}$ per ppm; injection $+4.37\times10^{-9}$ (data-driven), up to $13.4\times10^{-9}$ (shape bound) & slow (ramp / seasonal); corr$(T,t) = 0.743$; the 111-day gap separates the two blocks & nb 10; \texttt{one\_\allowbreak over\_\allowbreak R\_\allowbreak term.json} & can account for the entire $4.33\times10^{-9}$ difference; it cannot be corrected with this dataset \\
+Mathar validity-domain coverage \emph{(model-surrogate limitation, independent of calibration quality)} & unresolved & 91.7\% of rows above $25\,^\circ$C; in-domain $N = 12{,}134$ ($\sim$1.8 day equivalent), January plus 25 February rows; 28 intra-run gaps $> 2$ h (max $\sim$145 h) & static coverage property & nb 05; \texttt{campaign\_\allowbreak time\_\allowbreak coverage.json}; SM S0 & the in-domain comparison has limited discriminating power; the full-campaign comparison is an extrapolation and must be labelled as such \\
+Block duration for the coefficient uncertainties \emph{(no nominal value adopted)} & unresolved & physical-time durations 0.6--48 h; row-block $L = 156$ samples withdrawn (it permits blocks to span the 111-day gap and is a lower bound) & sets the statistical uncertainty, not a physical source & nb 06; SM S1c & determines whether the difference excludes zero; the duration dependence and coverage fractions are reported instead of one nominal SE \\
+K as a reconstruction rather than a calibration \emph{(consistency check, not an independent validation)} & quantified & relative spread $3.95\times10^{-13}$; ptp/mean $2.98\times10^{-12}$ & no structure at this spread & nb 08; \texttt{chain\_\allowbreak propagation.calibrate\_\allowbreak K} & confirms that the toolset reproduces the archived pipeline; it does not validate the convention \\
+\hline
+\end{tabular}
+\end{table*}
+
+\begin{table*}[tbp]
+\centering
+\caption{Evidence grading, Output~C: refractivity change and slow phase compensation. ``Magnitude'' is the assumed or measured size of the term; ``propagated effect'' states how it enters the applied result.}
+\label{tab:S4c}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}p{0.15\textwidth}p{0.095\textwidth}p{0.185\textwidth}p{0.095\textwidth}p{0.14\textwidth}p{0.20\textwidth}@{}}
+\hline
+\textbf{Source} & \textbf{Grade} & \textbf{Magnitude} & \textbf{Temporal behaviour} & \textbf{Evidence} & \textbf{Propagated effect} \\
+\hline
+Offset-fair predictive improvement \emph{(over the observed interval and bandwidth)} & quantified & $I_{\rm amplitude} = 4.86\%$ [3.92, 5.95]; $I_{\rm variance} = 9.47\%$ [7.68, 11.54]; $\sigma_{\rm emp} = 1.8367\times10^{-7}$ vs $\sigma_{\rm Mathar} = 1.9304\times10^{-7}$ & campaign-scale & nb 02 & the surviving applied result; it must stay conditional on the observation interval and bandwidth \\
+Frequency reference (780 nm / 1762 nm / K convention) & quantified & 780 nm $dn = 1.0\times10^{-9}$; 1762 nm QFR $dn < 10^{-12}$; the K convention is intercept-only & static & SM S1a; nb 08/10 & contributes $\leq 10^{-9}$ to single-epoch $n$ and does not propagate into the environmental coefficients \\
+Slow $1/R(t)$ drift \emph{(as Output~B row 5)} & unresolved & see Output~B row 5 & slow & nb 10 & limits predictive performance over intervals longer than the decorrelation time; it needs independent drift monitoring \\
+Environmental coverage and observation schedule \emph{(campaign property, not a sensor limit)} & bounded & duty cycle 15.3\%; 111-day gap; in-domain $\sim$1.8 day equivalent & campaign-scale & nb 05; \texttt{campaign\_\allowbreak time\_\allowbreak coverage.json} & performance statements must be conditional on the schedule and the environmental range \\
+Sensor gain and offset \emph{(as Output~B rows 2--4)} & bounded & signed extrema $-0.577$ / $+1.024\times10^{-9}$ (H); T $-1.484$ / $+1.141\times10^{-9}$; P $-0.232$ / $+0.174\times10^{-9}$ & static & nb 09 & deterministic envelopes reported separately from the statistical component (SM S1b); not standard uncertainties \\
+\hline
+\end{tabular}
+\end{table*}
 
 \bibliography{reference}
 \end{document}

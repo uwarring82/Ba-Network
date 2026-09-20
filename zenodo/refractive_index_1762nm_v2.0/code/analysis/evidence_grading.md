@@ -56,7 +56,7 @@ Artifact provenance: {"nb10_1overR": "json", "nb07_blocks": "json", "nb00_stats"
   - magnitude: SM single-branch endpoint 3.99e-09 (corrected coordinate) vs joint envelope max 1.024e-09 (u_syst 5.91e-10)
   - temporal: assumed constant multiplicative; BME280 +/-3 %RH at 25 C, ~4 %RH over the campaign plus drift
   - evidence: nb 09; joint_gain_offset_envelope; BME280 specification
-  - effect: moves d(alpha_H)_read by <= 1.02e-9 = 24% of the difference; gain is no longer the limiting systematic (the SM quote overestimates by 3.9x)
+  - effect: moves d(alpha_H)_read by <= 1.02e-9 = 24% of the difference; the envelope is smaller than the retained statistical and drift terms (the SM single-branch quote exceeds it by 3.9x)
 - **Temperature and pressure sensor gain** - *bounded* (same joint envelope)
   - magnitude: T: 1.03e-07 -> 1.484e-09; P: 1.23e-08 -> 2.324e-10
   - temporal: assumed constant
@@ -77,11 +77,11 @@ Artifact provenance: {"nb10_1overR": "json", "nb07_blocks": "json", "nb00_stats"
   - temporal: static coverage property
   - evidence: nb 05; campaign_time_coverage.json; SM S0
   - effect: the in-domain comparison has limited discriminating power; the full-campaign comparison is an extrapolation and must be labelled as such
-- **Block length for the coefficient uncertainties** - *unresolved* (decision pending (Task 4))
-  - magnitude: nominal L = 156 samples; 200 samples proposed
-  - temporal: sets the statistical uncertainty, not a physical source
-  - evidence: nb 07; todo v4 Task 4
-  - effect: determines whether the difference excludes zero; no single nominal SE should be quoted before the decision
+- **Block duration for the coefficient uncertainties** - *unresolved* (no nominal value adopted)
+  - magnitude: physical-time durations 0.6-48 h; row-block L = 156 samples withdrawn (it permits blocks to span the 111-day gap and is a lower bound)
+  - temporal: block-duration dependent; sets the statistical uncertainty, not a physical source
+  - evidence: nb 01/06/07; SM S1b/S1c
+  - effect: the paired-bootstrap SE spans 1.13e-9 (0.56 h) to 5.38e-9 (24 h); the duration dependence and the coverage fraction are reported instead of a single value
 - **K as a reconstruction rather than a calibration** - *quantified* (consistency check, not an independent validation)
   - magnitude: relative spread 3.95e-13; ptp/mean 2.98e-12
   - temporal: no structure at this spread
@@ -90,15 +90,15 @@ Artifact provenance: {"nb10_1overR": "json", "nb07_blocks": "json", "nb00_stats"
 
 ## Output C - refractivity change and slow phase compensation
 - **Offset-fair predictive improvement** - *quantified* (over the observed interval and bandwidth)
-  - magnitude: I_amplitude = 4.86% [3.92, 5.95]; I_variance = 9.47% [7.68, 11.54]; sigma_emp 1.8367e-7 vs sigma_Mathar 1.9304e-7
+  - magnitude: I_amplitude = 4.86% [4.02, 5.77]; I_variance = 9.47% [7.87, 11.21]; sigma_emp 1.8367e-7 vs sigma_Mathar 1.9304e-7
   - temporal: campaign-scale
   - evidence: nb 02
   - effect: the surviving applied result; it must stay conditional on the observation interval and bandwidth
-- **Frequency reference (780 nm / 1762 nm / K convention)** - *quantified* (negative result for the design question Q2)
+- **Frequency reference (780 nm / 1762 nm / K convention)** - *quantified* (single-epoch budget only; intercept-only in the chain)
   - magnitude: 780 nm dn = 1.0e-9; 1762 nm QFR dn < 1e-12; the K convention is intercept-only
   - temporal: static
   - evidence: SM S1a; nb 08/10
-  - effect: a better frequency reference would not materially improve coefficient discrimination or slow compensation
+  - effect: contributes <= 1e-9 to single-epoch n and does not propagate into the environmental coefficients
 - **Slow 1/R(t) drift** - *unresolved* (as output B row 5)
   - magnitude: see output B row 5
   - temporal: slow
@@ -116,8 +116,8 @@ Artifact provenance: {"nb10_1overR": "json", "nb07_blocks": "json", "nb00_stats"
   - effect: small relative to the drift term for compensation; not the binding constraint
 
 ## §4 gate
-- Q1: diminishing return - humidity calibration is no longer limiting
-- Q2: no material improvement - the frequency reference is not limiting
-- Verdict: PASS (provisional). A design conclusion survives: a quantitative calibration requirement, a demonstrable diminishing return, and an explicit identifiability limitation (block length, Mathar domain, unresolved 1/R(t) drift). Build one main-text figure + one SM table + this notebook.
-- Provisional because: totals depend on the nb 01 (held-out) and nb 06 (statistical) repairs
+- Q1: budget statement - the bounded gain envelope (5.9e-10) is smaller than the retained statistical floor (1.3e-09) and the unresolved drift
+- Q2: budget statement - the frequency-reference term is negligible in the single-epoch budget and does not propagate into the coefficients
+- Verdict: Uncertainty-budget statement. The humidity-difference uncertainty is dominated by terms that tighter calibration does not remove: the block-duration-dependent paired-bootstrap SE (1.13e-9 at 0.56 h, 5.38e-9 at 24 h) and the unresolved slow 1/R(t) drift (4.4e-9 data-driven, up to 13.4e-9 shape-bounded).
+- Provisional because: totals depend on the nb 01 (within-campaign blocked cross-validation) and nb 06 (statistical) repairs
 - Not claimed: no physical anomaly; no universal hardware ranking; no sampling-schedule benefit prediction
