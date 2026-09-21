@@ -15,7 +15,7 @@ Version 2.0 supersedes v1.0 following an internal reanalysis performed during pe
 ### 1. Same-condition comparison with the Mathar model (replaces the fixed-condition comparison)
 
 The previously reported "+17.2 % humidity enhancement" compared the measured humidity coefficient with the Mathar model evaluated at a single reference temperature. In v2.0 the Mathar formulation is evaluated at the **identical observed (T, H, P) rows** and fitted with the same linear surrogate model as
-the data. The same-condition comparison reverses the sign: the measured humidity response is **weaker** than the Mathar surrogate by 24.8 % (full campaign), and the difference is not statistically distinguishable once the BME280 humidity-sensor gain systematic is included.
+the data. The same-condition comparison reverses the sign: the measured humidity response is **weaker** than the Mathar surrogate by 24.8 % (full campaign). The difference is reported as an unresolved systematic: its significance is not robust across the examined dependence treatments, the full-campaign comparison involves Mathar extrapolation, and the in-domain comparison has limited discriminatory power. The sampled joint gain--offset sensitivities displace the coefficient difference by $-0.58\times10^{-9}$ to $+1.02\times10^{-9}$.
 
 ### 2. Offset-fair compensation improvement (retires the 85 % claim)
 
@@ -23,11 +23,11 @@ The previously quoted 85 % reduction of the residual phase error was dominated b
 
 ### 3. Rebuilt uncertainty budget
 
-The old uncertainty table contained entries that could not be reproduced from the code (a mean of HAC standard errors; error-in-variables inputs 2x and 8.3x better than the sensor specifications). The budget is rebuilt with a two-measurand structure (single-epoch refractive index; environmental coefficients), moving-block bootstrap standard errors (L = 156, B = 5000) cross-checked against HAC with lag = 156, and sensor-gain systematics from the BME280 manufacturer specifications.
+The old uncertainty table contained entries that could not be reproduced from the code (a mean of HAC standard errors; error-in-variables inputs 2x and 8.3x better than the sensor specifications). The budget is rebuilt with a two-measurand structure (single-epoch refractive index; environmental coefficients), moving-block bootstrap standard errors over **physical-time blocks** whose duration is swept from 0.56 h to 48 h with the coverage fraction reported for each duration ($B = 5000$), cross-checked against HAC with lag = 156, and deterministic sensor gain/offset envelopes derived from the BME280 manufacturer specifications that are reported **separately** from the statistical component. No single nominal block duration is adopted, and no combined standard uncertainty is quoted for the coefficients pending a measurand-specific propagation.
 
----
+### 4. Statistical treatment revised in the review round
 
-## Contents
+The block duration for the bootstrap is no longer fixed at a row-block length of $L = 156$ samples. That choice was derived from the $1/e$ crossing of the residual autocorrelation, but the residual autocorrelation retains a positive diurnal lobe, and the row blocks could straddle the 111-day gap in the campaign. The bootstrap now uses **physical-time blocks built inside continuous segments**, sweeps the block duration from 0.56 h to 48 h, and reports the coverage fraction of the block pool for each duration (SM Table S1c). No single nominal duration is adopted, and the deterministic gain/offset envelopes are never merged with the statistical component into a combined standard uncertainty.
 
 ```
 refractive_index_1762nm_v2.0/
@@ -38,16 +38,35 @@ refractive_index_1762nm_v2.0/
 │       └── full_data.csv              # 145,784 synchronized measurements (Jan-Aug 2025)
 ├── code/
 │   ├── analysis/
+│   │   ├── 00_descriptive_statistics.ipynb
 │   │   ├── 01_same_condition_mathar_comparison.ipynb
 │   │   ├── 02_offset_fair_improvement.ipynb
-│   │   └── 03_uncertainty_budget_audit.ipynb
+│   │   ├── 03_uncertainty_budget_audit.ipynb
+│   │   ├── 04_kramers_kronig_mean_conditions.ipynb
+│   │   ├── 05_time_coverage.ipynb
+│   │   ├── 06_statistical_robustness.ipynb
+│   │   ├── 07_paired_diff_block_sensitivity.ipynb
+│   │   ├── 08_chain_propagation_tutorial.ipynb
+│   │   ├── 09_joint_gain_offset_envelope.ipynb
+│   │   ├── 10_one_over_R_drift_term.ipynb
+│   │   ├── 11_evidence_grading.ipynb
+│   │   ├── physical_blocks.py         # shared physical-time block utilities
+│   │   ├── chain_propagation.py
+│   │   ├── evidence_grading.md / .json
+│   │   └── *.json                     # archived analysis outputs
 │   └── models/
 │       ├── mathar/Mathar2007.py       # Mathar 2007 refractivity model
 │       └── nist/refractive_index.py   # NIST Ciddor/Edlen implementations
-└── manuscript/
-    ├── main.tex
-    ├── supplemental_material.tex
-    └── reference.bib
+├── data/
+│   ├── processed/full_data.csv
+│   └── derived/
+├── manuscript/
+│   ├── main.tex
+│   ├── supplemental_material.tex
+│   ├── evidence_grading_tables.tex
+│   └── reference.bib
+├── PROVENANCE.md
+└── metadata.json
 ```
 
 Raw interferometer and environmental sensor data (v1.0, ~6.6 GB) are not repeated in v2.0; the processed dataset used by all analysis notebooks is `data/processed/full_data.csv`.
@@ -59,14 +78,15 @@ Raw interferometer and environmental sensor data (v1.0, ~6.6 GB) are not repeate
 | Notebook | Purpose | Key output |
 |---|---|---|
 | `00_descriptive_statistics.ipynb` | Campaign statistics of the processed dataset | mean/std/range of T, RH, P (main-text values; mean 302.0 K / 986.4 hPa) |
-| `01_same_condition_mathar_comparison.ipynb` | Task 1: same-condition Mathar surrogate comparison with paired moving-block bootstrap and blocked out-of-sample validation | Δα_T, Δα_H, Δα_P with 95 % intervals (SM Table S2) |
-| `02_offset_fair_improvement.ipynb` | Task 2: offset-fair compensation improvement with bootstrap confidence intervals | I_amplitude = 4.9 %, I_variance = 9.5 % |
-| `03_uncertainty_budget_audit.ipynb` | Task 4: rebuilt uncertainty budget (SM Tables S1a, S1b) | coefficient SEs, sensor-gain systematics, significance after systematics |
+| `01_same_condition_mathar_comparison.ipynb` | Task 1: same-condition Mathar surrogate comparison with paired moving-block bootstrap over physical-time blocks, and **within-campaign blocked cross-validation** (not a temporally separated validation) | Δα_T, Δα_H, Δα_P with 95 % intervals (SM Table S2) |
+| `02_offset_fair_improvement.ipynb` | Task 2: offset-fair compensation improvement with bootstrap confidence intervals over physical-time blocks | I_amplitude = 4.9 %, I_variance = 9.5 % |
+| `03_uncertainty_budget_audit.ipynb` | Rebuilt budget (SM Tables S1a, S1b): coefficient SEs over physical-time blocks, deterministic sensor-gain endpoints; **no combined standard uncertainty is formed** | Table S1a (absolute n), Table S1b (coefficients) |
 | `04_kramers_kronig_mean_conditions.ipynb` | Kramers-Kronig humidity-coefficient evaluation at the true campaign mean conditions (302 K / 986 hPa), converged quadrature (limit=2000) | SM Table S5 (updated) |
 | `05_time_coverage.ipynb` | Temporal structure of the campaign dataset: monthly coverage, segments, duty cycle, time-weighted means | campaign_time_coverage.json (manuscript Methods/Results) |
-| `06_statistical_robustness.ipynb` | Statistical robustness: physical-time residual ACF, diurnal lobe, integrated autocorrelation, block-length sensitivity of bootstrap SEs (L=156 vs diurnal scale) | reconciliation of block length for SM S1b |
+| `06_statistical_robustness.ipynb` | Statistical robustness: physical-time residual ACF, diurnal lobe, integrated autocorrelation, **block-duration sweep** of the bootstrap SEs with coverage fractions | SM Table S1c; nb 07 paired-difference sensitivity |
+| `07`–`11` | Paired-difference block sensitivity, chain-propagation tutorial, joint gain–offset envelope, 1/R(t) drift term, evidence grading | SM S1b/S2/S5; `joint_gain_offset_envelope.json`, `paired_diff_block_sensitivity.json`, `evidence_grading.md` |
 
-All notebooks read `../../data/processed/full_data.csv` relative to the `code/analysis/` directory and import the model modules via `sys.path.append('..')`. Reproducible settings: block length L = 156 samples (twice the residual ACF 1/e lag of 78), B = 5000 bootstrap replications, random seed 42.
+All notebooks read `../../data/processed/full_data.csv` relative to the `code/analysis/` directory and import the model modules via `sys.path.append('..')`. Block construction is shared through `code/analysis/physical_blocks.py` and is identical to the in-cell implementation in notebook 06. Reproducible settings: physical-time block durations 0.56 / 7.17 / 24 / 48 h (no nominal duration adopted), $B = 5000$ bootstrap replications, random seed 42.
 
 ## Data description
 
