@@ -1,0 +1,161 @@
+{
+  "C1_overlap": {
+    "n_training": 108346,
+    "n_validation": 40897,
+    "n_full": 145784,
+    "n_training_plus_validation": 149243,
+    "arithmetic_gap": 3459,
+    "n_shared_timestamps": 3459,
+    "gap_equals_shared": true,
+    "n_union": 145784,
+    "union_equals_full": true,
+    "training_range": [
+      "2025-01-01 00:06:26.245654+00:00",
+      "2025-08-05 19:41:51.652748+00:00"
+    ],
+    "validation_range": [
+      "2025-08-05 00:00:06.757350+00:00",
+      "2025-08-20 20:37:37.682980+00:00"
+    ],
+    "full_range": [
+      "2025-01-01 00:06:26.245654+00:00",
+      "2025-08-20 20:37:37.682980+00:00"
+    ],
+    "shared_days": {
+      "2025-08-05 00:00:00+00:00": 3459
+    }
+  },
+  "C4_constant_anchor": {
+    "K": 5.2e-06,
+    "R_mean": 2.2584875217650766,
+    "R_min": 2.2584867,
+    "R_max": 2.2584884,
+    "dR_over_R_peak_to_peak": 7.527161356879003e-07,
+    "dn_dc_offset": 5.199995814128303e-06,
+    "dn_modulation_peak_to_peak": 3.91412065688893e-12,
+    "dn_modulation_std": 9.953620844964293e-13,
+    "analytic_amplitude_K_times_dR_over_R": 3.914123905577082e-12,
+    "reference_residual_scatter_sm": 1.8367e-07,
+    "ratio_modulation_over_residual": 2.1310614999123043e-05,
+    "scatter_detrended_linear": 2.8055443445032307e-06,
+    "verdict": "PASS - the constant-anchor term is many orders of magnitude below the residual scatter"
+  },
+  "C2_rejected_rows": {
+    "n_counts_rows_total": 156931,
+    "n_kept": 145784,
+    "n_dropped": 11147,
+    "kept_fraction": 0.9289687824585328,
+    "counts_ratio_kept_min": 2.2584867,
+    "counts_ratio_kept_max": 2.2584884,
+    "counts_ratio_span_rel": 7.527167416063325e-07,
+    "counts_ratio_all_min": 2.2584858,
+    "counts_ratio_all_max": 2.2584884,
+    "dropped_ratio_hist": {
+      "below_min": 11147,
+      "above_max": 0,
+      "below_min_values": [
+        2.2584859,
+        2.2584863,
+        2.258486,
+        2.2584862,
+        2.2584862,
+        2.2584866,
+        2.2584858,
+        2.2584861,
+        2.2584862,
+        2.2584859,
+        2.2584858,
+        2.2584865,
+        2.2584858,
+        2.2584859,
+        2.2584859,
+        2.2584859,
+        2.2584861,
+        2.258486,
+        2.2584866,
+        2.2584859
+      ]
+    },
+    "dropped_by_month": {
+      "2025-01": 2001,
+      "2025-02": 11,
+      "2025-03": 1,
+      "2025-06": 256,
+      "2025-07": 2640,
+      "2025-08": 6238
+    },
+    "fraction_rh_above_80pct": {
+      "kept": 0.0,
+      "dropped": 0.0
+    }
+  },
+  "C3_time_mismatch": {
+    "nearest_neighbour_dt_seconds": {
+      "humidity": {
+        "n": 145784,
+        "median": 0.406949,
+        "p95": 4.2601736500000005,
+        "max": 458.468499,
+        "frac_above_10s": 0.014692970421994184,
+        "frac_above_60s": 0.00013032980299621357
+      },
+      "temperature": {
+        "n": 145784,
+        "median": 0.40515100000000004,
+        "p95": 4.252388000000002,
+        "max": 458.419577,
+        "frac_above_10s": 0.014500905449157659,
+        "frac_above_60s": 0.0001234703396806234
+      },
+      "pressure": {
+        "n": 145784,
+        "median": 0.407997,
+        "p95": 4.255568800000003,
+        "max": 458.37758,
+        "frac_above_10s": 0.014356856719530265,
+        "frac_above_60s": 0.0001166108763650332
+      }
+    },
+    "env_ranges": {
+      "kept": {
+        "temperature": [
+          17.51819991285447,
+          29.4460973177338,
+          34.62254884597496
+        ],
+        "humidity": [
+          18.935561549080788,
+          29.707467122201678,
+          45.32055746596778
+        ],
+        "pressure": [
+          964.6050438341928,
+          987.3008608607189,
+          1006.7743276702148
+        ]
+      },
+      "dropped": {
+        "temperature": [
+          17.507900157943368,
+          28.807431133114733,
+          32.845524888136424
+        ],
+        "humidity": [
+          18.69872215539623,
+          31.236423002577503,
+          41.14758403556186
+        ],
+        "pressure": [
+          964.6966213185286,
+          982.6810363937132,
+          1002.2936661102208
+        ]
+      }
+    },
+    "env_ranges_legend": "[min, median, max]"
+  },
+  "generated": "2026-09-27T20:29:24.229490Z",
+  "v2_processed": "/Users/weiwu/github/Ba-Network/zenodo/refractive_index_1762nm_v2.0/data/processed",
+  "raw_dir": "/Volumes/PortableSSD/Freiburg/Actomics/barium_network/zenodo/data/raw/interferometer",
+  "raw_root": "/Volumes/PortableSSD/Freiburg/Actomics/barium_network/zenodo/data/raw"
+}
